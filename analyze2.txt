@@ -1,0 +1,9 @@
+Analyzing lib...
+
+warning - models\game_state.dart:269:8 - The declaration '_timeUp' isn't referenced. Try removing the declaration of '_timeUp'. - unused_element
+   info - data\questions_part16.dart:159:109 - Unnecessary escape in string literal. Remove the '\' escape. - unnecessary_string_escapes
+   info - data\questions_part16.dart:159:116 - Unnecessary escape in string literal. Remove the '\' escape. - unnecessary_string_escapes
+   info - data\questions_part16.dart:159:124 - Unnecessary escape in string literal. Remove the '\' escape. - unnecessary_string_escapes
+   info - data\questions_part16.dart:159:131 - Unnecessary escape in string literal. Remove the '\' escape. - unnecessary_string_escapes
+
+5 issues found.

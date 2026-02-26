@@ -1,0 +1,899 @@
+﻿
+[        ] Resolve muta
+tions for :gradle:check
+KotlinGradlePluginConfi
+gurationErrors (Thread[
+#3849,Execution worker,
+5,main]) started.
+[        ] :gradle:chec
+kKotlinGradlePluginConf
+igurationErrors (Thread
+[#3855,Execution worker
+ Thread 7,5,main]) star
+ted.
+[        ] > Task :grad
+le:checkKotlinGradlePlu
+ginConfigurationErrors 
+SKIPPED
+[        ] Skipping tas
+k ':gradle:checkKotlinG
+radlePluginConfiguratio
+nErrors' as task onlyIf
+ 'errorDiagnostics are 
+present' is false.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[        ] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[        ] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[   +2 ms] C/C++: andro
+id.ndkVersion from modu
+le build.gradle is [28.
+2.13676358]
+[   +3 ms] C/C++: andro
+id.ndkPath from module 
+build.gradle is not set
+[        ] C/C++: ndk.d
+ir in local.properties 
+is not set
+[        ] C/C++: Not c
+onsidering ANDROID_NDK_
+HOME because support wa
+s removed after depreca
+tion period.
+[ +184 ms] Tasks to be 
+executed: [task ':app:p
+reBuild', task ':app:pr
+eReleaseBuild', task ':
+app:extractReleaseVersi
+onControlInfo', task ':
+app:cleanMergeReleaseAs
+sets', task ':app:merge
+ReleaseShaders', task '
+:app:compileReleaseShad
+ers', task ':app:genera
+teReleaseAssets', task 
+':app:compileFlutterBui
+ldRelease', task ':app:
+packJniLibsflutterBuild
+Release', task ':audiop
+layers_android:preBuild
+', task ':audioplayers_
+android:preReleaseBuild
+', task ':audioplayers_
+android:mergeReleaseSha
+ders', task ':audioplay
+ers_android:compileRele
+aseShaders', task ':aud
+ioplayers_android:gener
+ateReleaseAssets', task
+ ':audioplayers_android
+:mergeReleaseAssets', t
+ask ':path_provider_and
+roid:preBuild', task ':
+path_provider_android:p
+reReleaseBuild', task '
+:path_provider_android:
+mergeReleaseShaders', t
+ask ':path_provider_and
+roid:compileReleaseShad
+ers', task ':path_provi
+der_android:generateRel
+easeAssets', task ':pat
+h_provider_android:merg
+eReleaseAssets', task '
+:shared_preferences_and
+roid:preBuild', task ':
+shared_preferences_andr
+oid:preReleaseBuild', t
+ask ':shared_preference
+s_android:mergeReleaseS
+haders', task ':shared_
+preferences_android:com
+pileReleaseShaders', ta
+sk ':shared_preferences
+_android:generateReleas
+eAssets', task ':shared
+_preferences_android:me
+rgeReleaseAssets', task
+ ':app:mergeReleaseAsse
+ts', task ':audioplayer
+s_android:checkKotlinGr
+adlePluginConfiguration
+Errors', task ':audiopl
+ayers_android:generateR
+eleaseResValues', task 
+':audioplayers_android:
+generateReleaseResource
+s', task ':audioplayers
+_android:packageRelease
+Resources', task ':audi
+oplayers_android:parseR
+eleaseLocalResources', 
+task ':audioplayers_and
+roid:generateReleaseRFi
+le', task ':audioplayer
+s_android:compileReleas
+eKotlin', task ':audiop
+layers_android:javaPreC
+ompileRelease', task ':
+audioplayers_android:co
+mpileReleaseJavaWithJav
+ac', task ':audioplayer
+s_android:mergeReleaseG
+eneratedProguardFiles',
+ task ':audioplayers_an
+droid:exportReleaseCons
+umerProguardFiles', tas
+k ':path_provider_andro
+id:generateReleaseResVa
+lues', task ':path_prov
+ider_android:generateRe
+leaseResources', task '
+:path_provider_android:
+packageReleaseResources
+', task ':path_provider
+_android:parseReleaseLo
+calResources', task ':p
+ath_provider_android:ge
+nerateReleaseRFile', ta
+sk ':path_provider_andr
+oid:javaPreCompileRelea
+se', task ':path_provid
+er_android:compileRelea
+seJavaWithJavac', task 
+':path_provider_android
+:mergeReleaseGeneratedP
+roguardFiles', task ':p
+ath_provider_android:ex
+portReleaseConsumerProg
+uardFiles', task ':shar
+ed_preferences_android:
+checkKotlinGradlePlugin
+ConfigurationErrors', t
+ask ':shared_preference
+s_android:generateRelea
+seResValues', task ':sh
+ared_preferences_androi
+d:generateReleaseResour
+ces', task ':shared_pre
+ferences_android:packag
+eReleaseResources', tas
+k ':shared_preferences_
+android:parseReleaseLoc
+alResources', task ':sh
+ared_preferences_androi
+d:generateReleaseRFile'
+, task ':shared_prefere
+nces_android:compileRel
+easeKotlin', task ':sha
+red_preferences_android
+:javaPreCompileRelease'
+, task ':shared_prefere
+nces_android:compileRel
+easeJavaWithJavac', tas
+k ':shared_preferences_
+android:mergeReleaseGen
+eratedProguardFiles', t
+ask ':shared_preference
+s_android:exportRelease
+ConsumerProguardFiles',
+ task ':app:buildKotlin
+ToolingMetadata', task 
+':app:checkReleaseDupli
+cateClasses', task ':ap
+p:checkKotlinGradlePlug
+inConfigurationErrors',
+ task ':audioplayers_an
+droid:writeReleaseAarMe
+tadata', task ':path_pr
+ovider_android:writeRel
+easeAarMetadata', task 
+':shared_preferences_an
+droid:writeReleaseAarMe
+tadata', task ':app:che
+ckReleaseAarMetadata', 
+task ':app:copyFlutterA
+ssetsRelease', task ':a
+pp:generateReleaseResVa
+lues', task ':app:mapRe
+leaseSourceSetPaths', t
+ask ':app:generateRelea
+seResources', task ':ap
+p:mergeReleaseResources
+', task ':app:packageRe
+leaseResources', task '
+:app:parseReleaseLocalR
+esources', task ':app:c
+reateReleaseCompatibleS
+creenManifests', task '
+:app:extractDeepLinksRe
+lease', task ':audiopla
+yers_android:extractDee
+pLinksRelease', task ':
+audioplayers_android:pr
+ocessReleaseManifest', 
+task ':path_provider_an
+droid:extractDeepLinksR
+elease', task ':path_pr
+ovider_android:processR
+eleaseManifest', task '
+:shared_preferences_and
+roid:extractDeepLinksRe
+lease', task ':shared_p
+references_android:proc
+essReleaseManifest', ta
+sk ':app:processRelease
+MainManifest', task ':a
+pp:outputReleaseAppLink
+Settings', task ':app:p
+rocessReleaseManifest',
+ task ':app:processRele
+aseManifestForPackage',
+ task ':app:processRele
+aseResources', task ':a
+udioplayers_android:bun
+dleLibCompileToJarRelea
+se', task ':path_provid
+er_android:bundleLibCom
+pileToJarRelease', task
+ ':shared_preferences_a
+ndroid:bundleLibCompile
+ToJarRelease', task ':a
+pp:compileReleaseKotlin
+', task ':app:javaPreCo
+mpileRelease', task ':a
+pp:compileReleaseJavaWi
+thJavac', task ':audiop
+layers_android:prepareR
+eleaseArtProfile', task
+ ':path_provider_androi
+d:prepareReleaseArtProf
+ile', task ':shared_pre
+ferences_android:prepar
+eReleaseArtProfile', ta
+sk ':app:mergeReleaseAr
+tProfile', task ':audio
+players_android:bundleL
+ibRuntimeToJarRelease',
+ task ':path_provider_a
+ndroid:bundleLibRuntime
+ToJarRelease', task ':s
+hared_preferences_andro
+id:bundleLibRuntimeToJa
+rRelease', task ':app:e
+xpandReleaseArtProfileW
+ildcards', task ':app:e
+xtractProguardFiles', t
+ask ':app:mergeReleaseG
+eneratedProguardFiles',
+ task ':app:processRele
+aseJavaRes', task ':aud
+ioplayers_android:proce
+ssReleaseJavaRes', task
+ ':path_provider_androi
+d:processReleaseJavaRes
+', task ':shared_prefer
+ences_android:processRe
+leaseJavaRes', task ':a
+pp:mergeReleaseJavaReso
+urce', task ':app:merge
+ReleaseStartupProfile',
+ task ':app:minifyRelea
+seWithR8', task ':app:c
+onfigureCMakeRelease[ar
+m64-v8a]', task ':app:b
+uildCMakeRelease[arm64-
+v8a]', task ':app:confi
+gureCMakeRelease[armeab
+i-v7a]', task ':app:bui
+ldCMakeRelease[armeabi-
+v7a]', task ':app:confi
+gureCMakeRelease[x86_64
+]', task ':app:buildCMa
+keRelease[x86_64]', tas
+k ':app:mergeReleaseJni
+LibFolders', task ':aud
+ioplayers_android:merge
+ReleaseJniLibFolders', 
+task ':audioplayers_and
+roid:mergeReleaseNative
+Libs', task ':audioplay
+ers_android:copyRelease
+JniLibsProjectOnly', ta
+sk ':path_provider_andr
+oid:mergeReleaseJniLibF
+olders', task ':path_pr
+ovider_android:mergeRel
+easeNativeLibs', task '
+:path_provider_android:
+copyReleaseJniLibsProje
+ctOnly', task ':shared_
+preferences_android:mer
+geReleaseJniLibFolders'
+, task ':shared_prefere
+nces_android:mergeRelea
+seNativeLibs', task ':s
+hared_preferences_andro
+id:copyReleaseJniLibsPr
+ojectOnly', task ':app:
+mergeReleaseNativeLibs'
+, task ':app:stripRelea
+seDebugSymbols', task '
+:app:writeReleaseAppMet
+adata', task ':app:buil
+dReleasePreBundle', tas
+k ':app:compileReleaseA
+rtProfile', task ':app:
+collectReleaseDependenc
+ies', task ':app:config
+ureReleaseDependencies'
+, task ':app:extractRel
+easeNativeSymbolTables'
+, task ':audioplayers_a
+ndroid:createFullJarRel
+ease', task ':audioplay
+ers_android:extractProg
+uardFiles', task ':audi
+oplayers_android:genera
+teReleaseLintModel', ta
+sk ':audioplayers_andro
+id:prepareLintJarForPub
+lish', task ':path_prov
+ider_android:createFull
+JarRelease', task ':pat
+h_provider_android:extr
+actProguardFiles', task
+ ':path_provider_androi
+d:generateReleaseLintMo
+del', task ':path_provi
+der_android:prepareLint
+JarForPublish', task ':
+shared_preferences_andr
+oid:createFullJarReleas
+e', task ':shared_prefe
+rences_android:extractP
+roguardFiles', task ':s
+hared_preferences_andro
+id:generateReleaseLintM
+odel', task ':shared_pr
+eferences_android:prepa
+reLintJarForPublish', t
+ask ':app:generateRelea
+seLintVitalReportModel'
+, task ':audioplayers_a
+ndroid:stripReleaseDebu
+gSymbols', task ':audio
+players_android:copyRel
+easeJniLibsProjectAndLo
+calJars', task ':audiop
+layers_android:extractD
+eepLinksForAarRelease',
+ task ':audioplayers_an
+droid:extractReleaseAnn
+otations', task ':audio
+players_android:mergeRe
+leaseConsumerProguardFi
+les', task ':audioplaye
+rs_android:mergeRelease
+JavaResource', task ':a
+udioplayers_android:syn
+cReleaseLibJars', task 
+':audioplayers_android:
+bundleReleaseLocalLintA
+ar', task ':path_provid
+er_android:stripRelease
+DebugSymbols', task ':p
+ath_provider_android:co
+pyReleaseJniLibsProject
+AndLocalJars', task ':p
+ath_provider_android:ex
+tractDeepLinksForAarRel
+ease', task ':path_prov
+ider_android:extractRel
+easeAnnotations', task 
+':path_provider_android
+:mergeReleaseConsumerPr
+oguardFiles', task ':pa
+th_provider_android:mer
+geReleaseJavaResource',
+ task ':path_provider_a
+ndroid:syncReleaseLibJa
+rs', task ':path_provid
+er_android:bundleReleas
+eLocalLintAar', task ':
+shared_preferences_andr
+oid:stripReleaseDebugSy
+mbols', task ':shared_p
+references_android:copy
+ReleaseJniLibsProjectAn
+dLocalJars', task ':sha
+red_preferences_android
+:extractDeepLinksForAar
+Release', task ':shared
+_preferences_android:ex
+tractReleaseAnnotations
+', task ':shared_prefer
+ences_android:mergeRele
+aseConsumerProguardFile
+s', task ':shared_prefe
+rences_android:mergeRel
+easeJavaResource', task
+ ':shared_preferences_a
+ndroid:syncReleaseLibJa
+rs', task ':shared_pref
+erences_android:bundleR
+eleaseLocalLintAar', ta
+sk ':audioplayers_andro
+id:lintVitalAnalyzeRele
+ase', task ':audioplaye
+rs_android:writeRelease
+LintModelMetadata', tas
+k ':path_provider_andro
+id:lintVitalAnalyzeRele
+ase', task ':path_provi
+der_android:writeReleas
+eLintModelMetadata', ta
+sk ':shared_preferences
+_android:lintVitalAnaly
+zeRelease', task ':shar
+ed_preferences_android:
+writeReleaseLintModelMe
+tadata', task ':app:lin
+tVitalAnalyzeRelease', 
+task ':audioplayers_and
+roid:generateReleaseLin
+tVitalModel', task ':pa
+th_provider_android:gen
+erateReleaseLintVitalMo
+del', task ':shared_pre
+ferences_android:genera
+teReleaseLintVitalModel
+', task ':app:lintVital
+ReportRelease', task ':
+app:lintVitalRelease', 
+task ':app:parseRelease
+IntegrityConfig', task 
+':app:packageReleaseBun
+dle', task ':app:valida
+teSigningRelease', task
+ ':app:signReleaseBundl
+e', task ':app:produceR
+eleaseBundleIdeListingF
+ile', task ':app:create
+ReleaseBundleListingFil
+eRedirect', task ':app:
+bundleRelease']
+[        ] Resolve muta
+tions for :audioplayers
+_android:checkKotlinGra
+dlePluginConfigurationE
+rrors (Thread[#3852,Exe
+cution worker Thread 4,
+5,main]) started.
+[        ] :audioplayer
+s_android:checkKotlinGr
+adlePluginConfiguration
+Errors (Thread[#3848,in
+cluded builds,5,main]) 
+started.
+[        ] > Task :audi
+oplayers_android:checkK
+otlinGradlePluginConfig
+urationErrors SKIPPED
+[        ] Skipping tas
+k ':audioplayers_androi
+d:checkKotlinGradlePlug
+inConfigurationErrors' 
+as task onlyIf 'errorDi
+agnostics are present' 
+is false.
+[        ] Resolve muta
+tions for :shared_prefe
+rences_android:checkKot
+linGradlePluginConfigur
+ationErrors (Thread[#38
+51,Execution worker Thr
+ead 3,5,main]) started.
+[        ] :shared_pref
+erences_android:checkKo
+tlinGradlePluginConfigu
+rationErrors (Thread[#3
+851,Execution worker Th
+read 3,5,main]) started
+.
+[        ] > Task :shar
+ed_preferences_android:
+checkKotlinGradlePlugin
+ConfigurationErrors SKI
+PPED
+[        ] Skipping tas
+k ':shared_preferences_
+android:checkKotlinGrad
+lePluginConfigurationEr
+rors' as task onlyIf 'e
+rrorDiagnostics are pre
+sent' is false.
+[        ] Resolve muta
+tions for :app:checkKot
+linGradlePluginConfigur
+ationErrors (Thread[#38
+61,Execution worker Thr
+ead 13,5,main]) started
+.
+[        ] :app:checkKo
+tlinGradlePluginConfigu
+rationErrors (Thread[#3
+861,Execution worker Th
+read 13,5,main]) starte
+d.
+[        ] > Task :app:
+checkKotlinGradlePlugin
+ConfigurationErrors SKI
+PPED
+[        ] Skipping tas
+k ':app:checkKotlinGrad
+lePluginConfigurationEr
+rors' as task onlyIf 'e
+rrorDiagnostics are pre
+sent' is false.
+[        ] Resolve muta
+tions for :app:stripRel
+easeDebugSymbols (Threa
+d[#3862,Execution worke
+r Thread 14,5,main]) st
+arted.
+[        ] :app:stripRe
+leaseDebugSymbols (Thre
+ad[#3862,Execution work
+er Thread 14,5,main]) s
+tarted.
+[        ] > Task :app:
+stripReleaseDebugSymbol
+s UP-TO-DATE
+[        ] Caching disa
+bled for task ':app:str
+ipReleaseDebugSymbols' 
+because:
+[        ] Skipping tas
+k ':app:stripReleaseDeb
+ugSymbols' as it is up-
+to-date.
+[        ] Resolve muta
+tions for :audioplayers
+_android:stripReleaseDe
+bugSymbols (Thread[#386
+0,Execution worker Thre
+ad 12,5,main]) started.
+[        ] :audioplayer
+s_android:stripReleaseD
+ebugSymbols (Thread[#38
+60,Execution worker Thr
+ead 12,5,main]) started
+.
+[        ] > Task :audi
+oplayers_android:stripR
+eleaseDebugSymbols NO-S
+OURCE
+[        ] Skipping tas
+k ':audioplayers_androi
+d:stripReleaseDebugSymb
+ols' as it has no sourc
+e files and no previous
+ output files.
+[        ] Resolve muta
+tions for :path_provide
+r_android:stripReleaseD
+ebugSymbols (Thread[#38
+54,Execution worker Thr
+ead 6,5,main]) started.
+[        ] :path_provid
+er_android:stripRelease
+DebugSymbols (Thread[#3
+854,Execution worker Th
+read 6,5,main]) started
+.
+[        ] > Task :path
+_provider_android:strip
+ReleaseDebugSymbols NO-
+SOURCE
+[        ] Skipping tas
+k ':path_provider_andro
+id:stripReleaseDebugSym
+bols' as it has no sour
+ce files and no previou
+s output files.
+[        ] Resolve muta
+tions for :shared_prefe
+rences_android:stripRel
+easeDebugSymbols (Threa
+d[#3854,Execution worke
+r Thread 6,5,main]) sta
+rted.
+[        ] :shared_pref
+erences_android:stripRe
+leaseDebugSymbols (Thre
+ad[#3855,Execution work
+er Thread 7,5,main]) st
+arted.
+[        ] > Task :shar
+ed_preferences_android:
+stripReleaseDebugSymbol
+s NO-SOURCE
+[        ] Skipping tas
+k ':shared_preferences_
+android:stripReleaseDeb
+ugSymbols' as it has no
+ source files and no pr
+evious output files.
+[  +95 ms] Release app 
+bundle failed to strip 
+debug symbols from nati
+ve libraries.
+
+
