@@ -1,0 +1,69 @@
+﻿Resolving dependencies...
+Downloading packages...
+  characters 1.4.0 (1.4.1 available)
+  google_fonts 6.3.3 (8.0.2 available)
+  matcher 0.12.17 (0.12.18 available)
+  material_color_utilities 0.11.1 (0.13.0 available)
+  meta 1.17.0 (1.18.1 available)
+  shared_preferences_android 2.4.20 (2.4.21 available)
+  test_api 0.7.7 (0.7.9 available)
+Got dependencies!
+7 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Analyzing maymunvsinsan...                                      
+
+   info - Don't invoke 'print' in production code - analyze_questions.dart:38:3 - avoid_print
+   info - Don't invoke 'print' in production code - clean_options.dart:46:9 - avoid_print
+   info - Don't invoke 'print' in production code - clean_questions.dart:42:13 - avoid_print
+   info - Don't invoke 'print' in production code - clean_questions.dart:91:3 - avoid_print
+   info - Don't invoke 'print' in production code - clean_questions.dart:92:3 - avoid_print
+   info - Don't invoke 'print' in production code - clean_questions.dart:102:3 - avoid_print
+   info - Don't invoke 'print' in production code - count_questions.dart:15:3 - avoid_print
+warning - The value of the local variable 'deletedCount' isn't used - delete_boring.dart:5:7 - unused_local_variable
+warning - The value of the local variable 'initialTotal' isn't used - delete_boring.dart:6:7 - unused_local_variable
+   info - Don't invoke 'print' in production code - delete_boring.dart:53:13 - avoid_print
+   info - Don't invoke 'print' in production code - delete_boring.dart:70:3 - avoid_print
+   info - Don't invoke 'print' in production code - delete_boring.dart:71:3 - avoid_print
+   info - Don't invoke 'print' in production code - delete_boring.dart:72:3 - avoid_print
+   info - Don't invoke 'print' in production code - delete_boring.dart:73:3 - avoid_print
+   info - Don't invoke 'print' in production code - fix_quotes.dart:11:3 - avoid_print
+  error - Undefined name 'questionsPart4' - lib\data\question_bank.dart:29:10 - undefined_identifier
+  error - Undefined name 'questionsPart5' - lib\data\question_bank.dart:30:10 - undefined_identifier
+  error - Undefined name 'questionsPart6' - lib\data\question_bank.dart:31:10 - undefined_identifier
+  error - The name 'questionsPart16' is defined in the libraries 'package:zihin_tuzaklari/data/questions_part16.dart' and 'package:zihin_tuzaklari/data/questions_part6.dart' - lib\data\question_bank.dart:41:10 - ambiguous_import
+  error - The name 'questionsPart19' is defined in the libraries 'package:zihin_tuzaklari/data/questions_part19.dart' and 'package:zihin_tuzaklari/data/questions_part4.dart' - lib\data\question_bank.dart:44:10 - ambiguous_import
+  error - A value of type 'double' can't be returned from the function 'totalQuestions' because it has a return type of 'int' - lib\data\question_bank.dart:57:7 - return_of_invalid_type
+  error - Undefined name 'questionsPart4' - lib\data\question_bank.dart:59:7 - undefined_identifier
+  error - Undefined name 'questionsPart5' - lib\data\question_bank.dart:60:7 - undefined_identifier
+  error - Undefined name 'questionsPart6' - lib\data\question_bank.dart:61:7 - undefined_identifier
+  error - The name 'questionsPart16' is defined in the libraries 'package:zihin_tuzaklari/data/questions_part16.dart' and 'package:zihin_tuzaklari/data/questions_part6.dart' - lib\data\question_bank.dart:71:7 - ambiguous_import
+  error - The name 'questionsPart19' is defined in the libraries 'package:zihin_tuzaklari/data/questions_part19.dart' and 'package:zihin_tuzaklari/data/questions_part4.dart' - lib\data\question_bank.dart:74:7 - ambiguous_import
+  error - Expected an identifier - lib\data\questions_part11.dart:35:143 - missing_identifier
+  error - Expected an identifier - lib\data\questions_part11.dart:35:158 - missing_identifier
+  error - Expected an identifier - lib\data\questions_part11.dart:35:224 - missing_identifier
+  error - Expected an identifier - lib\data\questions_part11.dart:35:235 - missing_identifier
+   info - Unnecessary escape in string literal - lib\data\questions_part16.dart:159:109 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal - lib\data\questions_part16.dart:159:116 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal - lib\data\questions_part16.dart:159:124 - unnecessary_string_escapes
+   info - Unnecessary escape in string literal - lib\data\questions_part16.dart:159:131 - unnecessary_string_escapes
+warning - The declaration '_timeUp' isn't referenced - lib\models\game_state.dart:269:8 - unused_element
+   info - Don't invoke 'print' in production code - parse_errors.dart:9:7 - avoid_print
+
+flutter : 36 issues fou
+nd. (ran in 2.6s)
+At line:1 char:1
++ flutter analyze 2>&1 
+| Out-File -FilePath an
+alyze_release.txt -Enco
+di ...
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (36 issues fou   
+ nd. (ran in 2.6s):    
+String) [], Remote    E
+xception
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
