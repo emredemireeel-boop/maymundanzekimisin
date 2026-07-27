@@ -61,7 +61,7 @@ class SoundService {
     _tickTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
       elapsed++;
       final remaining = totalSeconds - (elapsed ~/ 10);
-      
+
       // Son 10 saniyede hızlanan tick
       if (remaining <= 5) {
         if (elapsed % 3 == 0) {

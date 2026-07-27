@@ -55,6 +55,7 @@ class GameState extends ChangeNotifier {
   int _selectedIndex = -1;
   bool _isGameActive = false;
   bool _hasSavedGame = false;
+  bool _magicSquareShown = false;
 
   // ── Zamanlayıcı ──
   Timer? _timer;
@@ -104,8 +105,8 @@ class GameState extends ChangeNotifier {
 
   Question? get currentQuestion =>
       _questions.isNotEmpty && _currentIndex < _questions.length
-          ? _questions[_currentIndex]
-          : null;
+      ? _questions[_currentIndex]
+      : null;
 
   bool get isLastQuestion => _currentIndex >= _questions.length - 1;
   int get questionCount => _questions.length;
@@ -151,6 +152,21 @@ class GameState extends ChangeNotifier {
       );
     }).toList();
 
+    // Magic Square sorusunu ilk kez oynayanlar için 3. sıraya (index 2) zorla ekle
+    if (!_magicSquareShown && _questions.length >= 3) {
+      final magicIndex = _questions.indexWhere(
+        (q) => q.id == 'MAGIC_SQUARE_001',
+      );
+      if (magicIndex != -1) {
+        final mq = _questions.removeAt(magicIndex);
+        _questions.insert(2, mq);
+        _magicSquareShown = true;
+        SharedPreferences.getInstance().then(
+          (prefs) => prefs.setBool('magicSquareShown', true),
+        );
+      }
+    }
+
     _currentIndex = 0;
     _totalScore = 0;
     _correctCount = 0;
@@ -184,8 +200,12 @@ class GameState extends ChangeNotifier {
     try {
       final data = jsonDecode(savedJson) as Map<String, dynamic>;
       final savedIds = List<String>.from(data['questionIds'] as List);
-      final savedCorrectIndices = List<int>.from(data['correctIndices'] as List);
-      final savedOptions = (data['options'] as List).map((e) => List<String>.from(e as List)).toList();
+      final savedCorrectIndices = List<int>.from(
+        data['correctIndices'] as List,
+      );
+      final savedOptions = (data['options'] as List)
+          .map((e) => List<String>.from(e as List))
+          .toList();
 
       // Soruları kayıtlı sıraya göre yeniden oluştur
       _questions = [];
@@ -194,15 +214,17 @@ class GameState extends ChangeNotifier {
           (q) => q.id == savedIds[i],
           orElse: () => allQuestions[0],
         );
-        _questions.add(Question(
-          id: orig.id,
-          category: orig.category,
-          scenario: orig.scenario,
-          options: savedOptions[i],
-          correctIndex: savedCorrectIndices[i],
-          insight: orig.insight,
-          timeLimitSeconds: orig.timeLimitSeconds,
-        ));
+        _questions.add(
+          Question(
+            id: orig.id,
+            category: orig.category,
+            scenario: orig.scenario,
+            options: savedOptions[i],
+            correctIndex: savedCorrectIndices[i],
+            insight: orig.insight,
+            timeLimitSeconds: orig.timeLimitSeconds,
+          ),
+        );
       }
 
       _currentIndex = data['currentIndex'] as int;
@@ -265,26 +287,6 @@ class GameState extends ChangeNotifier {
     _saveCurrentGame();
   }
 
-  // ── Zaman Doldu ──
-  void _timeUp() {
-    if (_isAnswered) return;
-    _isAnswered = true;
-    _isCorrect = false;
-    _wrongCount++;
-    _answerTime = currentQuestion?.timeLimitSeconds ?? 45;
-    SoundService.instance.stopTickSound();
-    SoundService.instance.playWrong();
-
-    // Soruyu çözülmüş olarak işaretle
-    _solvedQuestions.add(currentQuestion!.id);
-    _saveSolvedQuestions();
-
-    final cat = currentQuestion!.category;
-    _categorySolved[cat] = (_categorySolved[cat] ?? 0) + 1;
-    notifyListeners();
-    _saveCurrentGame();
-  }
-
   // ── Sonraki Soru ──
   void nextQuestion() {
     if (_currentIndex < _questions.length - 1) {
@@ -316,14 +318,17 @@ class GameState extends ChangeNotifier {
     if (_totalScore > _bestScore) _bestScore = _totalScore;
 
     // Geçmişe ekle
-    _history.insert(0, GameResult(
-      score: _totalScore,
-      correct: _correctCount,
-      wrong: _wrongCount,
-      total: _questions.length,
-      level: iqLevel.title,
-      date: DateTime.now(),
-    ));
+    _history.insert(
+      0,
+      GameResult(
+        score: _totalScore,
+        correct: _correctCount,
+        wrong: _wrongCount,
+        total: _questions.length,
+        level: iqLevel.title,
+        date: DateTime.now(),
+      ),
+    );
 
     _clearSavedGame();
     _saveStats();
@@ -361,6 +366,7 @@ class GameState extends ChangeNotifier {
     _gamesPlayed = prefs.getInt('gamesPlayed') ?? 0;
     _bestScore = prefs.getInt('bestScore') ?? 0;
     _hasSavedGame = prefs.getString('savedGame') != null;
+    _magicSquareShown = prefs.getBool('magicSquareShown') ?? false;
 
     // Çözülmüş soruları yükle
     final solvedList = prefs.getStringList('solved_questions');
@@ -372,7 +378,9 @@ class GameState extends ChangeNotifier {
     final historyJson = prefs.getString('gameHistory');
     if (historyJson != null) {
       final list = jsonDecode(historyJson) as List;
-      _history = list.map((m) => GameResult.fromMap(m as Map<String, dynamic>)).toList();
+      _history = list
+          .map((m) => GameResult.fromMap(m as Map<String, dynamic>))
+          .toList();
     }
 
     await SoundService.instance.init();
@@ -387,7 +395,10 @@ class GameState extends ChangeNotifier {
 
     // Max 20 geçmiş kaydet
     final historyToSave = _history.take(20).toList();
-    await prefs.setString('gameHistory', jsonEncode(historyToSave.map((r) => r.toMap()).toList()));
+    await prefs.setString(
+      'gameHistory',
+      jsonEncode(historyToSave.map((r) => r.toMap()).toList()),
+    );
   }
 
   Future<void> _saveSolvedQuestions() async {

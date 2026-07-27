@@ -63,10 +63,10 @@ extension QuestionCategoryExtension on QuestionCategory {
 
 /// IQ Seviyesi
 enum IQLevel {
-  cognitiveWalker,    // 0-60
-  rationalObserver,   // 61-120
-  strategicGenius,    // 121-170
-  mindArchitect,      // 171-200
+  cognitiveWalker, // 0-60
+  rationalObserver, // 61-120
+  strategicGenius, // 121-170
+  mindArchitect, // 171-200
 }
 
 extension IQLevelExtension on IQLevel {
@@ -151,10 +151,10 @@ class Question {
   factory Question.fromMap(Map<String, dynamic> map) {
     final category = _parseCategory(map['category'] as String);
     final explicitTime = map['timeLimitSeconds'] as int?;
-    
+
     // Kategori bazlı varsayılan süreler
     final defaultTime = _categoryDefaultTime(category);
-    
+
     return Question(
       id: map['id'] as String,
       category: category,
@@ -170,17 +170,17 @@ class Question {
   static int _categoryDefaultTime(QuestionCategory cat) {
     switch (cat) {
       case QuestionCategory.bayesianLogic:
-        return 60;  // Hesaplama gerektiren sorular
+        return 60; // Hesaplama gerektiren sorular
       case QuestionCategory.ethicalParadox:
-        return 55;  // Derin düşünme gerektiren
+        return 55; // Derin düşünme gerektiren
       case QuestionCategory.gameTheory:
-        return 50;  // Stratejik analiz
+        return 50; // Stratejik analiz
       case QuestionCategory.strategicThinking:
-        return 45;  // Orta seviye
+        return 45; // Orta seviye
       case QuestionCategory.cognitiveBias:
-        return 40;  // Sezgisel yanıtlar
+        return 40; // Sezgisel yanıtlar
       case QuestionCategory.behavioralEconomics:
-        return 35;  // Hızlı karar verme
+        return 35; // Hızlı karar verme
     }
   }
 

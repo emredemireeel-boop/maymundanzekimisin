@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/data/question_bank.dart';
@@ -9,6 +8,8 @@ import 'package:zihin_tuzaklari/models/game_state.dart';
 import 'package:zihin_tuzaklari/screens/quiz_screen.dart';
 import 'package:zihin_tuzaklari/screens/settings_screen.dart';
 import 'package:zihin_tuzaklari/screens/multiplayer_setup_screen.dart';
+import 'package:zihin_tuzaklari/services/ad_service.dart';
+import 'package:zihin_tuzaklari/widgets/banner_ad_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,25 +41,46 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
 
     _headerFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _staggerController, curve: const Interval(0.0, 0.35, curve: Curves.easeOut)),
+      CurvedAnimation(
+        parent: _staggerController,
+        curve: const Interval(0.0, 0.35, curve: Curves.easeOut),
+      ),
     );
-    _headerSlide = Tween<Offset>(begin: const Offset(0, -0.15), end: Offset.zero).animate(
-      CurvedAnimation(parent: _staggerController, curve: const Interval(0.0, 0.4, curve: Curves.easeOutCubic)),
-    );
+    _headerSlide =
+        Tween<Offset>(begin: const Offset(0, -0.15), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _staggerController,
+            curve: const Interval(0.0, 0.4, curve: Curves.easeOutCubic),
+          ),
+        );
 
     _battleFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _staggerController, curve: const Interval(0.2, 0.55, curve: Curves.easeOut)),
+      CurvedAnimation(
+        parent: _staggerController,
+        curve: const Interval(0.2, 0.55, curve: Curves.easeOut),
+      ),
     );
-    _battleSlide = Tween<Offset>(begin: const Offset(0, 0.12), end: Offset.zero).animate(
-      CurvedAnimation(parent: _staggerController, curve: const Interval(0.2, 0.6, curve: Curves.easeOutCubic)),
-    );
+    _battleSlide = Tween<Offset>(begin: const Offset(0, 0.12), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _staggerController,
+            curve: const Interval(0.2, 0.6, curve: Curves.easeOutCubic),
+          ),
+        );
 
     _btnFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _staggerController, curve: const Interval(0.45, 0.75, curve: Curves.easeOut)),
+      CurvedAnimation(
+        parent: _staggerController,
+        curve: const Interval(0.45, 0.75, curve: Curves.easeOut),
+      ),
     );
-    _btnSlide = Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero).animate(
-      CurvedAnimation(parent: _staggerController, curve: const Interval(0.45, 0.8, curve: Curves.easeOutCubic)),
-    );
+    _btnSlide = Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _staggerController,
+            curve: const Interval(0.45, 0.8, curve: Curves.easeOutCubic),
+          ),
+        );
 
     // Glow pulse for play button
     _glowController = AnimationController(
@@ -95,6 +117,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      bottomNavigationBar: const BannerAdWidget(),
       body: Stack(
         children: [
           _GradientBackground(screenWidth: screenWidth),
@@ -106,7 +129,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   // ── Hero Header ──
                   SlideTransition(
                     position: _headerSlide,
@@ -136,7 +158,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ),
                   const SizedBox(height: 20),
-
                 ],
               ),
             ),
@@ -185,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   children: [
                     Text(
                       'Maymundan Zeki Misin? 🐒',
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
@@ -197,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     const SizedBox(height: 2),
                     Text(
                       'Zekânı kanıtla!',
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
                         fontSize: 12,
                         color: AppColors.textSecondary,
                         fontWeight: FontWeight.w500,
@@ -212,7 +233,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         const SizedBox(width: 8),
         _QuickIconButton(
           icon: Icons.settings_rounded,
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen())),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SettingsScreen()),
+          ),
         ),
       ],
     );
@@ -224,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _buildBattleCard(GameState game) {
     // Overall human win rate from history
     final totalGames = game.gamesPlayed;
-    final humanWins  = game.history.where((r) => r.correct > r.wrong).length;
+    final humanWins = game.history.where((r) => r.correct > r.wrong).length;
     final monkeyWins = totalGames - humanWins;
 
     return ClipRRect(
@@ -241,7 +265,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               stops: [0.0, 0.5, 1.0],
             ),
             borderRadius: BorderRadius.circular(28),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.12), width: 1.5),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.12),
+              width: 1.5,
+            ),
             boxShadow: [
               BoxShadow(
                 color: const Color(0xFF4338CA).withValues(alpha: 0.4),
@@ -259,18 +286,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 padding: const EdgeInsets.all(24),
                 child: Column(
                   children: [
-
                     // ── Title ──
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.12),
+                        ),
                       ),
                       child: Text(
                         '⚔️  BÜYÜK REKABET  ⚔️',
-                        style: GoogleFonts.poppins(
+                        style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           color: Colors.white.withValues(alpha: 0.7),
@@ -294,12 +325,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   offset: Offset(0, _bounceAnim.value),
                                   child: child,
                                 ),
-                                child: const Text('🐒', style: TextStyle(fontSize: 56)),
+                                child: const Text(
+                                  '🐒',
+                                  style: TextStyle(fontSize: 56),
+                                ),
                               ),
                               const SizedBox(height: 10),
                               Text(
                                 '$monkeyWins',
-                                style: GoogleFonts.poppins(
+                                style: TextStyle(
                                   fontSize: 40,
                                   fontWeight: FontWeight.w900,
                                   color: const Color(0xFFFF9A3C),
@@ -309,7 +343,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               const SizedBox(height: 4),
                               Text(
                                 'Maymun',
-                                style: GoogleFonts.poppins(
+                                style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white.withValues(alpha: 0.7),
@@ -318,8 +352,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               const SizedBox(height: 6),
                               _WinBadge(
                                 isLeading: monkeyWins > humanWins,
-                                label: monkeyWins > humanWins ? '🔥 ÖNDE' : (monkeyWins == humanWins ? '🤝 BERAER' : 'Geride'),
-                                color: monkeyWins > humanWins ? const Color(0xFFFF9A3C) : Colors.white30,
+                                label: monkeyWins > humanWins
+                                    ? '🔥 ÖNDE'
+                                    : (monkeyWins == humanWins
+                                          ? '🤝 BERAER'
+                                          : 'Geride'),
+                                color: monkeyWins > humanWins
+                                    ? const Color(0xFFFF9A3C)
+                                    : Colors.white30,
                               ),
                             ],
                           ),
@@ -333,14 +373,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               height: 52,
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
-                                  colors: [Color(0xFFFF6B35), Color(0xFF9333EA)],
+                                  colors: [
+                                    Color(0xFFFF6B35),
+                                    Color(0xFF9333EA),
+                                  ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color(0xFF9333EA).withValues(alpha: 0.5),
+                                    color: const Color(
+                                      0xFF9333EA,
+                                    ).withValues(alpha: 0.5),
                                     blurRadius: 16,
                                     spreadRadius: 2,
                                   ),
@@ -349,7 +394,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               child: Center(
                                 child: Text(
                                   'VS',
-                                  style: GoogleFonts.poppins(
+                                  style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w900,
                                     color: Colors.white,
@@ -360,7 +405,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             const SizedBox(height: 8),
                             Text(
                               '$totalGames oyun',
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                 fontSize: 10,
                                 color: Colors.white.withValues(alpha: 0.45),
                                 fontWeight: FontWeight.w600,
@@ -376,15 +421,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               AnimatedBuilder(
                                 animation: _bounceAnim,
                                 builder: (_, child) => Transform.translate(
-                                  offset: Offset(0, -_bounceAnim.value), // opposite phase
+                                  offset: Offset(
+                                    0,
+                                    -_bounceAnim.value,
+                                  ), // opposite phase
                                   child: child,
                                 ),
-                                child: const Text('🧠', style: TextStyle(fontSize: 56)),
+                                child: const Text(
+                                  '🧠',
+                                  style: TextStyle(fontSize: 56),
+                                ),
                               ),
                               const SizedBox(height: 10),
                               Text(
                                 '$humanWins',
-                                style: GoogleFonts.poppins(
+                                style: TextStyle(
                                   fontSize: 40,
                                   fontWeight: FontWeight.w900,
                                   color: const Color(0xFF818CF8),
@@ -394,7 +445,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               const SizedBox(height: 4),
                               Text(
                                 'İnsan',
-                                style: GoogleFonts.poppins(
+                                style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white.withValues(alpha: 0.7),
@@ -403,8 +454,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               const SizedBox(height: 6),
                               _WinBadge(
                                 isLeading: humanWins > monkeyWins,
-                                label: humanWins > monkeyWins ? '🔥 ÖNDE' : (humanWins == monkeyWins ? '🤝 BERAER' : 'Geride'),
-                                color: humanWins > monkeyWins ? const Color(0xFF818CF8) : Colors.white30,
+                                label: humanWins > monkeyWins
+                                    ? '🔥 ÖNDE'
+                                    : (humanWins == monkeyWins
+                                          ? '🤝 BERAER'
+                                          : 'Geride'),
+                                color: humanWins > monkeyWins
+                                    ? const Color(0xFF818CF8)
+                                    : Colors.white30,
                               ),
                             ],
                           ),
@@ -422,7 +479,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           children: [
                             Text(
                               '🐒 Maymun',
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                 fontSize: 11,
                                 color: const Color(0xFFFF9A3C),
                                 fontWeight: FontWeight.w700,
@@ -430,9 +487,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                             Text(
                               totalGames > 0
-                                ? '${((humanWins / totalGames) * 100).toStringAsFixed(0)}% İnsan'
-                                : 'İlk oyunu oyna!',
-                              style: GoogleFonts.poppins(
+                                  ? '${((humanWins / totalGames) * 100).toStringAsFixed(0)}% İnsan'
+                                  : 'İlk oyunu oyna!',
+                              style: TextStyle(
                                 fontSize: 11,
                                 color: Colors.white.withValues(alpha: 0.5),
                                 fontWeight: FontWeight.w600,
@@ -440,7 +497,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                             Text(
                               'İnsan 🧠',
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                 fontSize: 11,
                                 color: const Color(0xFF818CF8),
                                 fontWeight: FontWeight.w700,
@@ -457,24 +514,34 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               Container(
                                 height: 10,
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFFF9A3C).withValues(alpha: 0.3),
+                                  color: const Color(
+                                    0xFFFF9A3C,
+                                  ).withValues(alpha: 0.3),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
                               // Indigo fill (human)
                               if (totalGames > 0)
                                 FractionallySizedBox(
-                                  widthFactor: (humanWins / totalGames).clamp(0.0, 1.0),
+                                  widthFactor: (humanWins / totalGames).clamp(
+                                    0.0,
+                                    1.0,
+                                  ),
                                   child: Container(
                                     height: 10,
                                     decoration: BoxDecoration(
                                       gradient: const LinearGradient(
-                                        colors: [Color(0xFF6366F1), Color(0xFF818CF8)],
+                                        colors: [
+                                          Color(0xFF6366F1),
+                                          Color(0xFF818CF8),
+                                        ],
                                       ),
                                       borderRadius: BorderRadius.circular(8),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: const Color(0xFF6366F1).withValues(alpha: 0.5),
+                                          color: const Color(
+                                            0xFF6366F1,
+                                          ).withValues(alpha: 0.5),
                                           blurRadius: 6,
                                         ),
                                       ],
@@ -487,13 +554,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         const SizedBox(height: 10),
                         Text(
                           totalGames == 0
-                            ? 'Henüz oyun yok — başlat ve meydan oku!'
-                            : humanWins > monkeyWins
+                              ? 'Henüz oyun yok — başlat ve meydan oku!'
+                              : humanWins > monkeyWins
                               ? '🏆 İnsan önde! Maymuna şans tanıma!'
                               : monkeyWins > humanWins
-                                ? '😤 Maymun kazanıyor! Daha iyi yap!'
-                                : '⚖️ Beraberlik! Kim kazanacak?',
-                          style: GoogleFonts.poppins(
+                              ? '😤 Maymun kazanıyor! Daha iyi yap!'
+                              : '⚖️ Beraberlik! Kim kazanacak?',
+                          style: TextStyle(
                             fontSize: 12,
                             color: Colors.white.withValues(alpha: 0.55),
                             fontWeight: FontWeight.w500,
@@ -502,7 +569,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                       ],
                     ),
-
                   ],
                 ),
               ),
@@ -528,7 +594,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 borderRadius: BorderRadius.circular(22),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.glowOrange.withValues(alpha: 0.3 * _glowAnim.value),
+                    color: AppColors.glowOrange.withValues(
+                      alpha: 0.3 * _glowAnim.value,
+                    ),
                     blurRadius: 24 * _glowAnim.value,
                     spreadRadius: 2 * _glowAnim.value,
                     offset: const Offset(0, 6),
@@ -588,10 +656,55 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // ── Helpers ──
   void _startNewGame(BuildContext context) {
     final game = context.read<GameState>();
-    final unsolvedQuestions = QuestionBank.getUnsolvedQuestions(game.solvedQuestions);
+    final unsolvedQuestions = QuestionBank.getUnsolvedQuestions(
+      game.solvedQuestions,
+    );
+
+    if (unsolvedQuestions.isEmpty) {
+      _showAllCompletedDialog(context);
+      return;
+    }
+
+    AdService.instance.resetForNewGame();
     game.startGame(unsolvedQuestions);
     setState(() {});
-    Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizScreen()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const QuizScreen()),
+    );
+  }
+
+  void _showAllCompletedDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: const Color(0xFF1E1B4B),
+        title: const Row(
+          children: [
+            Text('🐒', style: TextStyle(fontSize: 28)),
+            SizedBox(width: 8),
+            Text('Tebrikler!', style: TextStyle(color: Colors.white)),
+          ],
+        ),
+        content: const Text(
+          'Tüm soruları bitirdiniz! Komik maymunlar daha fazla soru üretirken güncellemeyi beklemede kal :)',
+          style: TextStyle(color: Colors.white70, fontSize: 16),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text(
+              'Tamam, Bekliyorum!',
+              style: TextStyle(
+                color: Color(0xFFFF9A3C),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   void _resumeGame(BuildContext context) async {
@@ -599,7 +712,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final allQuestions = QuestionBank.getAllQuestions();
     final success = await game.resumeGame(allQuestions);
     if (success && context.mounted) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizScreen()));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const QuizScreen()),
+      );
     }
   }
 }
@@ -611,7 +727,11 @@ class _WinBadge extends StatelessWidget {
   final bool isLeading;
   final String label;
   final Color color;
-  const _WinBadge({required this.isLeading, required this.label, required this.color});
+  const _WinBadge({
+    required this.isLeading,
+    required this.label,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -624,7 +744,7 @@ class _WinBadge extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: GoogleFonts.poppins(
+        style: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w700,
           color: color,
@@ -675,7 +795,12 @@ class _GradientBackground extends StatelessWidget {
       child: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFF8F9FF), Color(0xFFF3EEFF), Color(0xFFFFF8F5), Color(0xFFF5F7FF)],
+            colors: [
+              Color(0xFFF8F9FF),
+              Color(0xFFF3EEFF),
+              Color(0xFFFFF8F5),
+              Color(0xFFF5F7FF),
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             stops: [0.0, 0.3, 0.7, 1.0],
@@ -699,17 +824,29 @@ class _BlobPainter extends CustomPainter {
     final paint1 = Paint()
       ..color = const Color(0xFF6366F1).withValues(alpha: 0.06)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 60);
-    canvas.drawCircle(Offset(size.width * 0.85, size.height * 0.08), screenWidth * 0.45, paint1);
+    canvas.drawCircle(
+      Offset(size.width * 0.85, size.height * 0.08),
+      screenWidth * 0.45,
+      paint1,
+    );
 
     final paint2 = Paint()
       ..color = const Color(0xFFFF6B35).withValues(alpha: 0.04)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 50);
-    canvas.drawCircle(Offset(size.width * 0.1, size.height * 0.45), screenWidth * 0.35, paint2);
+    canvas.drawCircle(
+      Offset(size.width * 0.1, size.height * 0.45),
+      screenWidth * 0.35,
+      paint2,
+    );
 
     final paint3 = Paint()
       ..color = const Color(0xFF26A69A).withValues(alpha: 0.04)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 40);
-    canvas.drawCircle(Offset(size.width * 0.7, size.height * 0.85), screenWidth * 0.3, paint3);
+    canvas.drawCircle(
+      Offset(size.width * 0.7, size.height * 0.85),
+      screenWidth * 0.3,
+      paint3,
+    );
   }
 
   @override
@@ -727,13 +864,20 @@ class _QuickIconButton extends StatefulWidget {
   State<_QuickIconButton> createState() => _QuickIconButtonState();
 }
 
-class _QuickIconButtonState extends State<_QuickIconButton> with SingleTickerProviderStateMixin {
+class _QuickIconButtonState extends State<_QuickIconButton>
+    with SingleTickerProviderStateMixin {
   late AnimationController _scaleCtrl;
 
   @override
   void initState() {
     super.initState();
-    _scaleCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 100), lowerBound: 0.9, upperBound: 1.0, value: 1.0);
+    _scaleCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+      lowerBound: 0.9,
+      upperBound: 1.0,
+      value: 1.0,
+    );
   }
 
   @override
@@ -746,18 +890,26 @@ class _QuickIconButtonState extends State<_QuickIconButton> with SingleTickerPro
   Widget build(BuildContext context) {
     return GestureDetector(
       onTapDown: (_) => _scaleCtrl.reverse(),
-      onTapUp: (_) { _scaleCtrl.forward(); widget.onTap(); },
+      onTapUp: (_) {
+        _scaleCtrl.forward();
+        widget.onTap();
+      },
       onTapCancel: () => _scaleCtrl.forward(),
       child: ScaleTransition(
         scale: _scaleCtrl,
         child: Container(
-          width: 44, height: 44,
+          width: 44,
+          height: 44,
           decoration: BoxDecoration(
             color: Colors.white.withValues(alpha: 0.85),
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: AppColors.divider.withValues(alpha: 0.5)),
             boxShadow: [
-              BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 2)),
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.04),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
             ],
           ),
           child: Icon(widget.icon, color: AppColors.primary, size: 20),
@@ -789,13 +941,20 @@ class _PrimaryActionButton extends StatefulWidget {
   State<_PrimaryActionButton> createState() => _PrimaryActionButtonState();
 }
 
-class _PrimaryActionButtonState extends State<_PrimaryActionButton> with SingleTickerProviderStateMixin {
+class _PrimaryActionButtonState extends State<_PrimaryActionButton>
+    with SingleTickerProviderStateMixin {
   late AnimationController _pressCtrl;
 
   @override
   void initState() {
     super.initState();
-    _pressCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 120), lowerBound: 0.96, upperBound: 1.0, value: 1.0);
+    _pressCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 120),
+      lowerBound: 0.96,
+      upperBound: 1.0,
+      value: 1.0,
+    );
   }
 
   @override
@@ -807,8 +966,13 @@ class _PrimaryActionButtonState extends State<_PrimaryActionButton> with SingleT
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTapDown: (_) { if (widget.onTap != null) _pressCtrl.reverse(); },
-      onTapUp: (_) { _pressCtrl.forward(); widget.onTap?.call(); },
+      onTapDown: (_) {
+        if (widget.onTap != null) _pressCtrl.reverse();
+      },
+      onTapUp: (_) {
+        _pressCtrl.forward();
+        widget.onTap?.call();
+      },
       onTapCancel: () => _pressCtrl.forward(),
       child: ScaleTransition(
         scale: _pressCtrl,
@@ -821,14 +985,16 @@ class _PrimaryActionButtonState extends State<_PrimaryActionButton> with SingleT
             boxShadow: [
               BoxShadow(
                 color: widget.gradient.colors.first.withValues(alpha: 0.3),
-                blurRadius: 16, offset: const Offset(0, 8),
+                blurRadius: 16,
+                offset: const Offset(0, 8),
               ),
             ],
           ),
           child: Row(
             children: [
               Container(
-                width: 50, height: 50,
+                width: 50,
+                height: 50,
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(16),
@@ -842,19 +1008,32 @@ class _PrimaryActionButtonState extends State<_PrimaryActionButton> with SingleT
                   children: [
                     Text(
                       widget.title,
-                      style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white),
-                      maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 2),
                     Text(
                       widget.subtitle,
-                      style: GoogleFonts.poppins(fontSize: 12, color: Colors.white.withValues(alpha: 0.85)),
-                      maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white.withValues(alpha: 0.85),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
               ),
-              Icon(Icons.arrow_forward_ios_rounded, color: Colors.white.withValues(alpha: 0.7), size: 18),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Colors.white.withValues(alpha: 0.7),
+                size: 18,
+              ),
             ],
           ),
         ),

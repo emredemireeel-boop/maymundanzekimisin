@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 
 /// Zihin Tuzakları Light Tema – Modern, Enerjik, Premium
@@ -8,24 +7,25 @@ class AppTheme {
   AppTheme._();
 
   static ThemeData get lightTheme {
-    final textTheme = GoogleFonts.poppinsTextTheme();
+    final textTheme = Typography.material2021().black;
 
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
 
       // ── Renk Şeması ────────────────────────────────────────────────
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.primary,
-        brightness: Brightness.light,
-        surface: AppColors.surface,
-        onSurface: AppColors.textPrimary,
-      ).copyWith(
-        primary: AppColors.primary,
-        secondary: AppColors.accent,
-        tertiary: AppColors.amber,
-        surfaceTint: Colors.transparent,
-      ),
+      colorScheme:
+          ColorScheme.fromSeed(
+            seedColor: AppColors.primary,
+            brightness: Brightness.light,
+            surface: AppColors.surface,
+            onSurface: AppColors.textPrimary,
+          ).copyWith(
+            primary: AppColors.primary,
+            secondary: AppColors.accent,
+            tertiary: AppColors.amber,
+            surfaceTint: Colors.transparent,
+          ),
 
       // ── Arka Plan ──────────────────────────────────────────────────
       scaffoldBackgroundColor: AppColors.background,
@@ -43,7 +43,8 @@ class AppTheme {
         scrolledUnderElevation: 0,
         foregroundColor: AppColors.textPrimary,
         centerTitle: true,
-        titleTextStyle: GoogleFonts.poppins(
+        titleTextStyle: TextStyle(
+          fontFamily: 'System',
           fontSize: 18,
           fontWeight: FontWeight.w700,
           color: AppColors.textPrimary,
@@ -78,7 +79,8 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          textStyle: GoogleFonts.poppins(
+          textStyle: TextStyle(
+            fontFamily: 'System',
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -94,7 +96,8 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          textStyle: GoogleFonts.poppins(
+          textStyle: TextStyle(
+            fontFamily: 'System',
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
@@ -104,10 +107,9 @@ class AppTheme {
       // ── Dialog ─────────────────────────────────────────────────────
       dialogTheme: DialogThemeData(
         backgroundColor: AppColors.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        titleTextStyle: GoogleFonts.poppins(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        titleTextStyle: TextStyle(
+          fontFamily: 'System',
           fontSize: 20,
           fontWeight: FontWeight.w700,
           color: AppColors.textPrimary,
@@ -117,13 +119,12 @@ class AppTheme {
       // ── Snackbar ───────────────────────────────────────────────────
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.textPrimary,
-        contentTextStyle: GoogleFonts.poppins(
+        contentTextStyle: TextStyle(
+          fontFamily: 'System',
           color: Colors.white,
           fontSize: 14,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         behavior: SnackBarBehavior.floating,
       ),
 

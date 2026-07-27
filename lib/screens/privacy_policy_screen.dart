@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
@@ -10,8 +9,10 @@ class PrivacyPolicyScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('Gizlilik Politikasi',
-            style: GoogleFonts.poppins(fontWeight: FontWeight.w700)),
+        title: Text(
+          'Gizlilik Politikası',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -20,51 +21,60 @@ class PrivacyPolicyScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _sectionTitle('1. Toplanan Veriler'),
+            _sectionTitle('1. Cihazda Saklanan Veriler'),
             _paragraph(
-              'Bu uygulama hicbir kisisel veri toplamaz. Uygulama tamamen cevrimdisi calisir ve asagidaki verileri yalnizca cihazinizda yerel olarak saklar:'
+              'Oyunla ilgili aşağıdaki bilgiler yalnızca cihazınızda yerel '
+              'olarak saklanır:',
             ),
-            _bulletPoint('Oyun skorlari ve ilerleme durumu'),
-            _bulletPoint('Cozulmus soru kayitlari'),
-            _bulletPoint('Kullanici tercihleri (ses ayarlari vb.)'),
-            _paragraph('Bu veriler cihazinizdan asla disari gonderilmez.'),
-
-            const SizedBox(height: 20),
-            _sectionTitle('2. Kisisel Bilgiler'),
-            _bulletPoint('Ad, e-posta veya telefon numarasi toplamaz'),
-            _bulletPoint('Konum bilgisi toplamaz'),
-            _bulletPoint('Kamera veya mikrofona erismez'),
-            _bulletPoint('Hesap olusturma veya giris yapma gerektirmez'),
-
-            const SizedBox(height: 20),
-            _sectionTitle('3. Ucuncu Taraf Hizmetleri'),
+            _bulletPoint('Oyun skorları ve ilerleme durumu'),
+            _bulletPoint('Çözülmüş soru kayıtları'),
+            _bulletPoint('Kullanıcı tercihleri (ses ayarları vb.)'),
             _paragraph(
-              'Uygulama, Google Fonts kutuphanesini kullanmaktadir. Internet baglantisi mevcut oldugunda yazi tipleri indirilir.'
+              'Bu oyun verileri hesabımıza gönderilmez ve uygulamayı '
+              'sildiğinizde cihazdan kaldırılır.',
             ),
 
             const SizedBox(height: 20),
-            _sectionTitle('4. Cocuklarin Gizliligi'),
+            _sectionTitle('2. Kişisel Bilgiler'),
+            _bulletPoint('Ad, e-posta veya telefon numarası istemez'),
+            _bulletPoint('Kesin konum bilgisine erişmez'),
+            _bulletPoint('Kamera veya mikrofona erişmez'),
+            _bulletPoint('Hesap oluşturma veya giriş yapma gerektirmez'),
+
+            const SizedBox(height: 20),
+            _sectionTitle('3. Üçüncü Taraf Hizmetleri'),
             _paragraph(
-              'Uygulama her yas grubuna uygundur. 13 yasin altindaki cocuklardan bilincli olarak kisisel veri toplanmaz.'
+              'Uygulama reklam göstermek için Google Mobile Ads (AdMob) '
+              'hizmetini kullanır. Google; reklam sunma, ölçüm, sahtekârlığı '
+              'önleme ve güvenlik amaçlarıyla reklam kimliği, IP adresi, '
+              'cihaz bilgileri, reklam etkileşimleri ve tanılama verileri gibi '
+              'bilgileri işleyebilir. Bu işlemler Google politikalarına tabidir.',
             ),
 
             const SizedBox(height: 20),
-            _sectionTitle('5. Veri Guvenligi'),
+            _sectionTitle('4. Çocukların Gizliliği'),
             _paragraph(
-              'Tum oyun verileri yalnizca cihazinizda saklanir. Uygulamayi sildiginizde tum veriler otomatik olarak kaldirilir.'
+              'Uygulama özellikle 13 yaşın altındaki çocuklara yönelik değildir. '
+              '13 yaşın altındaki bir çocuğa ait verinin uygunsuz biçimde '
+              'işlendiğini düşünüyorsanız bizimle iletişime geçebilirsiniz.',
             ),
 
             const SizedBox(height: 20),
-            _sectionTitle('6. Iletisim'),
-            _paragraph('Sorulariniz icin: zihintuzaklari.app@gmail.com'),
+            _sectionTitle('5. Veri Güvenliği'),
+            _paragraph(
+              'Yerel oyun verileri yalnızca cihazınızda saklanır. Üçüncü taraf '
+              'hizmetlerinin işlediği veriler kendi güvenlik ve saklama '
+              'politikalarına tabidir.',
+            ),
+
+            const SizedBox(height: 20),
+            _sectionTitle('6. İletişim'),
+            _paragraph('Sorularınız için: zihintuzaklari.app@gmail.com'),
 
             const SizedBox(height: 16),
             Text(
-              'Son guncelleme: Subat 2026',
-              style: GoogleFonts.poppins(
-                fontSize: 12,
-                color: AppColors.textHint,
-              ),
+              'Son güncelleme: 27 Temmuz 2026',
+              style: TextStyle(fontSize: 12, color: AppColors.textHint),
             ),
             const SizedBox(height: 32),
           ],
@@ -78,7 +88,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: Text(
         text,
-        style: GoogleFonts.poppins(
+        style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w700,
           color: AppColors.primary,
@@ -92,7 +102,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: Text(
         text,
-        style: GoogleFonts.poppins(
+        style: TextStyle(
           fontSize: 14,
           color: AppColors.textSecondary,
           height: 1.6,
@@ -107,13 +117,11 @@ class PrivacyPolicyScreen extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('• ',
-              style: GoogleFonts.poppins(
-                  fontSize: 14, color: AppColors.primary)),
+          Text('• ', style: TextStyle(fontSize: 14, color: AppColors.primary)),
           Expanded(
             child: Text(
               text,
-              style: GoogleFonts.poppins(
+              style: TextStyle(
                 fontSize: 14,
                 color: AppColors.textSecondary,
                 height: 1.5,

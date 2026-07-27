@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:confetti/confetti.dart';
 import 'package:provider/provider.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
@@ -23,7 +22,9 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   void initState() {
     super.initState();
-    _confettiController = ConfettiController(duration: const Duration(seconds: 3));
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 3),
+    );
     Future.delayed(const Duration(milliseconds: 400), () {
       _confettiController.play();
     });
@@ -37,7 +38,9 @@ class _ResultScreenState extends State<ResultScreen> {
 
   void _startNewGame(BuildContext context) {
     final game = context.read<GameState>();
-    final unsolvedQuestions = QuestionBank.getUnsolvedQuestions(game.solvedQuestions);
+    final unsolvedQuestions = QuestionBank.getUnsolvedQuestions(
+      game.solvedQuestions,
+    );
     game.startGame(unsolvedQuestions);
     Navigator.pushReplacement(
       context,
@@ -52,12 +55,26 @@ class _ResultScreenState extends State<ResultScreen> {
 
     return PopScope(
       canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+          (_) => false,
+        );
+      },
       child: Scaffold(
         body: Stack(
           children: [
             SafeArea(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                padding: EdgeInsets.fromLTRB(
+                  24,
+                  16,
+                  24,
+                  // Gesture navigation bar + ekstra alt boşluk
+                  MediaQuery.of(context).padding.bottom + 24,
+                ),
                 child: Column(
                   children: [
                     const SizedBox(height: 20),
@@ -67,7 +84,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     const SizedBox(height: 16),
                     Text(
                       level.title,
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w800,
                         color: AppColors.primary,
@@ -77,7 +94,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     Text(
                       level.description,
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
                         fontSize: 14,
                         color: AppColors.textSecondary,
                         height: 1.5,
@@ -105,7 +122,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         children: [
                           Text(
                             'Zeka Puanı',
-                            style: GoogleFonts.poppins(
+                            style: TextStyle(
                               fontSize: 14,
                               color: Colors.white.withValues(alpha: 0.8),
                               fontWeight: FontWeight.w500,
@@ -118,7 +135,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             children: [
                               Text(
                                 '${game.totalScore}',
-                                style: GoogleFonts.poppins(
+                                style: TextStyle(
                                   fontSize: 56,
                                   fontWeight: FontWeight.w800,
                                   color: Colors.white,
@@ -128,7 +145,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                 padding: const EdgeInsets.only(bottom: 12),
                                 child: Text(
                                   ' / 200',
-                                  style: GoogleFonts.poppins(
+                                  style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white.withValues(alpha: 0.7),
@@ -142,11 +159,20 @@ class _ResultScreenState extends State<ResultScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               _StatBubble(
-                                  label: 'Doğru', value: '${game.correctCount}', color: AppColors.correct),
+                                label: 'Doğru',
+                                value: '${game.correctCount}',
+                                color: AppColors.correct,
+                              ),
                               _StatBubble(
-                                  label: 'Yanlış', value: '${game.wrongCount}', color: AppColors.wrong),
+                                label: 'Yanlış',
+                                value: '${game.wrongCount}',
+                                color: AppColors.wrong,
+                              ),
                               _StatBubble(
-                                  label: 'Toplam', value: '${game.questionCount}', color: Colors.white),
+                                label: 'Toplam',
+                                value: '${game.questionCount}',
+                                color: Colors.white,
+                              ),
                             ],
                           ),
                         ],
@@ -158,7 +184,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     // ── Radar Grafik ──
                     Text(
                       'Kategori Analizi',
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
@@ -190,17 +216,20 @@ class _ResultScreenState extends State<ResultScreen> {
                           decoration: BoxDecoration(
                             color: AppColors.surface,
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: AppColors.divider.withValues(alpha: 0.5)),
+                            border: Border.all(
+                              color: AppColors.divider.withValues(alpha: 0.5),
+                            ),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     '${cat.icon} ${cat.title}',
-                                    style: GoogleFonts.poppins(
+                                    style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700,
                                       color: AppColors.textPrimary,
@@ -208,14 +237,14 @@ class _ResultScreenState extends State<ResultScreen> {
                                   ),
                                   Text(
                                     '${(pct * 100).toInt()}%',
-                                    style: GoogleFonts.poppins(
+                                    style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w800,
                                       color: pct >= 0.7
                                           ? AppColors.correct
                                           : pct >= 0.4
-                                              ? AppColors.amber
-                                              : AppColors.wrong,
+                                          ? AppColors.amber
+                                          : AppColors.wrong,
                                     ),
                                   ),
                                 ],
@@ -231,15 +260,15 @@ class _ResultScreenState extends State<ResultScreen> {
                                     pct >= 0.7
                                         ? AppColors.correct
                                         : pct >= 0.4
-                                            ? AppColors.amber
-                                            : AppColors.wrong,
+                                        ? AppColors.amber
+                                        : AppColors.wrong,
                                   ),
                                 ),
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 '$correct/$solved doğru • $comment',
-                                style: GoogleFonts.poppins(
+                                style: TextStyle(
                                   fontSize: 12,
                                   color: AppColors.textSecondary,
                                   fontStyle: FontStyle.italic,
@@ -264,7 +293,9 @@ class _ResultScreenState extends State<ResultScreen> {
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFFFF9800).withValues(alpha: 0.35),
+                              color: const Color(
+                                0xFFFF9800,
+                              ).withValues(alpha: 0.35),
                               blurRadius: 12,
                               offset: const Offset(0, 4),
                             ),
@@ -273,15 +304,21 @@ class _ResultScreenState extends State<ResultScreen> {
                         child: ElevatedButton.icon(
                           onPressed: () => _startNewGame(context),
                           icon: const Icon(Icons.replay_rounded, size: 22),
-                          label: Text('Yeni Oyuna Başla',
-                              style: GoogleFonts.poppins(
-                                  fontSize: 15, fontWeight: FontWeight.w700, color: Colors.white)),
+                          label: Text(
+                            'Yeni Oyuna Başla',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
                             shadowColor: Colors.transparent,
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16)),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
                           ),
                         ),
                       ),
@@ -296,19 +333,27 @@ class _ResultScreenState extends State<ResultScreen> {
                         onPressed: () {
                           Navigator.pushAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (_) => const HomeScreen()),
+                            MaterialPageRoute(
+                              builder: (_) => const HomeScreen(),
+                            ),
                             (_) => false,
                           );
                         },
                         icon: const Icon(Icons.home_rounded),
-                        label: Text('Ana Menüye Dön',
-                            style: GoogleFonts.poppins(
-                                fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white)),
+                        label: Text(
+                          'Ana Menüye Dön',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16)),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
                         ),
                       ),
                     ),
@@ -350,7 +395,11 @@ class _StatBubble extends StatelessWidget {
   final String value;
   final Color color;
 
-  const _StatBubble({required this.label, required this.value, required this.color});
+  const _StatBubble({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -358,7 +407,7 @@ class _StatBubble extends StatelessWidget {
       children: [
         Text(
           value,
-          style: GoogleFonts.poppins(
+          style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w800,
             color: color,
@@ -366,7 +415,7 @@ class _StatBubble extends StatelessWidget {
         ),
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: TextStyle(
             fontSize: 12,
             color: Colors.white.withValues(alpha: 0.7),
           ),
@@ -413,7 +462,10 @@ class _RadarChartPainter extends CustomPainter {
     // Eksen çizgileri
     for (int i = 0; i < count; i++) {
       final a = -pi / 2 + angle * i;
-      final end = Offset(center.dx + radius * cos(a), center.dy + radius * sin(a));
+      final end = Offset(
+        center.dx + radius * cos(a),
+        center.dy + radius * sin(a),
+      );
       canvas.drawLine(center, end, gridPaint);
     }
 
@@ -469,7 +521,10 @@ class _RadarChartPainter extends CustomPainter {
         textDirection: TextDirection.ltr,
       )..layout();
 
-      tp.paint(canvas, Offset(labelOffset.dx - tp.width / 2, labelOffset.dy - tp.height / 2));
+      tp.paint(
+        canvas,
+        Offset(labelOffset.dx - tp.width / 2, labelOffset.dy - tp.height / 2),
+      );
     }
   }
 

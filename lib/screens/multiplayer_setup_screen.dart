@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/data/question_bank.dart';
 import 'package:zihin_tuzaklari/screens/multiplayer_quiz_screen.dart';
@@ -53,17 +52,21 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
     if (!_formKey.currentState!.validate()) return;
 
     final names = _nameControllers.map((c) => c.text.trim()).toList();
-    
+
     // Check for duplicate names
     final uniqueNames = names.toSet();
     if (uniqueNames.length != names.length) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Her oyuncunun farklı bir ismi olmalı!',
-              style: GoogleFonts.poppins(fontSize: 13)),
+          content: Text(
+            'Her oyuncunun farklı bir ismi olmalı!',
+            style: TextStyle(fontSize: 13),
+          ),
           behavior: SnackBarBehavior.floating,
           backgroundColor: AppColors.wrong,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
       return;
@@ -134,7 +137,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                         Expanded(
                           child: Text(
                             '🎮 Arkadaşlarınla Oyna',
-                            style: GoogleFonts.poppins(
+                            style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w800,
                               color: AppColors.textPrimary,
@@ -163,14 +166,19 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
-                                  colors: [Color(0xFF1E1B4B), Color(0xFF312E81)],
+                                  colors: [
+                                    Color(0xFF1E1B4B),
+                                    Color(0xFF312E81),
+                                  ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
                                 borderRadius: BorderRadius.circular(22),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color(0xFF4338CA).withValues(alpha: 0.3),
+                                    color: const Color(
+                                      0xFF4338CA,
+                                    ).withValues(alpha: 0.3),
                                     blurRadius: 20,
                                     offset: const Offset(0, 8),
                                   ),
@@ -180,7 +188,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                 children: [
                                   Text(
                                     'Kaç Kişi Oynayacak?',
-                                    style: GoogleFonts.poppins(
+                                    style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                       color: Colors.white,
@@ -194,9 +202,9 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                         icon: Icons.remove_rounded,
                                         onTap: _playerCount > 2
                                             ? () => setState(() {
-                                                  _playerCount--;
-                                                  _updateControllers();
-                                                })
+                                                _playerCount--;
+                                                _updateControllers();
+                                              })
                                             : null,
                                       ),
                                       const SizedBox(width: 24),
@@ -205,12 +213,19 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                         height: 72,
                                         decoration: BoxDecoration(
                                           gradient: const LinearGradient(
-                                            colors: [Color(0xFF10B981), Color(0xFF059669)],
+                                            colors: [
+                                              Color(0xFF10B981),
+                                              Color(0xFF059669),
+                                            ],
                                           ),
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
                                           boxShadow: [
                                             BoxShadow(
-                                              color: const Color(0xFF10B981).withValues(alpha: 0.4),
+                                              color: const Color(
+                                                0xFF10B981,
+                                              ).withValues(alpha: 0.4),
                                               blurRadius: 12,
                                               offset: const Offset(0, 4),
                                             ),
@@ -219,7 +234,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                         child: Center(
                                           child: Text(
                                             '$_playerCount',
-                                            style: GoogleFonts.poppins(
+                                            style: TextStyle(
                                               fontSize: 32,
                                               fontWeight: FontWeight.w900,
                                               color: Colors.white,
@@ -232,9 +247,9 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                         icon: Icons.add_rounded,
                                         onTap: _playerCount < 10
                                             ? () => setState(() {
-                                                  _playerCount++;
-                                                  _updateControllers();
-                                                })
+                                                _playerCount++;
+                                                _updateControllers();
+                                              })
                                             : null,
                                       ),
                                     ],
@@ -242,9 +257,11 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                   const SizedBox(height: 12),
                                   Text(
                                     '2-10 oyuncu',
-                                    style: GoogleFonts.poppins(
+                                    style: TextStyle(
                                       fontSize: 12,
-                                      color: Colors.white.withValues(alpha: 0.5),
+                                      color: Colors.white.withValues(
+                                        alpha: 0.5,
+                                      ),
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -256,7 +273,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
 
                             Text(
                               'Oyuncu İsimleri',
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.textPrimary,
@@ -279,7 +296,18 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                 const Color(0xFFA855F7),
                               ];
                               final color = colors[index % colors.length];
-                              final emojis = ['🧠', '🐒', '🦊', '🐸', '🦁', '🐼', '🦄', '🐯', '🐺', '🦅'];
+                              final emojis = [
+                                '🧠',
+                                '🐒',
+                                '🦊',
+                                '🐸',
+                                '🦁',
+                                '🐼',
+                                '🦄',
+                                '🐯',
+                                '🐺',
+                                '🦅',
+                              ];
 
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 10),
@@ -301,7 +329,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                   ),
                                   child: TextFormField(
                                     controller: _nameControllers[index],
-                                    style: GoogleFonts.poppins(
+                                    style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
                                       color: AppColors.textPrimary,
@@ -316,27 +344,30 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                         ),
                                       ),
                                       hintText: 'Oyuncu ${index + 1}',
-                                      hintStyle: GoogleFonts.poppins(
+                                      hintStyle: TextStyle(
                                         color: AppColors.textHint,
                                         fontSize: 14,
                                       ),
                                       border: InputBorder.none,
-                                      contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 14,
-                                      ),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                            horizontal: 16,
+                                            vertical: 14,
+                                          ),
                                       suffixIcon: Container(
                                         width: 32,
                                         height: 32,
                                         margin: const EdgeInsets.only(right: 8),
                                         decoration: BoxDecoration(
                                           color: color.withValues(alpha: 0.1),
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
                                         ),
                                         child: Center(
                                           child: Text(
                                             '${index + 1}',
-                                            style: GoogleFonts.poppins(
+                                            style: TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.w800,
                                               color: color,
@@ -346,7 +377,8 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                       ),
                                     ),
                                     validator: (value) {
-                                      if (value == null || value.trim().isEmpty) {
+                                      if (value == null ||
+                                          value.trim().isEmpty) {
                                         return 'İsim giriniz';
                                       }
                                       return null;
@@ -363,17 +395,25 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                               onTap: _startGame,
                               child: Container(
                                 width: double.infinity,
-                                padding: const EdgeInsets.symmetric(vertical: 18),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 18,
+                                ),
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
-                                    colors: [Color(0xFF10B981), Color(0xFF059669), Color(0xFF047857)],
+                                    colors: [
+                                      Color(0xFF10B981),
+                                      Color(0xFF059669),
+                                      Color(0xFF047857),
+                                    ],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                   ),
                                   borderRadius: BorderRadius.circular(22),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: const Color(0xFF10B981).withValues(alpha: 0.4),
+                                      color: const Color(
+                                        0xFF10B981,
+                                      ).withValues(alpha: 0.4),
                                       blurRadius: 20,
                                       offset: const Offset(0, 8),
                                     ),
@@ -382,12 +422,15 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(Icons.play_arrow_rounded,
-                                        color: Colors.white, size: 28),
+                                    const Icon(
+                                      Icons.play_arrow_rounded,
+                                      color: Colors.white,
+                                      size: 28,
+                                    ),
                                     const SizedBox(width: 10),
                                     Text(
                                       'Oyunu Başlat! 🎯',
-                                      style: GoogleFonts.poppins(
+                                      style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700,
                                         color: Colors.white,

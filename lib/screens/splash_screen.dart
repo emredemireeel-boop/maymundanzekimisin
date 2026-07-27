@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/screens/home_screen.dart';
+import 'package:zihin_tuzaklari/services/ad_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -34,16 +34,26 @@ class _SplashScreenState extends State<SplashScreen>
     )..repeat(reverse: true);
 
     _fadeIn = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _mainController, curve: const Interval(0.0, 0.5, curve: Curves.easeOut)),
+      CurvedAnimation(
+        parent: _mainController,
+        curve: const Interval(0.0, 0.5, curve: Curves.easeOut),
+      ),
     );
 
     _scale = Tween<double>(begin: 0.3, end: 1.0).animate(
-      CurvedAnimation(parent: _mainController, curve: const Interval(0.0, 0.6, curve: Curves.elasticOut)),
+      CurvedAnimation(
+        parent: _mainController,
+        curve: const Interval(0.0, 0.6, curve: Curves.elasticOut),
+      ),
     );
 
-    _slideUp = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero).animate(
-      CurvedAnimation(parent: _mainController, curve: const Interval(0.3, 0.8, curve: Curves.easeOut)),
-    );
+    _slideUp = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _mainController,
+            curve: const Interval(0.3, 0.8, curve: Curves.easeOut),
+          ),
+        );
 
     _pulse = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
@@ -51,17 +61,24 @@ class _SplashScreenState extends State<SplashScreen>
 
     _mainController.forward();
 
+    // Splash animasyonu tamamlanınca App Open reklamı göster,
+    // reklam kapandıktan (veya hazır değilse hemen) sonra HomeScreen'e geç.
     Future.delayed(const Duration(milliseconds: 3000), () {
-      if (mounted) {
-        Navigator.of(context).pushReplacement(
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => const HomeScreen(),
-            transitionsBuilder: (context, anim, secondaryAnimation, child) =>
-                FadeTransition(opacity: anim, child: child),
-            transitionDuration: const Duration(milliseconds: 800),
-          ),
-        );
-      }
+      if (!mounted) return;
+      AdService.instance.showAppOpenAd(
+        onComplete: () {
+          if (!mounted) return;
+          Navigator.of(context).pushReplacement(
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const HomeScreen(),
+              transitionsBuilder: (context, anim, secondaryAnimation, child) =>
+                  FadeTransition(opacity: anim, child: child),
+              transitionDuration: const Duration(milliseconds: 800),
+            ),
+          );
+        },
+      );
     });
   }
 
@@ -85,7 +102,10 @@ class _SplashScreenState extends State<SplashScreen>
             children: [
               // ── Logo ──
               AnimatedBuilder(
-                animation: Listenable.merge([_mainController, _pulseController]),
+                animation: Listenable.merge([
+                  _mainController,
+                  _pulseController,
+                ]),
                 builder: (context, _) => FadeTransition(
                   opacity: _fadeIn,
                   child: ScaleTransition(
@@ -134,8 +154,8 @@ class _SplashScreenState extends State<SplashScreen>
                   child: Column(
                     children: [
                       Text(
-                        'MAYMUNDAN ZEKİ',
-                        style: GoogleFonts.poppins(
+                        'MAYMUNDAN',
+                        style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
@@ -143,8 +163,8 @@ class _SplashScreenState extends State<SplashScreen>
                         ),
                       ),
                       Text(
-                        'MİSİN?',
-                        style: GoogleFonts.poppins(
+                        'ZEKİ MİSİN?',
+                        style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
@@ -163,7 +183,7 @@ class _SplashScreenState extends State<SplashScreen>
                       const SizedBox(height: 16),
                       Text(
                         'Zekânı Test Et!',
-                        style: GoogleFonts.poppins(
+                        style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                           color: Colors.white.withValues(alpha: 0.85),

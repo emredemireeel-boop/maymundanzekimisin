@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/services/sound_service.dart';
 import 'package:zihin_tuzaklari/screens/privacy_policy_screen.dart';
@@ -25,12 +24,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('Ayarlar', style: GoogleFonts.poppins(fontWeight: FontWeight.w700)),
+        title: Text('Ayarlar', style: TextStyle(fontWeight: FontWeight.w700)),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+        padding: EdgeInsets.fromLTRB(
+          24,
+          8,
+          24,
+          // Gesture navigation bar + ekstra boşluk
+          MediaQuery.of(context).padding.bottom + 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -39,7 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // ── Ses Ayarları ──
             Text(
               'Ses',
-              style: GoogleFonts.poppins(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textPrimary,
@@ -48,9 +53,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 12),
 
             _SettingsTile(
-              icon: _soundEnabled ? Icons.volume_up_rounded : Icons.volume_off_rounded,
+              icon: _soundEnabled
+                  ? Icons.volume_up_rounded
+                  : Icons.volume_off_rounded,
               title: 'Ses Efektleri',
-              subtitle: 'Yanlış cevapta maymun sesi ve doğru/yanlış geri bildirimi',
+              subtitle:
+                  'Yanlış cevapta maymun sesi ve doğru/yanlış geri bildirimi',
               trailing: Switch.adaptive(
                 value: _soundEnabled,
                 onChanged: (val) {
@@ -66,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // ── Oyun Bilgisi ──
             Text(
               'Oyun Bilgisi',
-              style: GoogleFonts.poppins(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textPrimary,
@@ -78,7 +86,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               icon: Icons.shuffle_rounded,
               title: 'Karıştırma',
               subtitle: 'Sorular ve şıklar her oyunda farklı sırada gelir',
-              trailing: const Icon(Icons.info_outline, color: AppColors.textHint, size: 20),
+              trailing: const Icon(
+                Icons.info_outline,
+                color: AppColors.textHint,
+                size: 20,
+              ),
             ),
 
             const SizedBox(height: 8),
@@ -87,7 +99,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
               icon: Icons.sports_score_rounded,
               title: 'Puanlama',
               subtitle: 'Doğru: 🧠 +1 İnsan · Yanlış: 🐒 +1 Maymun',
-              trailing: const Icon(Icons.info_outline, color: AppColors.textHint, size: 20),
+              trailing: const Icon(
+                Icons.info_outline,
+                color: AppColors.textHint,
+                size: 20,
+              ),
             ),
 
             const SizedBox(height: 32),
@@ -95,7 +111,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // ── Hakkında ──
             Text(
               'Hakkında',
-              style: GoogleFonts.poppins(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textPrimary,
@@ -109,14 +125,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               decoration: BoxDecoration(
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.divider.withValues(alpha: 0.5)),
+                border: Border.all(
+                  color: AppColors.divider.withValues(alpha: 0.5),
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     '🐵 Maymundan Zeki Misin? v1.0.0',
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -125,7 +143,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(height: 8),
                   Text(
                     'Oyun Teorisi, Bilişsel Yanılgılar, Etik Paradokslar ve Davranışsal Ekonomi üzerine kurulu bir strateji ve mantık yarışması.',
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
                       fontSize: 13,
                       color: AppColors.textSecondary,
                       height: 1.5,
@@ -146,8 +164,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 icon: Icons.privacy_tip_rounded,
                 title: 'Gizlilik Politikası',
                 subtitle: 'Veri kullanımı ve gizlilik bilgileri',
-                trailing: const Icon(Icons.chevron_right_rounded,
-                    color: AppColors.textHint, size: 24),
+                trailing: const Icon(
+                  Icons.chevron_right_rounded,
+                  color: AppColors.textHint,
+                  size: 24,
+                ),
               ),
             ),
 
@@ -199,7 +220,7 @@ class _SettingsTile extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.poppins(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: AppColors.textPrimary,
@@ -207,7 +228,7 @@ class _SettingsTile extends StatelessWidget {
                 ),
                 Text(
                   subtitle,
-                  style: GoogleFonts.poppins(
+                  style: TextStyle(
                     fontSize: 12,
                     color: AppColors.textSecondary,
                   ),

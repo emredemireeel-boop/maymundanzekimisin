@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/models/question_model.dart';
 import 'package:zihin_tuzaklari/screens/multiplayer_result_screen.dart';
+import 'package:zihin_tuzaklari/screens/home_screen.dart';
+import 'package:zihin_tuzaklari/services/sound_service.dart';
 
 class MultiplayerQuizScreen extends StatefulWidget {
   final List<String> playerNames;
@@ -59,12 +60,14 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-    _cardFade = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _cardController, curve: Curves.easeOut),
-    );
-    _cardSlide = Tween<Offset>(begin: const Offset(0.05, 0), end: Offset.zero).animate(
-      CurvedAnimation(parent: _cardController, curve: Curves.easeOutCubic),
-    );
+    _cardFade = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _cardController, curve: Curves.easeOut));
+    _cardSlide = Tween<Offset>(begin: const Offset(0.05, 0), end: Offset.zero)
+        .animate(
+          CurvedAnimation(parent: _cardController, curve: Curves.easeOutCubic),
+        );
 
     _playEntrance();
   }
@@ -144,6 +147,14 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
 
     return PopScope(
       canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+          (_) => false,
+        );
+      },
       child: Scaffold(
         backgroundColor: const Color(0xFFF8F6FF),
         body: Stack(
@@ -153,7 +164,8 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
               top: -60,
               right: -40,
               child: Container(
-                width: 200, height: 200,
+                width: 200,
+                height: 200,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: const Color(0xFF10B981).withValues(alpha: 0.06),
@@ -164,7 +176,8 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
               bottom: 80,
               left: -50,
               child: Container(
-                width: 160, height: 160,
+                width: 160,
+                height: 160,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: const Color(0xFF6366F1).withValues(alpha: 0.06),
@@ -175,6 +188,9 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
             SafeArea(
               child: Column(
                 children: [
+                  // ── Top Controls (Home & Mute) ──
+                  _buildTopControls(),
+
                   // ── Progress header ──
                   _buildProgressHeader(),
 
@@ -233,6 +249,41 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
     );
   }
 
+  Widget _buildTopControls() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            icon: const Icon(Icons.home_rounded, color: Color(0xFF64748B)),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const HomeScreen()),
+                (_) => false,
+              );
+            },
+          ),
+          IconButton(
+            icon: Icon(
+              SoundService.instance.soundEnabled
+                  ? Icons.volume_up_rounded
+                  : Icons.volume_off_rounded,
+              color: const Color(0xFF64748B),
+            ),
+            onPressed: () async {
+              await SoundService.instance.toggleSound(
+                !SoundService.instance.soundEnabled,
+              );
+              setState(() {});
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildProgressHeader() {
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 8, 16, 0),
@@ -262,7 +313,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
             ),
             child: Text(
               '🎮 ${_currentIndex + 1}/${widget.questions.length}',
-              style: GoogleFonts.poppins(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF10B981),
@@ -277,14 +328,16 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                 value: (_currentIndex + 1) / widget.questions.length,
                 minHeight: 8,
                 backgroundColor: Colors.white.withValues(alpha: 0.1),
-                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF10B981)),
+                valueColor: const AlwaysStoppedAnimation<Color>(
+                  Color(0xFF10B981),
+                ),
               ),
             ),
           ),
           const SizedBox(width: 12),
           Text(
             '👥 ${widget.playerNames.length}',
-            style: GoogleFonts.poppins(
+            style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
               color: Colors.white.withValues(alpha: 0.7),
@@ -322,7 +375,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
             ),
             child: Text(
               '${question.category.icon} ${question.category.title}',
-              style: GoogleFonts.poppins(
+              style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF6366F1),
@@ -332,7 +385,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
           const SizedBox(height: 14),
           Text(
             question.scenario,
-            style: GoogleFonts.poppins(
+            style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w500,
               color: AppColors.textPrimary,
@@ -345,40 +398,84 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
   }
 
   Widget _buildRevealButton() {
-    return GestureDetector(
-      onTap: _revealAnswer,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFFFF7043), Color(0xFFFF5722)],
-          ),
-          borderRadius: BorderRadius.circular(18),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFFFF7043).withValues(alpha: 0.35),
-              blurRadius: 16,
-              offset: const Offset(0, 6),
+    return Row(
+      children: [
+        // Ana Sayfa Butonu
+        GestureDetector(
+          onTap: () {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const HomeScreen()),
+              (_) => false,
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: const Color(0xFF64748B).withValues(alpha: 0.25),
+                width: 1.5,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF64748B).withValues(alpha: 0.12),
+                  blurRadius: 10,
+                  offset: const Offset(0, 3),
+                ),
+              ],
             ),
-          ],
+            child: const Icon(
+              Icons.home_rounded,
+              color: Color(0xFF64748B),
+              size: 18,
+            ),
+          ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.emoji_objects_rounded, color: Colors.white, size: 22),
-            const SizedBox(width: 10),
-            Text(
-              'Cevabı Göster',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
+        const SizedBox(width: 8),
+        // Cevabı Göster
+        Expanded(
+          child: GestureDetector(
+            onTap: _revealAnswer,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFFF7043), Color(0xFFFF5722)],
+                ),
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFFFF7043).withValues(alpha: 0.35),
+                    blurRadius: 16,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.emoji_objects_rounded,
+                    color: Colors.white,
+                    size: 22,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    'Cevabı Göster',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -389,7 +486,10 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
       curve: Curves.easeOutCubic,
       builder: (context, value, child) => Opacity(
         opacity: value,
-        child: Transform.translate(offset: Offset(0, 16 * (1 - value)), child: child),
+        child: Transform.translate(
+          offset: Offset(0, 16 * (1 - value)),
+          child: child,
+        ),
       ),
       child: Container(
         width: double.infinity,
@@ -401,7 +501,10 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
             end: Alignment.bottomRight,
           ),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.correct.withValues(alpha: 0.4), width: 1.5),
+          border: Border.all(
+            color: AppColors.correct.withValues(alpha: 0.4),
+            width: 1.5,
+          ),
           boxShadow: [
             BoxShadow(
               color: AppColors.correct.withValues(alpha: 0.12),
@@ -414,12 +517,15 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 36, height: 36,
+              width: 36,
+              height: 36,
               decoration: BoxDecoration(
                 color: AppColors.correct,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Center(child: Icon(Icons.check_rounded, color: Colors.white, size: 20)),
+              child: const Center(
+                child: Icon(Icons.check_rounded, color: Colors.white, size: 20),
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -428,7 +534,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                 children: [
                   Text(
                     'Doğru Cevap',
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       color: AppColors.correct,
@@ -438,7 +544,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                   const SizedBox(height: 4),
                   Text(
                     question.options[question.correctIndex],
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF14532D),
@@ -461,7 +567,10 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
       curve: Curves.easeOutCubic,
       builder: (context, value, child) => Opacity(
         opacity: value,
-        child: Transform.translate(offset: Offset(0, 20 * (1 - value)), child: child),
+        child: Transform.translate(
+          offset: Offset(0, 20 * (1 - value)),
+          child: child,
+        ),
       ),
       child: Container(
         width: double.infinity,
@@ -469,18 +578,24 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
         decoration: BoxDecoration(
           color: const Color(0xFFFEF9EC),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: const Color(0xFFFBBF24).withValues(alpha: 0.35), width: 1.5),
+          border: Border.all(
+            color: const Color(0xFFFBBF24).withValues(alpha: 0.35),
+            width: 1.5,
+          ),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 36, height: 36,
+              width: 36,
+              height: 36,
               decoration: BoxDecoration(
                 color: const Color(0xFFF59E0B),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Center(child: Text('💡', style: TextStyle(fontSize: 18))),
+              child: const Center(
+                child: Text('💡', style: TextStyle(fontSize: 18)),
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -489,7 +604,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                 children: [
                   Text(
                     'Açıklama',
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFFB45309),
@@ -499,7 +614,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                   const SizedBox(height: 4),
                   Text(
                     question.insight,
-                    style: GoogleFonts.poppins(
+                    style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF78350F),
@@ -522,14 +637,17 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
       curve: Curves.easeOutCubic,
       builder: (context, v, child) => Opacity(
         opacity: v,
-        child: Transform.translate(offset: Offset(0, 18 * (1 - v)), child: child),
+        child: Transform.translate(
+          offset: Offset(0, 18 * (1 - v)),
+          child: child,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Kimler bildi?',
-            style: GoogleFonts.poppins(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
               color: AppColors.textPrimary,
@@ -538,16 +656,24 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
           const SizedBox(height: 6),
           Text(
             'Doğru bilen oyuncuları işaretleyin',
-            style: GoogleFonts.poppins(
-              fontSize: 12,
-              color: AppColors.textSecondary,
-            ),
+            style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
           ),
           const SizedBox(height: 12),
           ...List.generate(widget.playerNames.length, (index) {
             final isCorrect = _currentCorrect[index];
             final color = playerColors[index % playerColors.length];
-            final emojis = ['🧠', '🐒', '🦊', '🐸', '🦁', '🐼', '🦄', '🐯', '🐺', '🦅'];
+            final emojis = [
+              '🧠',
+              '🐒',
+              '🦊',
+              '🐸',
+              '🦁',
+              '🐼',
+              '🦄',
+              '🐯',
+              '🐺',
+              '🦅',
+            ];
 
             return Padding(
               padding: const EdgeInsets.only(bottom: 8),
@@ -560,7 +686,10 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
                   curve: Curves.easeOut,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: isCorrect
                         ? AppColors.correct.withValues(alpha: 0.08)
@@ -591,7 +720,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                       Expanded(
                         child: Text(
                           widget.playerNames[index],
-                          style: GoogleFonts.poppins(
+                          style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                             color: isCorrect
@@ -601,14 +730,17 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: color.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           '${_scores[index]} puan',
-                          style: GoogleFonts.poppins(
+                          style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                             color: color,
@@ -621,12 +753,16 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: isCorrect ? AppColors.correct : Colors.grey.shade200,
+                          color: isCorrect
+                              ? AppColors.correct
+                              : Colors.grey.shade200,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Center(
                           child: Icon(
-                            isCorrect ? Icons.check_rounded : Icons.close_rounded,
+                            isCorrect
+                                ? Icons.check_rounded
+                                : Icons.close_rounded,
                             color: isCorrect ? Colors.white : Colors.grey,
                             size: 22,
                           ),
@@ -665,11 +801,15 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.check_circle_rounded, color: Colors.white, size: 22),
+            const Icon(
+              Icons.check_circle_rounded,
+              color: Colors.white,
+              size: 22,
+            ),
             const SizedBox(width: 10),
             Text(
               'Onayla',
-              style: GoogleFonts.poppins(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
@@ -699,8 +839,9 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
             borderRadius: BorderRadius.circular(18),
             boxShadow: [
               BoxShadow(
-                color: (_isLastQuestion ? AppColors.primary : AppColors.glowOrange)
-                    .withValues(alpha: 0.3),
+                color:
+                    (_isLastQuestion ? AppColors.primary : AppColors.glowOrange)
+                        .withValues(alpha: 0.3),
                 blurRadius: 16,
                 offset: const Offset(0, 6),
               ),
@@ -710,14 +851,16 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                _isLastQuestion ? Icons.emoji_events_rounded : Icons.arrow_forward_rounded,
+                _isLastQuestion
+                    ? Icons.emoji_events_rounded
+                    : Icons.arrow_forward_rounded,
                 color: Colors.white,
                 size: 22,
               ),
               const SizedBox(width: 10),
               Text(
                 _isLastQuestion ? 'Sonuçları Gör 🏆' : 'Sonraki Soru →',
-                style: GoogleFonts.poppins(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,

@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:confetti/confetti.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/screens/home_screen.dart';
@@ -9,7 +8,8 @@ import 'package:zihin_tuzaklari/screens/multiplayer_setup_screen.dart';
 class MultiplayerResultScreen extends StatefulWidget {
   final List<String> playerNames;
   final List<int> scores;
-  final List<List<int>> cumulativeScores; // [questionIndex][playerIndex] = cumulative score
+  final List<List<int>>
+  cumulativeScores; // [questionIndex][playerIndex] = cumulative score
 
   const MultiplayerResultScreen({
     super.key,
@@ -19,7 +19,8 @@ class MultiplayerResultScreen extends StatefulWidget {
   });
 
   @override
-  State<MultiplayerResultScreen> createState() => _MultiplayerResultScreenState();
+  State<MultiplayerResultScreen> createState() =>
+      _MultiplayerResultScreenState();
 }
 
 class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
@@ -38,12 +39,25 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
     Color(0xFFA855F7),
   ];
 
-  static const List<String> emojis = ['🧠', '🐒', '🦊', '🐸', '🦁', '🐼', '🦄', '🐯', '🐺', '🦅'];
+  static const List<String> emojis = [
+    '🧠',
+    '🐒',
+    '🦊',
+    '🐸',
+    '🦁',
+    '🐼',
+    '🦄',
+    '🐯',
+    '🐺',
+    '🦅',
+  ];
 
   @override
   void initState() {
     super.initState();
-    _confettiController = ConfettiController(duration: const Duration(seconds: 4));
+    _confettiController = ConfettiController(
+      duration: const Duration(seconds: 4),
+    );
     Future.delayed(const Duration(milliseconds: 500), () {
       _confettiController.play();
     });
@@ -68,6 +82,14 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
 
     return PopScope(
       canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+          (_) => false,
+        );
+      },
       child: Scaffold(
         backgroundColor: const Color(0xFFF8F9FF),
         body: Stack(
@@ -75,7 +97,10 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
             SafeArea(
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 child: Column(
                   children: [
                     const SizedBox(height: 8),
@@ -85,7 +110,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                     const SizedBox(height: 12),
                     Text(
                       'Oyun Bitti!',
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
@@ -95,7 +120,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                     if (ranked.isNotEmpty)
                       Text(
                         '${emojis[ranked[0] % emojis.length]} ${widget.playerNames[ranked[0]]} kazandı!',
-                        style: GoogleFonts.poppins(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: playerColors[ranked[0] % playerColors.length],
@@ -107,7 +132,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                     // ── Line Chart ──
                     Text(
                       '📈 Puan Gelişimi',
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
@@ -121,7 +146,9 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(22),
-                        border: Border.all(color: AppColors.divider.withValues(alpha: 0.4)),
+                        border: Border.all(
+                          color: AppColors.divider.withValues(alpha: 0.4),
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withValues(alpha: 0.04),
@@ -162,7 +189,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                             const SizedBox(width: 4),
                             Text(
                               widget.playerNames[i],
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.textSecondary,
@@ -178,7 +205,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                     // ── Rankings ──
                     Text(
                       '🏅 Sıralama',
-                      style: GoogleFonts.poppins(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
@@ -189,14 +216,24 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                       final playerIdx = ranked[rankPos];
                       final score = widget.scores[playerIdx];
                       final name = widget.playerNames[playerIdx];
-                      final color = playerColors[playerIdx % playerColors.length];
+                      final color =
+                          playerColors[playerIdx % playerColors.length];
                       final emoji = emojis[playerIdx % emojis.length];
-                      final medal = rankPos == 0 ? '🥇' : rankPos == 1 ? '🥈' : rankPos == 2 ? '🥉' : '${rankPos + 1}.';
+                      final medal = rankPos == 0
+                          ? '🥇'
+                          : rankPos == 1
+                          ? '🥈'
+                          : rankPos == 2
+                          ? '🥉'
+                          : '${rankPos + 1}.';
 
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
                           decoration: BoxDecoration(
                             gradient: rankPos == 0
                                 ? LinearGradient(
@@ -230,7 +267,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                                 width: 36,
                                 child: Text(
                                   medal,
-                                  style: GoogleFonts.poppins(
+                                  style: TextStyle(
                                     fontSize: rankPos < 3 ? 22 : 16,
                                     fontWeight: FontWeight.w700,
                                     color: AppColors.textPrimary,
@@ -249,7 +286,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                                   children: [
                                     Text(
                                       name,
-                                      style: GoogleFonts.poppins(
+                                      style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w700,
                                         color: AppColors.textPrimary,
@@ -258,7 +295,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                                     if (rankPos == 0)
                                       Text(
                                         '🔥 Birinci!',
-                                        style: GoogleFonts.poppins(
+                                        style: TextStyle(
                                           fontSize: 11,
                                           fontWeight: FontWeight.w600,
                                           color: color,
@@ -269,14 +306,17 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                               ),
                               // Score
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: 6,
+                                ),
                                 decoration: BoxDecoration(
                                   color: color.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
                                   '$score',
-                                  style: GoogleFonts.poppins(
+                                  style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w800,
                                     color: color,
@@ -296,7 +336,9 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                       onTap: () {
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (_) => const MultiplayerSetupScreen()),
+                          MaterialPageRoute(
+                            builder: (_) => const MultiplayerSetupScreen(),
+                          ),
                         );
                       },
                       child: Container(
@@ -309,7 +351,9 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                           borderRadius: BorderRadius.circular(18),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFF10B981).withValues(alpha: 0.35),
+                              color: const Color(
+                                0xFF10B981,
+                              ).withValues(alpha: 0.35),
                               blurRadius: 14,
                               offset: const Offset(0, 5),
                             ),
@@ -318,11 +362,15 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.replay_rounded, color: Colors.white, size: 22),
+                            const Icon(
+                              Icons.replay_rounded,
+                              color: Colors.white,
+                              size: 22,
+                            ),
                             const SizedBox(width: 10),
                             Text(
                               'Tekrar Oyna',
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -361,11 +409,15 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.home_rounded, color: Colors.white, size: 22),
+                            const Icon(
+                              Icons.home_rounded,
+                              color: Colors.white,
+                              size: 22,
+                            ),
                             const SizedBox(width: 10),
                             Text(
                               'Ana Menüye Dön',
-                              style: GoogleFonts.poppins(
+                              style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -443,7 +495,11 @@ class _LineChartPainter extends CustomPainter {
     const gridCount = 4;
     for (int i = 0; i <= gridCount; i++) {
       final y = topPad + chartH * (1 - i / gridCount);
-      canvas.drawLine(Offset(leftPad, y), Offset(leftPad + chartW, y), gridPaint);
+      canvas.drawLine(
+        Offset(leftPad, y),
+        Offset(leftPad + chartW, y),
+        gridPaint,
+      );
 
       // Y-axis labels
       final label = ((maxScore * i) / gridCount).round().toString();
@@ -459,7 +515,8 @@ class _LineChartPainter extends CustomPainter {
 
     // X-axis labels
     for (int q = 0; q < questionCount; q++) {
-      final x = leftPad + (chartW * q / (questionCount - 1).clamp(1, questionCount));
+      final x =
+          leftPad + (chartW * q / (questionCount - 1).clamp(1, questionCount));
       if (q % max(1, questionCount ~/ 10) == 0 || q == questionCount - 1) {
         final tp = TextPainter(
           text: TextSpan(
@@ -481,8 +538,7 @@ class _LineChartPainter extends CustomPainter {
         ..strokeCap = StrokeCap.round
         ..strokeJoin = StrokeJoin.round;
 
-      final dotPaint = Paint()
-        ..color = colors[p % colors.length];
+      final dotPaint = Paint()..color = colors[p % colors.length];
 
       final dotOutlinePaint = Paint()
         ..color = Colors.white
@@ -491,7 +547,9 @@ class _LineChartPainter extends CustomPainter {
       final path = Path();
 
       for (int q = 0; q < questionCount; q++) {
-        final x = leftPad + (chartW * q / (questionCount - 1).clamp(1, questionCount));
+        final x =
+            leftPad +
+            (chartW * q / (questionCount - 1).clamp(1, questionCount));
         final yVal = cumulativeScores[q][p] / maxScore;
         final y = topPad + chartH * (1 - yVal.clamp(0.0, 1.0));
 
@@ -506,7 +564,9 @@ class _LineChartPainter extends CustomPainter {
 
       // Draw dots
       for (int q = 0; q < questionCount; q++) {
-        final x = leftPad + (chartW * q / (questionCount - 1).clamp(1, questionCount));
+        final x =
+            leftPad +
+            (chartW * q / (questionCount - 1).clamp(1, questionCount));
         final yVal = cumulativeScores[q][p] / maxScore;
         final y = topPad + chartH * (1 - yVal.clamp(0.0, 1.0));
 

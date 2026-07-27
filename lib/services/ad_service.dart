@@ -1,221 +1,137 @@
-import 'dart:ui';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter/foundation.dart';
+import 'package:zihin_tuzaklari/config/ad_config.dart';
 
-/// Merkezi reklam yonetim servisi
-/// Test ID'leri kullanilmaktadir – gercek ID'ler sonra verilecek.
+/// Merkezi reklam yönetim servisi
+/// Aktif reklam tipleri: Banner + Ödüllü Geçiş (RewardedInterstitial) + Uygulama Açılış (AppOpen)
+///
+/// Ödül Mantığı:
+///   Kullanıcı "Reklam İzle → 3 Bedava Cevap Hakkı" butonuna tıklar.
+///   Reklam izlenince [freeAnswers] 3 artar.
+///   Kullanıcı cevabı görüntülerken [useFreeAnswer()] ile hak düşürülür.
 class AdService {
   AdService._();
   static final AdService instance = AdService._();
 
   // ═══════════════════════════════════════════════════════
-  // ── TEST AD UNIT IDs (gercek ID'lerle degistirilecek) ──
+  // ── AD UNIT IDs ──
   // ═══════════════════════════════════════════════════════
-  // ignore: constant_identifier_names
-  static const String _interstitialAdUnitId =
-      'ca-app-pub-3940256099942544/1033173712'; // TEST
-  // ignore: constant_identifier_names
-  static const String _rewardedAdUnitId =
-      'ca-app-pub-3940256099942544/5224354917'; // TEST
-  // ignore: constant_identifier_names
-  static const String _bannerAdUnitId =
-      'ca-app-pub-3940256099942544/6300978111'; // TEST
-  // ignore: constant_identifier_names
-  static const String _nativeAdUnitId =
-      'ca-app-pub-3940256099942544/2247696110'; // TEST
+  // ═══════════════════════════════════════════════════════
+  // ── STATE ──
+  // ═══════════════════════════════════════════════════════
+  RewardedInterstitialAd? _rewardedInterstitialAd;
+  bool _rewardedInterstitialLoading = false;
 
-  InterstitialAd? _interstitialAd;
-  RewardedAd? _rewardedAd;
-  NativeAd? _nativeAd;
-  bool _isNativeAdLoaded = false;
+  AppOpenAd? _appOpenAd;
+  bool _appOpenAdLoading = false;
+  bool _appOpenAdShowing = false;
 
-  int _questionsSinceLastAd = 0;
-  static const int _adInterval = 3; // Her 3 sorudan sonra reklam
+  /// Reklam izleyerek kazanılan bedava cevap hakkı sayısı.
+  int _freeAnswers = 0;
 
-  bool get isNativeAdLoaded => _isNativeAdLoaded;
-  NativeAd? get nativeAd => _nativeAd;
+  int get freeAnswers => _freeAnswers;
+  bool get hasFreeAnswers => _freeAnswers > 0;
+  bool get isRewardedInterstitialReady => _rewardedInterstitialAd != null;
+  bool get isAppOpenAdReady => _appOpenAd != null && !_appOpenAdShowing;
 
   // ═══════════════════════════════════════════════════════
-  // ── BASLAT ──
+  // ── BAŞLAT ──
   // ═══════════════════════════════════════════════════════
   Future<void> initialize() async {
     await MobileAds.instance.initialize();
-    _loadInterstitialAd();
-    _loadRewardedAd();
-    _loadNativeAd();
+    _loadRewardedInterstitialAd();
+    _loadAppOpenAd();
+  }
+
+  /// Her yeni oyun başladığında 3 bedava hak hediye et
+  void resetForNewGame() {
+    _freeAnswers = 3; // ilk 3 cevap ücretsiz, reklamı 4. sorudan sonra gör
   }
 
   // ═══════════════════════════════════════════════════════
-  // ── INTERSTITIAL (Gecis Reklamlari) ──
+  // ── REWARDED INTERSTITIAL (Ödüllü Geçiş) ──
   // ═══════════════════════════════════════════════════════
-  void _loadInterstitialAd() {
-    InterstitialAd.load(
-      adUnitId: _interstitialAdUnitId,
+  void _loadRewardedInterstitialAd() {
+    if (_rewardedInterstitialLoading) return;
+    _rewardedInterstitialLoading = true;
+    RewardedInterstitialAd.load(
+      adUnitId: AdConfig.rewardedInterstitialAdUnitId,
       request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
+      rewardedInterstitialAdLoadCallback: RewardedInterstitialAdLoadCallback(
         onAdLoaded: (ad) {
-          _interstitialAd = ad;
-          ad.fullScreenContentCallback = FullScreenContentCallback(
-            onAdDismissedFullScreenContent: (ad) {
-              ad.dispose();
-              _interstitialAd = null;
-              _loadInterstitialAd(); // Yenisini yukle
-            },
-            onAdFailedToShowFullScreenContent: (ad, error) {
-              ad.dispose();
-              _interstitialAd = null;
-              _loadInterstitialAd();
-            },
+          _rewardedInterstitialAd = ad;
+          _rewardedInterstitialLoading = false;
+          debugPrint('RewardedInterstitial yüklendi.');
+        },
+        onAdFailedToLoad: (error) {
+          _rewardedInterstitialLoading = false;
+          debugPrint('RewardedInterstitial yükleme hatası: $error');
+          Future.delayed(
+            const Duration(seconds: 30),
+            _loadRewardedInterstitialAd,
           );
         },
-        onAdFailedToLoad: (error) {
-          debugPrint('Interstitial yukleme hatasi: $error');
-          // 30 saniye sonra tekrar dene
-          Future.delayed(const Duration(seconds: 30), _loadInterstitialAd);
-        },
       ),
     );
   }
 
-  /// Soru sayacini artir ve gerekirse interstitial goster
-  /// 3. sorudan sonra her soruda reklam gosterir
-  bool shouldShowInterstitial() {
-    _questionsSinceLastAd++;
-    return _questionsSinceLastAd >= _adInterval;
-  }
-
-  void showInterstitialAd({VoidCallback? onAdClosed}) {
-    if (_interstitialAd != null) {
-      _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-        onAdDismissedFullScreenContent: (ad) {
-          ad.dispose();
-          _interstitialAd = null;
-          _questionsSinceLastAd = 0;
-          _loadInterstitialAd();
-          onAdClosed?.call();
-        },
-        onAdFailedToShowFullScreenContent: (ad, error) {
-          ad.dispose();
-          _interstitialAd = null;
-          _loadInterstitialAd();
-          onAdClosed?.call();
-        },
-      );
-      _interstitialAd!.show();
-    } else {
-      _questionsSinceLastAd = 0;
-      onAdClosed?.call();
-    }
-  }
-
-  // ═══════════════════════════════════════════════════════
-  // ── REWARDED (Odullu Reklam) ──
-  // ═══════════════════════════════════════════════════════
-  void _loadRewardedAd() {
-    RewardedAd.load(
-      adUnitId: _rewardedAdUnitId,
-      request: const AdRequest(),
-      rewardedAdLoadCallback: RewardedAdLoadCallback(
-        onAdLoaded: (ad) {
-          _rewardedAd = ad;
-        },
-        onAdFailedToLoad: (error) {
-          debugPrint('Rewarded yukleme hatasi: $error');
-          Future.delayed(const Duration(seconds: 30), _loadRewardedAd);
-        },
-      ),
-    );
-  }
-
-  /// Odullu reklam goster
-  void showRewardedAd({
-    required Function(RewardItem reward) onRewarded,
+  /// Reklamı göster. İzlenirse [onRewarded] callback'i çağrılır (3 hak verilir).
+  /// Reklam hazır değilse yine de yüklenir ve [onNotAvailable] çağrılır.
+  void showRewardedInterstitialAd({
+    required VoidCallback onRewarded,
+    VoidCallback? onNotAvailable,
     VoidCallback? onAdClosed,
   }) {
-    if (_rewardedAd != null) {
-      _rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
-        onAdDismissedFullScreenContent: (ad) {
-          ad.dispose();
-          _rewardedAd = null;
-          _loadRewardedAd();
-          onAdClosed?.call();
+    if (_rewardedInterstitialAd != null) {
+      _rewardedInterstitialAd!.fullScreenContentCallback =
+          FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              ad.dispose();
+              _rewardedInterstitialAd = null;
+              _loadRewardedInterstitialAd();
+              onAdClosed?.call();
+            },
+            onAdFailedToShowFullScreenContent: (ad, error) {
+              debugPrint('RewardedInterstitial gösterme hatası: $error');
+              ad.dispose();
+              _rewardedInterstitialAd = null;
+              _loadRewardedInterstitialAd();
+              onAdClosed?.call();
+            },
+          );
+      _rewardedInterstitialAd!.show(
+        onUserEarnedReward: (_, reward) {
+          _freeAnswers += 3;
+          debugPrint('Ödül kazanıldı! Bedava cevap: $_freeAnswers');
+          onRewarded();
         },
-        onAdFailedToShowFullScreenContent: (ad, error) {
-          ad.dispose();
-          _rewardedAd = null;
-          _loadRewardedAd();
-          onAdClosed?.call();
-        },
-      );
-      _rewardedAd!.show(
-        onUserEarnedReward: (_, reward) => onRewarded(reward),
       );
     } else {
-      onAdClosed?.call();
+      _loadRewardedInterstitialAd();
+      onNotAvailable?.call();
     }
   }
 
-  bool get isRewardedAdReady => _rewardedAd != null;
-
-  // ═══════════════════════════════════════════════════════
-  // ── NATIVE (Yerel Gelismis Reklam) ──
-  // ═══════════════════════════════════════════════════════
-  void _loadNativeAd() {
-    _nativeAd?.dispose();
-    _isNativeAdLoaded = false;
-
-    _nativeAd = NativeAd(
-      adUnitId: _nativeAdUnitId,
-      listener: NativeAdListener(
-        onAdLoaded: (ad) {
-          _isNativeAdLoaded = true;
-        },
-        onAdFailedToLoad: (ad, error) {
-          debugPrint('Native yukleme hatasi: $error');
-          ad.dispose();
-          _isNativeAdLoaded = false;
-          Future.delayed(const Duration(seconds: 30), _loadNativeAd);
-        },
-      ),
-      request: const AdRequest(),
-      nativeTemplateStyle: NativeTemplateStyle(
-        templateType: TemplateType.small,
-        mainBackgroundColor: const Color(0xFF1E1E2C),
-        cornerRadius: 16,
-        callToActionTextStyle: NativeTemplateTextStyle(
-          textColor: const Color(0xFFFFFFFF),
-          backgroundColor: const Color(0xFF7C4DFF),
-          style: NativeTemplateFontStyle.bold,
-          size: 14,
-        ),
-        primaryTextStyle: NativeTemplateTextStyle(
-          textColor: const Color(0xFFE0E0E0),
-          style: NativeTemplateFontStyle.normal,
-          size: 13,
-        ),
-        secondaryTextStyle: NativeTemplateTextStyle(
-          textColor: const Color(0xFF888888),
-          style: NativeTemplateFontStyle.normal,
-          size: 11,
-        ),
-      ),
-    );
-    _nativeAd!.load();
+  /// Bir bedava cevap hakkı kullan. Hak varsa true döner ve düşer.
+  bool useFreeAnswer() {
+    if (_freeAnswers > 0) {
+      _freeAnswers--;
+      return true;
+    }
+    return false;
   }
-
-  void reloadNativeAd() => _loadNativeAd();
 
   // ═══════════════════════════════════════════════════════
   // ── BANNER ──
   // ═══════════════════════════════════════════════════════
   BannerAd createBannerAd() {
     return BannerAd(
-      adUnitId: _bannerAdUnitId,
+      adUnitId: AdConfig.bannerAdUnitId,
       size: AdSize.banner,
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdFailedToLoad: (ad, error) {
-          debugPrint('Banner yukleme hatasi: $error');
+          debugPrint('Banner yükleme hatası: $error');
           ad.dispose();
         },
       ),
@@ -223,11 +139,74 @@ class AdService {
   }
 
   // ═══════════════════════════════════════════════════════
-  // ── TEMIZLIK ──
+  // ── APP OPEN AD (Uygulama Açılış Reklamı) ──
+  // ═══════════════════════════════════════════════════════
+
+  /// App Open reklamını önceden yükle (initialize() tarafından çağrılır)
+  void _loadAppOpenAd() {
+    if (_appOpenAdLoading || _appOpenAd != null) return;
+    _appOpenAdLoading = true;
+
+    AppOpenAd.load(
+      adUnitId: AdConfig.appOpenAdUnitId,
+      request: const AdRequest(),
+      adLoadCallback: AppOpenAdLoadCallback(
+        onAdLoaded: (ad) {
+          _appOpenAd = ad;
+          _appOpenAdLoading = false;
+          debugPrint('AppOpenAd yüklendi.');
+        },
+        onAdFailedToLoad: (error) {
+          _appOpenAdLoading = false;
+          debugPrint('AppOpenAd yükleme hatası: $error');
+          // 30 saniye sonra tekrar dene
+          Future.delayed(const Duration(seconds: 30), _loadAppOpenAd);
+        },
+      ),
+    );
+  }
+
+  /// Splash screen'den çağrılır.
+  /// Reklam hazırsa tam ekran gösterir; kullanıcı kapatınca [onComplete] tetiklenir.
+  /// Reklam henüz yüklenmemişse [onComplete]'i hemen çağırır (uygulama bloke olmaz).
+  void showAppOpenAd({required VoidCallback onComplete}) {
+    if (_appOpenAd == null || _appOpenAdShowing) {
+      debugPrint('AppOpenAd hazır değil, atlıyorum.');
+      onComplete();
+      return;
+    }
+
+    _appOpenAdShowing = true;
+    _appOpenAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (ad) {
+        debugPrint('AppOpenAd gösterildi.');
+      },
+      onAdDismissedFullScreenContent: (ad) {
+        debugPrint('AppOpenAd kapatıldı.');
+        _appOpenAdShowing = false;
+        ad.dispose();
+        _appOpenAd = null;
+        _loadAppOpenAd(); // Bir sonraki açılış için yeniden yükle
+        onComplete();
+      },
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        debugPrint('AppOpenAd gösterme hatası: $error');
+        _appOpenAdShowing = false;
+        ad.dispose();
+        _appOpenAd = null;
+        _loadAppOpenAd();
+        onComplete();
+      },
+    );
+
+    _appOpenAd!.show();
+  }
+
+  // ═══════════════════════════════════════════════════════
+  // ── TEMİZLİK ──
   // ═══════════════════════════════════════════════════════
   void dispose() {
-    _interstitialAd?.dispose();
-    _rewardedAd?.dispose();
-    _nativeAd?.dispose();
+    _rewardedInterstitialAd?.dispose();
+    _appOpenAd?.dispose();
   }
 }

@@ -17,15 +17,17 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "com.zihintuzaklari.zihin_tuzaklari"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "28.2.13676358"
+    ndkVersion = "29.0.14206865"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+    kotlin {
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        }
     }
 
     defaultConfig {
@@ -47,6 +49,14 @@ android {
         }
     }
 
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+            // Debug symbol strip hatasını engelle: native .so dosyalarını olduğu gibi paketle
+            keepDebugSymbols += setOf("**/*.so")
+        }
+    }
+
     buildTypes {
         release {
             signingConfig = if (keystorePropertiesFile.exists()) {
@@ -54,12 +64,8 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
@@ -68,3 +74,7 @@ flutter {
     source = "../.."
 }
 
+dependencies {
+    // Android 15+ (SDK 35) uçtan uca ekran desteği için
+    implementation("androidx.activity:activity-ktx:1.10.1")
+}

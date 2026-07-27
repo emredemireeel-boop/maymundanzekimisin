@@ -43,12 +43,12 @@ class AppColors {
   static const Color border = Color(0xFFD1D5EB);
 
   // ── Kategori Renkleri ──────────────────────────────────────────────
-  static const Color categoryLogic = Color(0xFF7E57C2);      // Mor
-  static const Color categoryMath = Color(0xFF42A5F5);        // Mavi
-  static const Color categoryPattern = Color(0xFF26A69A);     // Teal
-  static const Color categoryVerbal = Color(0xFFEF5350);      // Kırmızı
-  static const Color categoryStrategy = Color(0xFFFF7043);    // Turuncu
-  static const Color categoryVisual = Color(0xFFAB47BC);      // Pembe-Mor
+  static const Color categoryLogic = Color(0xFF7E57C2); // Mor
+  static const Color categoryMath = Color(0xFF42A5F5); // Mavi
+  static const Color categoryPattern = Color(0xFF26A69A); // Teal
+  static const Color categoryVerbal = Color(0xFFEF5350); // Kırmızı
+  static const Color categoryStrategy = Color(0xFFFF7043); // Turuncu
+  static const Color categoryVisual = Color(0xFFAB47BC); // Pembe-Mor
 
   // ── Gradient Tanımları ─────────────────────────────────────────────
   static const LinearGradient primaryGradient = LinearGradient(
@@ -82,8 +82,8 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
-  static const Color glassBackground = Color(0xCCFFFFFF);  // 80% white
-  static const Color glassBorder = Color(0x33FFFFFF);       // 20% white
+  static const Color glassBackground = Color(0xCCFFFFFF); // 80% white
+  static const Color glassBorder = Color(0x33FFFFFF); // 20% white
   static const Color glowOrange = Color(0xFFFF6B35);
   static const Color glowIndigo = Color(0xFF6366F1);
 
@@ -102,10 +102,7 @@ class AppColors {
   // ── Utility ────────────────────────────────────────────────────────
   static LinearGradient cardGradient(Color color) {
     return LinearGradient(
-      colors: [
-        color.withValues(alpha: 0.10),
-        color.withValues(alpha: 0.03),
-      ],
+      colors: [color.withValues(alpha: 0.10), color.withValues(alpha: 0.03)],
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
     );
