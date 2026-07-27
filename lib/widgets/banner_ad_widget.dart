@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:zihin_tuzaklari/config/ad_config.dart';
+import 'package:zihin_tuzaklari/services/ad_service.dart';
 
 /// Ekranın altına yapışık banner reklam widget'ı.
 ///
@@ -18,22 +19,37 @@ class BannerAdWidget extends StatefulWidget {
 class _BannerAdWidgetState extends State<BannerAdWidget> {
   BannerAd? _bannerAd;
   bool _isLoaded = false;
+  bool _isLoading = false;
   AdSize? _adSize;
+
+  @override
+  void initState() {
+    super.initState();
+    AdService.instance.adsReady.addListener(_onAdsReady);
+  }
+
+  void _onAdsReady() {
+    if (mounted && _bannerAd == null) {
+      _loadBanner();
+    }
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // Banner henüz yüklenmediyse yükle (didChangeDependencies, context hazır olduğunda çağrılır)
-    if (_bannerAd == null) {
+    if (AdService.instance.adsReady.value && _bannerAd == null) {
       _loadBanner();
     }
   }
 
   Future<void> _loadBanner() async {
+    if (_isLoading || _bannerAd != null) return;
+    _isLoading = true;
+
     // Ekran genişliğine göre adaptive banner boyutu hesapla
     final width = MediaQuery.of(context).size.width.truncate();
-    final adSize =
-        await AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(width);
+    final adSize = await AdSize.getLargeAnchoredAdaptiveBannerAdSize(width);
 
     // Adaptive boyut alınamazsa standart banner kullan
     final size = adSize ?? AdSize.banner;
@@ -49,23 +65,25 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
               _bannerAd = ad as BannerAd;
               _adSize = size;
               _isLoaded = true;
+              _isLoading = false;
             });
+          } else {
+            ad.dispose();
           }
         },
         onAdFailedToLoad: (ad, error) {
           debugPrint('Banner yükleme hatası: $error');
+          _isLoading = false;
           ad.dispose();
         },
       ),
     );
     await ad.load();
-    if (mounted) {
-      _bannerAd = ad;
-    }
   }
 
   @override
   void dispose() {
+    AdService.instance.adsReady.removeListener(_onAdsReady);
     _bannerAd?.dispose();
     super.dispose();
   }

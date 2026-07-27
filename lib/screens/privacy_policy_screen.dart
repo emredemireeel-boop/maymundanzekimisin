@@ -52,7 +52,22 @@ class PrivacyPolicyScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
-            _sectionTitle('4. Çocukların Gizliliği'),
+            _sectionTitle('4. Reklam ve Gizlilik Tercihleri'),
+            _paragraph(
+              'Gerekli bölgelerde Google User Messaging Platform üzerinden '
+              'reklam ve kişisel veri kullanım tercihleri sorulur. İzin durumu '
+              'alınmadan reklam isteği başlatılmaz. Gizlilik seçeneklerinin '
+              'sunulmasının zorunlu olduğu bölgelerde tercihler Ayarlar '
+              'ekranındaki Reklam Gizliliği bölümünden değiştirilebilir.',
+            ),
+            _paragraph(
+              'iOS cihazlarda kişiselleştirilmiş reklam ve reklam ölçümü için '
+              'Apple Uygulama Takibi Şeffaflığı izni istenebilir. İzni '
+              'reddetmek uygulamanın kullanılmasını engellemez.',
+            ),
+
+            const SizedBox(height: 20),
+            _sectionTitle('5. Çocukların Gizliliği'),
             _paragraph(
               'Uygulama özellikle 13 yaşın altındaki çocuklara yönelik değildir. '
               '13 yaşın altındaki bir çocuğa ait verinin uygunsuz biçimde '
@@ -60,7 +75,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
-            _sectionTitle('5. Veri Güvenliği'),
+            _sectionTitle('6. Veri Güvenliği'),
             _paragraph(
               'Yerel oyun verileri yalnızca cihazınızda saklanır. Üçüncü taraf '
               'hizmetlerinin işlediği veriler kendi güvenlik ve saklama '
@@ -68,7 +83,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
-            _sectionTitle('6. İletişim'),
+            _sectionTitle('7. İletişim'),
             _paragraph('Sorularınız için: zihintuzaklari.app@gmail.com'),
 
             const SizedBox(height: 16),

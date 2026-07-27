@@ -30,7 +30,7 @@
         <!-- AdMob App ID – Production -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-2265053267835785~6794504711"/>
+            android:value="ca-app-pub-6387001035314883~7298196898"/>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

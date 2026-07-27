@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter/foundation.dart';
 import 'package:zihin_tuzaklari/config/ad_config.dart';
@@ -21,10 +23,14 @@ class AdService {
   // ═══════════════════════════════════════════════════════
   RewardedInterstitialAd? _rewardedInterstitialAd;
   bool _rewardedInterstitialLoading = false;
+  bool _mobileAdsStarted = false;
 
   AppOpenAd? _appOpenAd;
   bool _appOpenAdLoading = false;
   bool _appOpenAdShowing = false;
+
+  final ValueNotifier<bool> adsReady = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> privacyOptionsRequired = ValueNotifier<bool>(false);
 
   /// Reklam izleyerek kazanılan bedava cevap hakkı sayısı.
   int _freeAnswers = 0;
@@ -38,9 +44,75 @@ class AdService {
   // ── BAŞLAT ──
   // ═══════════════════════════════════════════════════════
   Future<void> initialize() async {
+    if (kIsWeb ||
+        (defaultTargetPlatform != TargetPlatform.android &&
+            defaultTargetPlatform != TargetPlatform.iOS)) {
+      return;
+    }
+
+    final params = ConsentRequestParameters();
+    ConsentInformation.instance.requestConsentInfoUpdate(
+      params,
+      () async {
+        await _refreshPrivacyOptionsRequirement();
+        await _startAdsIfAllowed();
+
+        ConsentForm.loadAndShowConsentFormIfRequired((formError) async {
+          if (formError != null) {
+            debugPrint(
+              'Gizlilik formu gösterilemedi: '
+              '${formError.errorCode} ${formError.message}',
+            );
+          }
+          await _refreshPrivacyOptionsRequirement();
+          await _startAdsIfAllowed();
+        });
+      },
+      (formError) async {
+        debugPrint(
+          'Gizlilik bilgisi alınamadı: '
+          '${formError.errorCode} ${formError.message}',
+        );
+        await _refreshPrivacyOptionsRequirement();
+        await _startAdsIfAllowed();
+      },
+    );
+  }
+
+  Future<void> _startAdsIfAllowed() async {
+    if (_mobileAdsStarted ||
+        !await ConsentInformation.instance.canRequestAds()) {
+      return;
+    }
+
+    _mobileAdsStarted = true;
     await MobileAds.instance.initialize();
+    adsReady.value = true;
     _loadRewardedInterstitialAd();
     _loadAppOpenAd();
+  }
+
+  Future<void> _refreshPrivacyOptionsRequirement() async {
+    privacyOptionsRequired.value =
+        await ConsentInformation.instance
+            .getPrivacyOptionsRequirementStatus() ==
+        PrivacyOptionsRequirementStatus.required;
+  }
+
+  Future<FormError?> showPrivacyOptionsForm() {
+    final completer = Completer<FormError?>();
+    ConsentForm.showPrivacyOptionsForm((formError) async {
+      if (formError != null) {
+        debugPrint(
+          'Gizlilik seçenekleri gösterilemedi: '
+          '${formError.errorCode} ${formError.message}',
+        );
+      }
+      await _refreshPrivacyOptionsRequirement();
+      await _startAdsIfAllowed();
+      completer.complete(formError);
+    });
+    return completer.future;
   }
 
   /// Her yeni oyun başladığında 3 bedava hak hediye et
@@ -208,5 +280,7 @@ class AdService {
   void dispose() {
     _rewardedInterstitialAd?.dispose();
     _appOpenAd?.dispose();
+    adsReady.dispose();
+    privacyOptionsRequired.dispose();
   }
 }

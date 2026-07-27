@@ -2,27 +2,17 @@ import 'package:flutter/foundation.dart';
 
 /// Platform-specific ad identifiers.
 ///
-/// Android keeps the existing production identifiers. iOS uses Google's demo
-/// identifiers until the iOS app and ad units are created in AdMob. Supply the
-/// production values at build time with the IOS_ADMOB_* dart defines.
+/// Production identifiers for the Android and iOS AdMob applications.
 abstract final class AdConfig {
-  static const _androidBanner = 'ca-app-pub-2265053267835785/7158897413';
+  static const _androidBanner = 'ca-app-pub-6387001035314883/5985115224';
   static const _androidRewardedInterstitial =
-      'ca-app-pub-2265053267835785/4373392914';
-  static const _androidAppOpen = 'ca-app-pub-2265053267835785/1349939403';
+      'ca-app-pub-6387001035314883/9454738636';
+  static const _androidAppOpen = 'ca-app-pub-6387001035314883/2008181816';
 
-  static const _iosBanner = String.fromEnvironment(
-    'IOS_ADMOB_BANNER_ID',
-    defaultValue: 'ca-app-pub-3940256099942544/2435281174',
-  );
-  static const _iosRewardedInterstitial = String.fromEnvironment(
-    'IOS_ADMOB_REWARDED_INTERSTITIAL_ID',
-    defaultValue: 'ca-app-pub-3940256099942544/6978759866',
-  );
-  static const _iosAppOpen = String.fromEnvironment(
-    'IOS_ADMOB_APP_OPEN_ID',
-    defaultValue: 'ca-app-pub-3940256099942544/5575463023',
-  );
+  static const _iosBanner = 'ca-app-pub-6387001035314883/6473352077';
+  static const _iosRewardedInterstitial =
+      'ca-app-pub-6387001035314883/1576936973';
+  static const _iosAppOpen = 'ca-app-pub-6387001035314883/2838047753';
 
   static String get bannerAdUnitId =>
       defaultTargetPlatform == TargetPlatform.iOS ? _iosBanner : _androidBanner;

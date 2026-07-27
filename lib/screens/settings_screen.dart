@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
+import 'package:zihin_tuzaklari/services/ad_service.dart';
 import 'package:zihin_tuzaklari/services/sound_service.dart';
 import 'package:zihin_tuzaklari/screens/privacy_policy_screen.dart';
 
@@ -17,6 +18,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     _soundEnabled = SoundService.instance.soundEnabled;
+  }
+
+  Future<void> _showPrivacyOptions() async {
+    final error = await AdService.instance.showPrivacyOptionsForm();
+    if (!mounted || error == null) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Gizlilik seçenekleri şu anda açılamıyor.')),
+    );
   }
 
   @override
@@ -170,6 +180,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   size: 24,
                 ),
               ),
+            ),
+
+            ValueListenableBuilder<bool>(
+              valueListenable: AdService.instance.privacyOptionsRequired,
+              builder: (context, isRequired, _) {
+                if (!isRequired) return const SizedBox.shrink();
+
+                return Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: GestureDetector(
+                    onTap: _showPrivacyOptions,
+                    child: const _SettingsTile(
+                      icon: Icons.tune_rounded,
+                      title: 'Reklam Gizliliği',
+                      subtitle: 'Reklam ve veri kullanım tercihlerini yönet',
+                      trailing: Icon(
+                        Icons.chevron_right_rounded,
+                        color: AppColors.textHint,
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
 
             const SizedBox(height: 32),

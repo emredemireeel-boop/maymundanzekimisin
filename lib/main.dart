@@ -20,10 +20,12 @@ void main() async {
   // Gesture navigation bar için edge-to-edge modu etkinleştir
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-  // Reklamlari baslat
-  AdService.instance.initialize();
-
   runApp(const ZihinTuzaklariApp());
+
+  // Gizlilik mesajlarının güvenli biçimde sunulabilmesi için ilk kareyi bekle.
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    AdService.instance.initialize();
+  });
 }
 
 class ZihinTuzaklariApp extends StatelessWidget {
