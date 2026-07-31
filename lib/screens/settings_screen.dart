@@ -143,7 +143,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '🐵 Maymundan Zeki Misin? v1.0.0',
+                    '🐵 MaymunLab: Zihin Düellosu v1.0.10',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,

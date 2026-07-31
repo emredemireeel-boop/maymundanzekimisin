@@ -36,7 +36,7 @@ class ZihinTuzaklariApp extends StatelessWidget {
     return ChangeNotifierProvider<GameState>(
       create: (_) => GameState()..loadStats(),
       child: MaterialApp(
-        title: 'Maymundan Zeki Misin?',
+        title: 'MaymunLab: Zihin Düellosu',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         localizationsDelegates: const [

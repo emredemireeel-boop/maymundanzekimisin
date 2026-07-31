@@ -1,7 +1,7 @@
 name: zihin_tuzaklari
-description: "Maymundan Zeki Misin? – Strateji ve Mantık Yarışması"
+description: "MaymunLab: Zihin Düellosu – altı bilişsel alanda özgün karar oyunu"
 publish_to: 'none'
-version: 1.0.9+9
+version: 1.0.10+10
 
 environment:
   sdk: ^3.10.4

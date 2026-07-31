@@ -5,9 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/data/question_bank.dart';
 import 'package:zihin_tuzaklari/models/game_state.dart';
+import 'package:zihin_tuzaklari/models/question_model.dart';
 import 'package:zihin_tuzaklari/screens/quiz_screen.dart';
 import 'package:zihin_tuzaklari/screens/settings_screen.dart';
 import 'package:zihin_tuzaklari/screens/multiplayer_setup_screen.dart';
+import 'package:zihin_tuzaklari/screens/cognitive_profile_screen.dart';
 import 'package:zihin_tuzaklari/services/ad_service.dart';
 import 'package:zihin_tuzaklari/widgets/banner_ad_widget.dart';
 
@@ -205,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Maymundan Zeki Misin? 🐒',
+                      'MaymunLab 🐒',
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w800,
@@ -217,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'Zekânı kanıtla!',
+                      'Zihin düellosuna hazırlan!',
                       style: TextStyle(
                         fontSize: 12,
                         color: AppColors.textSecondary,
@@ -634,6 +636,40 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
         const SizedBox(height: 14),
 
+        // ── Günün Zihin Düellosu ──
+        _PrimaryActionButton(
+          icon: Icons.science_rounded,
+          title: '🧬 Günün Zihin Düellosu',
+          subtitle: '6 bilişsel alan • günlük seri: ${game.dailyStreak}',
+          gradient: const LinearGradient(
+            colors: [Color(0xFF7C3AED), Color(0xFF4F46E5)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          onTap: () => _startDailyChallenge(context),
+        ),
+
+        const SizedBox(height: 14),
+
+        _PrimaryActionButton(
+          icon: Icons.insights_rounded,
+          title: 'Zihin DNA’m',
+          subtitle: 'Karar örüntülerini ve güçlü alanlarını gör',
+          gradient: const LinearGradient(
+            colors: [Color(0xFF0F766E), Color(0xFF0891B2)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const CognitiveProfileScreen(),
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 14),
+
         // ── 🎮 Arkadaşlarınla Oyna ──
         _PrimaryActionButton(
           icon: Icons.people_rounded,
@@ -668,6 +704,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     AdService.instance.resetForNewGame();
     game.startGame(unsolvedQuestions);
     setState(() {});
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const QuizScreen()),
+    );
+  }
+
+  void _startDailyChallenge(BuildContext context) {
+    final game = context.read<GameState>();
+    final allQuestions = QuestionBank.getAllQuestions();
+    final now = DateTime.now();
+    final seed = now.year * 10000 + now.month * 100 + now.day;
+    final dailyQuestions = QuestionCategory.values.map((category) {
+      final candidates = allQuestions
+          .where((question) => question.category == category)
+          .toList();
+      return candidates[seed % candidates.length];
+    }).toList();
+
+    AdService.instance.resetForNewGame();
+    game.startDailyChallenge(dailyQuestions);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const QuizScreen()),

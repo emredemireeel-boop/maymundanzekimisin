@@ -74,6 +74,11 @@ class GameState extends ChangeNotifier {
   int _gamesPlayed = 0;
   int _bestScore = 0;
   List<GameResult> _history = [];
+  final Map<QuestionCategory, int> _lifetimeCorrect = {};
+  final Map<QuestionCategory, int> _lifetimeSolved = {};
+  bool _isDailyChallenge = false;
+  int _dailyStreak = 0;
+  String? _lastDailyCompleted;
 
   // ── Çözülmüş Sorular (Asla tekrar gösterilmez) ──
   Set<String> _solvedQuestions = {};
@@ -96,6 +101,10 @@ class GameState extends ChangeNotifier {
   int get gamesPlayed => _gamesPlayed;
   int get bestScore => _bestScore;
   List<GameResult> get history => _history;
+  Map<QuestionCategory, int> get lifetimeCorrect => _lifetimeCorrect;
+  Map<QuestionCategory, int> get lifetimeSolved => _lifetimeSolved;
+  bool get isDailyChallenge => _isDailyChallenge;
+  int get dailyStreak => _dailyStreak;
   Map<QuestionCategory, int> get categoryScore => _categoryScore;
   Map<QuestionCategory, int> get categoryTotal => _categoryTotal;
   Map<QuestionCategory, int> get categoryCorrect => _categoryCorrect;
@@ -120,6 +129,12 @@ class GameState extends ChangeNotifier {
     return (score / total).clamp(0.0, 1.0);
   }
 
+  double getLifetimeAccuracy(QuestionCategory cat) {
+    final solved = _lifetimeSolved[cat] ?? 0;
+    if (solved == 0) return 0;
+    return ((_lifetimeCorrect[cat] ?? 0) / solved).clamp(0.0, 1.0);
+  }
+
   String getCategoryComment(QuestionCategory cat) {
     final pct = getCategoryPercentage(cat);
     if (pct >= 0.9) return 'Olağanüstü! Bu alanda zihnin keskin.';
@@ -133,6 +148,7 @@ class GameState extends ChangeNotifier {
   // ── YENİ OYUN BAŞLAT ──
   // ═══════════════════════════════════════════════════════════════════
   void startGame(List<Question> questions) {
+    _isDailyChallenge = false;
     final rng = Random();
     _questions = List.from(questions)..shuffle(rng);
 
@@ -187,6 +203,13 @@ class GameState extends ChangeNotifier {
     _startTimer();
     notifyListeners();
     _saveCurrentGame();
+  }
+
+  /// Her gün her bilişsel alandan bir soru seçilen özgün laboratuvar modu.
+  void startDailyChallenge(List<Question> questions) {
+    startGame(questions);
+    _isDailyChallenge = true;
+    notifyListeners();
   }
 
   // ═══════════════════════════════════════════════════════════════════
@@ -265,6 +288,7 @@ class GameState extends ChangeNotifier {
 
     final cat = currentQuestion!.category;
     _categorySolved[cat] = (_categorySolved[cat] ?? 0) + 1;
+    _lifetimeSolved[cat] = (_lifetimeSolved[cat] ?? 0) + 1;
 
     if (_isCorrect) {
       _correctCount++;
@@ -272,6 +296,7 @@ class GameState extends ChangeNotifier {
       _totalScore += points;
       _categoryScore[cat] = (_categoryScore[cat] ?? 0) + points;
       _categoryCorrect[cat] = (_categoryCorrect[cat] ?? 0) + 1;
+      _lifetimeCorrect[cat] = (_lifetimeCorrect[cat] ?? 0) + 1;
       _totalXP += points;
       SoundService.instance.playCorrect();
     } else {
@@ -282,6 +307,7 @@ class GameState extends ChangeNotifier {
     // Soruyu çözülmüş olarak işaretle
     _solvedQuestions.add(currentQuestion!.id);
     _saveSolvedQuestions();
+    unawaited(_saveStats());
 
     notifyListeners();
     _saveCurrentGame();
@@ -330,6 +356,17 @@ class GameState extends ChangeNotifier {
       ),
     );
 
+    if (_isDailyChallenge) {
+      final today = _dateKey(DateTime.now());
+      if (_lastDailyCompleted != today) {
+        final yesterday = _dateKey(
+          DateTime.now().subtract(const Duration(days: 1)),
+        );
+        _dailyStreak = _lastDailyCompleted == yesterday ? _dailyStreak + 1 : 1;
+        _lastDailyCompleted = today;
+      }
+    }
+
     _clearSavedGame();
     _saveStats();
     notifyListeners();
@@ -367,6 +404,17 @@ class GameState extends ChangeNotifier {
     _bestScore = prefs.getInt('bestScore') ?? 0;
     _hasSavedGame = prefs.getString('savedGame') != null;
     _magicSquareShown = prefs.getBool('magicSquareShown') ?? false;
+    _dailyStreak = prefs.getInt('dailyStreak') ?? 0;
+    _lastDailyCompleted = prefs.getString('lastDailyCompleted');
+
+    final lifetimeCorrectJson = prefs.getString('lifetimeCorrect');
+    final lifetimeSolvedJson = prefs.getString('lifetimeSolved');
+    if (lifetimeCorrectJson != null) {
+      _restoreCategoryMap(lifetimeCorrectJson, _lifetimeCorrect);
+    }
+    if (lifetimeSolvedJson != null) {
+      _restoreCategoryMap(lifetimeSolvedJson, _lifetimeSolved);
+    }
 
     // Çözülmüş soruları yükle
     final solvedList = prefs.getStringList('solved_questions');
@@ -392,6 +440,24 @@ class GameState extends ChangeNotifier {
     await prefs.setInt('totalXP', _totalXP);
     await prefs.setInt('gamesPlayed', _gamesPlayed);
     await prefs.setInt('bestScore', _bestScore);
+    await prefs.setInt('dailyStreak', _dailyStreak);
+    if (_lastDailyCompleted != null) {
+      await prefs.setString('lastDailyCompleted', _lastDailyCompleted!);
+    }
+    await prefs.setString(
+      'lifetimeCorrect',
+      jsonEncode({
+        for (final entry in _lifetimeCorrect.entries)
+          entry.key.name: entry.value,
+      }),
+    );
+    await prefs.setString(
+      'lifetimeSolved',
+      jsonEncode({
+        for (final entry in _lifetimeSolved.entries)
+          entry.key.name: entry.value,
+      }),
+    );
 
     // Max 20 geçmiş kaydet
     final historyToSave = _history.take(20).toList();
@@ -405,6 +471,22 @@ class GameState extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('solved_questions', _solvedQuestions.toList());
   }
+
+  void _restoreCategoryMap(
+    String json,
+    Map<QuestionCategory, int> destination,
+  ) {
+    final decoded = jsonDecode(json) as Map<String, dynamic>;
+    for (final category in QuestionCategory.values) {
+      final value = decoded[category.name];
+      if (value is int) destination[category] = value;
+    }
+  }
+
+  String _dateKey(DateTime date) =>
+      '${date.year.toString().padLeft(4, '0')}-'
+      '${date.month.toString().padLeft(2, '0')}-'
+      '${date.day.toString().padLeft(2, '0')}';
 
   @override
   void dispose() {
