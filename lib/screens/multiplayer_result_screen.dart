@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:zihin_tuzaklari/l10n/app_text.dart';
 import 'package:confetti/confetti.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/screens/home_screen.dart';
@@ -106,9 +107,9 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                     const SizedBox(height: 8),
 
                     // ── Trophy header ──
-                    const Text('🏆', style: TextStyle(fontSize: 56)),
+                    const AppText('🏆', style: TextStyle(fontSize: 56)),
                     const SizedBox(height: 12),
-                    Text(
+                    AppText(
                       'Oyun Bitti!',
                       style: TextStyle(
                         fontSize: 28,
@@ -118,7 +119,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                     ),
                     const SizedBox(height: 4),
                     if (ranked.isNotEmpty)
-                      Text(
+                      AppText(
                         '${emojis[ranked[0] % emojis.length]} ${widget.playerNames[ranked[0]]} kazandı!',
                         style: TextStyle(
                           fontSize: 16,
@@ -130,7 +131,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                     const SizedBox(height: 28),
 
                     // ── Line Chart ──
-                    Text(
+                    AppText(
                       '📈 Puan Gelişimi',
                       style: TextStyle(
                         fontSize: 18,
@@ -187,7 +188,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                               ),
                             ),
                             const SizedBox(width: 4),
-                            Text(
+                            AppText(
                               widget.playerNames[i],
                               style: TextStyle(
                                 fontSize: 11,
@@ -203,7 +204,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                     const SizedBox(height: 28),
 
                     // ── Rankings ──
-                    Text(
+                    AppText(
                       '🏅 Sıralama',
                       style: TextStyle(
                         fontSize: 18,
@@ -265,7 +266,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                               // Medal / Rank
                               SizedBox(
                                 width: 36,
-                                child: Text(
+                                child: AppText(
                                   medal,
                                   style: TextStyle(
                                     fontSize: rankPos < 3 ? 22 : 16,
@@ -277,14 +278,14 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                               ),
                               const SizedBox(width: 10),
                               // Emoji
-                              Text(emoji, style: const TextStyle(fontSize: 28)),
+                              AppText(emoji, style: const TextStyle(fontSize: 28)),
                               const SizedBox(width: 12),
                               // Name
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    AppText(
                                       name,
                                       style: TextStyle(
                                         fontSize: 15,
@@ -293,7 +294,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                                       ),
                                     ),
                                     if (rankPos == 0)
-                                      Text(
+                                      AppText(
                                         '🔥 Birinci!',
                                         style: TextStyle(
                                           fontSize: 11,
@@ -314,7 +315,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                                   color: color.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                child: Text(
+                                child: AppText(
                                   '$score',
                                   style: TextStyle(
                                     fontSize: 18,
@@ -368,7 +369,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                               size: 22,
                             ),
                             const SizedBox(width: 10),
-                            Text(
+                            AppText(
                               'Tekrar Oyna',
                               style: TextStyle(
                                 fontSize: 16,
@@ -415,7 +416,7 @@ class _MultiplayerResultScreenState extends State<MultiplayerResultScreen> {
                               size: 22,
                             ),
                             const SizedBox(width: 10),
-                            Text(
+                            AppText(
                               'Ana Menüye Dön',
                               style: TextStyle(
                                 fontSize: 16,

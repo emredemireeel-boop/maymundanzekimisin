@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zihin_tuzaklari/l10n/app_text.dart';
 import 'package:provider/provider.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/models/game_state.dart';
@@ -29,7 +30,7 @@ class CognitiveProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Zihin DNA’m'),
+        title: const AppText('Zihin DNA’m'),
         backgroundColor: AppColors.background,
       ),
       body: ListView(
@@ -54,9 +55,9 @@ class CognitiveProfileScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const Text('🧬', style: TextStyle(fontSize: 42)),
+                const AppText('🧬', style: TextStyle(fontSize: 42)),
                 const SizedBox(height: 8),
-                Text(
+                AppText(
                   totalSolved == 0
                       ? 'İlk ölçümünü başlat'
                       : '%${(overall * 100).round()} bilişsel doğruluk',
@@ -68,7 +69,7 @@ class CognitiveProfileScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 7),
-                Text(
+                AppText(
                   totalSolved == 0
                       ? 'Cevapların altı farklı düşünme alanında analiz edilir.'
                       : '$totalSolved karar analiz edildi • '
@@ -91,7 +92,7 @@ class CognitiveProfileScreen extends StatelessWidget {
               weakestScore: game.getLifetimeAccuracy(ranked.last),
             ),
           const SizedBox(height: 18),
-          const Text(
+          const AppText(
             'Bilişsel alanlar',
             style: TextStyle(
               color: AppColors.textPrimary,
@@ -123,7 +124,7 @@ class CognitiveProfileScreen extends StatelessWidget {
                         color: color.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(14),
                       ),
-                      child: Text(
+                      child: AppText(
                         category.icon,
                         style: const TextStyle(fontSize: 22),
                       ),
@@ -136,7 +137,7 @@ class CognitiveProfileScreen extends StatelessWidget {
                           Row(
                             children: [
                               Expanded(
-                                child: Text(
+                                child: AppText(
                                   category.title,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w800,
@@ -144,7 +145,7 @@ class CognitiveProfileScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Text(
+                              AppText(
                                 solved == 0
                                     ? 'Ölçülmedi'
                                     : '%${(accuracy * 100).round()}',
@@ -166,7 +167,7 @@ class CognitiveProfileScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 6),
-                          Text(
+                          AppText(
                             solved == 0
                                 ? 'Bu alandaki ilk sorunu çöz.'
                                 : '$solved karar üzerinden hesaplandı.',
@@ -184,7 +185,7 @@ class CognitiveProfileScreen extends StatelessWidget {
             );
           }),
           const SizedBox(height: 8),
-          const Text(
+          const AppText(
             'Bu profil bir IQ veya sağlık tanısı değildir; oyun içindeki '
             'karar örüntülerini gösteren kişisel bir ilerleme özetidir.',
             style: TextStyle(
@@ -230,7 +231,7 @@ class _InsightCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          const AppText(
             'Maymunun gözlemi',
             style: TextStyle(
               color: Color(0xFF9A3412),
@@ -239,17 +240,26 @@ class _InsightCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            'En güçlü alanın ${strongest.title} '
-            '(%${(strongestScore * 100).round()}). '
-            '${weakest.title} alanında ise '
-            '%${(weakestScore * 100).round()} doğruluktasın. '
-            'Günün Zihin Düellosu bu iki alanı dengeli biçimde çalıştırır.',
-            style: const TextStyle(
-              color: Color(0xFF7C2D12),
-              height: 1.45,
-            ),
-          ),
+          AppText(switch (Localizations.localeOf(context).languageCode) {
+            'en' =>
+              'Your strongest area is ${strongest.title} '
+                  '(${(strongestScore * 100).round()}% accuracy). '
+                  'In ${weakest.title}, you scored '
+                  '${(weakestScore * 100).round()}%. '
+                  'The daily challenge offers a balanced mix of puzzles.',
+            'es' =>
+              'Tu área más fuerte es ${strongest.title} '
+                  '(${(strongestScore * 100).round()} % de aciertos). '
+                  'En ${weakest.title}, obtuviste '
+                  '${(weakestScore * 100).round()} %. '
+                  'El desafío diario combina distintos tipos de acertijos.',
+            _ =>
+              'En güçlü alanın ${strongest.title} '
+                  '(%${(strongestScore * 100).round()}). '
+                  '${weakest.title} alanında ise '
+                  '%${(weakestScore * 100).round()} doğruluktasın. '
+                  'Günün Zihin Düellosu bu iki alanı dengeli biçimde çalıştırır.',
+          }, style: const TextStyle(color: Color(0xFF7C2D12), height: 1.45)),
         ],
       ),
     );

@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zihin_tuzaklari/models/question_model.dart';
+import 'package:zihin_tuzaklari/data/question_bank.dart';
+import 'package:zihin_tuzaklari/services/app_language.dart';
 import 'package:zihin_tuzaklari/services/sound_service.dart';
 
 /// Geçmiş oyun sonucu
@@ -44,6 +46,7 @@ class GameResult {
 }
 
 class GameState extends ChangeNotifier {
+  String _gameLanguageCode = 'tr';
   // ── Oyun Durumu ──
   List<Question> _questions = [];
   int _currentIndex = 0;
@@ -148,6 +151,7 @@ class GameState extends ChangeNotifier {
   // ── YENİ OYUN BAŞLAT ──
   // ═══════════════════════════════════════════════════════════════════
   void startGame(List<Question> questions) {
+    _gameLanguageCode = AppLanguage.instance.code;
     _isDailyChallenge = false;
     final rng = Random();
     _questions = List.from(questions)..shuffle(rng);
@@ -222,6 +226,12 @@ class GameState extends ChangeNotifier {
 
     try {
       final data = jsonDecode(savedJson) as Map<String, dynamic>;
+      _gameLanguageCode = data['languageCode'] as String? ?? 'tr';
+      // A saved game keeps its original question language even when the user
+      // switches the app language. This also preserves pre-localization saves.
+      final savedLanguageQuestions = QuestionBank.getAllQuestions(
+        languageCode: _gameLanguageCode,
+      );
       final savedIds = List<String>.from(data['questionIds'] as List);
       final savedCorrectIndices = List<int>.from(
         data['correctIndices'] as List,
@@ -233,9 +243,9 @@ class GameState extends ChangeNotifier {
       // Soruları kayıtlı sıraya göre yeniden oluştur
       _questions = [];
       for (int i = 0; i < savedIds.length; i++) {
-        final orig = allQuestions.firstWhere(
+        final orig = savedLanguageQuestions.firstWhere(
           (q) => q.id == savedIds[i],
-          orElse: () => allQuestions[0],
+          orElse: () => allQuestions.firstWhere((q) => q.id == savedIds[i]),
         );
         _questions.add(
           Question(
@@ -378,6 +388,7 @@ class GameState extends ChangeNotifier {
   Future<void> _saveCurrentGame() async {
     final prefs = await SharedPreferences.getInstance();
     final data = {
+      'languageCode': _gameLanguageCode,
       'questionIds': _questions.map((q) => q.id).toList(),
       'correctIndices': _questions.map((q) => q.correctIndex).toList(),
       'options': _questions.map((q) => q.options).toList(),

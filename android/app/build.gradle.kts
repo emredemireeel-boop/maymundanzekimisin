@@ -49,14 +49,6 @@ android {
         }
     }
 
-    packaging {
-        jniLibs {
-            useLegacyPackaging = true
-            // Debug symbol strip hatasını engelle: native .so dosyalarını olduğu gibi paketle
-            keepDebugSymbols += setOf("**/*.so")
-        }
-    }
-
     buildTypes {
         release {
             signingConfig = if (keystorePropertiesFile.exists()) {

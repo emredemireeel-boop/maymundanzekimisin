@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:zihin_tuzaklari/l10n/app_text.dart';
 import 'package:confetti/confetti.dart';
 import 'package:provider/provider.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
@@ -80,9 +81,9 @@ class _ResultScreenState extends State<ResultScreen> {
                     const SizedBox(height: 20),
 
                     // ── IQ Seviyesi ──
-                    Text(level.emoji, style: const TextStyle(fontSize: 64)),
+                    AppText(level.emoji, style: const TextStyle(fontSize: 64)),
                     const SizedBox(height: 16),
-                    Text(
+                    AppText(
                       level.title,
                       style: TextStyle(
                         fontSize: 28,
@@ -91,7 +92,7 @@ class _ResultScreenState extends State<ResultScreen> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Text(
+                    AppText(
                       level.description,
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -120,7 +121,7 @@ class _ResultScreenState extends State<ResultScreen> {
                       ),
                       child: Column(
                         children: [
-                          Text(
+                          AppText(
                             'Zeka Puanı',
                             style: TextStyle(
                               fontSize: 14,
@@ -133,7 +134,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(
+                              AppText(
                                 '${game.totalScore}',
                                 style: TextStyle(
                                   fontSize: 56,
@@ -143,7 +144,7 @@ class _ResultScreenState extends State<ResultScreen> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 12),
-                                child: Text(
+                                child: AppText(
                                   ' / 200',
                                   style: TextStyle(
                                     fontSize: 20,
@@ -182,7 +183,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     const SizedBox(height: 32),
 
                     // ── Radar Grafik ──
-                    Text(
+                    AppText(
                       'Kategori Analizi',
                       style: TextStyle(
                         fontSize: 20,
@@ -227,7 +228,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
+                                  AppText(
                                     '${cat.icon} ${cat.title}',
                                     style: TextStyle(
                                       fontSize: 14,
@@ -235,7 +236,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                       color: AppColors.textPrimary,
                                     ),
                                   ),
-                                  Text(
+                                  AppText(
                                     '${(pct * 100).toInt()}%',
                                     style: TextStyle(
                                       fontSize: 16,
@@ -266,7 +267,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                 ),
                               ),
                               const SizedBox(height: 8),
-                              Text(
+                              AppText(
                                 '$correct/$solved doğru • $comment',
                                 style: TextStyle(
                                   fontSize: 12,
@@ -304,7 +305,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         child: ElevatedButton.icon(
                           onPressed: () => _startNewGame(context),
                           icon: const Icon(Icons.replay_rounded, size: 22),
-                          label: Text(
+                          label: AppText(
                             'Yeni Oyuna Başla',
                             style: TextStyle(
                               fontSize: 15,
@@ -340,7 +341,7 @@ class _ResultScreenState extends State<ResultScreen> {
                           );
                         },
                         icon: const Icon(Icons.home_rounded),
-                        label: Text(
+                        label: AppText(
                           'Ana Menüye Dön',
                           style: TextStyle(
                             fontSize: 16,
@@ -405,7 +406,7 @@ class _StatBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
+        AppText(
           value,
           style: TextStyle(
             fontSize: 24,
@@ -413,7 +414,7 @@ class _StatBubble extends StatelessWidget {
             color: color,
           ),
         ),
-        Text(
+        AppText(
           label,
           style: TextStyle(
             fontSize: 12,

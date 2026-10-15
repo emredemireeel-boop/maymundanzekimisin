@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zihin_tuzaklari/l10n/app_text.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/data/question_bank.dart';
 import 'package:zihin_tuzaklari/screens/multiplayer_quiz_screen.dart';
@@ -58,7 +59,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
     if (uniqueNames.length != names.length) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
+          content: AppText(
             'Her oyuncunun farklı bir ismi olmalı!',
             style: TextStyle(fontSize: 13),
           ),
@@ -135,7 +136,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                           color: AppColors.textPrimary,
                         ),
                         Expanded(
-                          child: Text(
+                          child: AppText(
                             '🎮 Arkadaşlarınla Oyna',
                             style: TextStyle(
                               fontSize: 20,
@@ -186,7 +187,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                               ),
                               child: Column(
                                 children: [
-                                  Text(
+                                  AppText(
                                     'Kaç Kişi Oynayacak?',
                                     style: TextStyle(
                                       fontSize: 16,
@@ -232,7 +233,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                           ],
                                         ),
                                         child: Center(
-                                          child: Text(
+                                          child: AppText(
                                             '$_playerCount',
                                             style: TextStyle(
                                               fontSize: 32,
@@ -255,7 +256,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                     ],
                                   ),
                                   const SizedBox(height: 12),
-                                  Text(
+                                  AppText(
                                     '2-10 oyuncu',
                                     style: TextStyle(
                                       fontSize: 12,
@@ -271,7 +272,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
 
                             const SizedBox(height: 24),
 
-                            Text(
+                            AppText(
                               'Oyuncu İsimleri',
                               style: TextStyle(
                                 fontSize: 18,
@@ -338,7 +339,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                       prefixIcon: Container(
                                         width: 44,
                                         alignment: Alignment.center,
-                                        child: Text(
+                                        child: AppText(
                                           emojis[index % emojis.length],
                                           style: const TextStyle(fontSize: 22),
                                         ),
@@ -365,7 +366,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                           ),
                                         ),
                                         child: Center(
-                                          child: Text(
+                                          child: AppText(
                                             '${index + 1}',
                                             style: TextStyle(
                                               fontSize: 13,
@@ -428,7 +429,7 @@ class _MultiplayerSetupScreenState extends State<MultiplayerSetupScreen>
                                       size: 28,
                                     ),
                                     const SizedBox(width: 10),
-                                    Text(
+                                    AppText(
                                       'Oyunu Başlat! 🎯',
                                       style: TextStyle(
                                         fontSize: 18,

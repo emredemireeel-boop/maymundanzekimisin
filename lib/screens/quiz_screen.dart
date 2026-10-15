@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:zihin_tuzaklari/l10n/app_text.dart';
 
 import 'package:provider/provider.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/models/game_state.dart';
 import 'package:zihin_tuzaklari/models/question_model.dart';
 import 'package:zihin_tuzaklari/screens/result_screen.dart';
+import 'package:zihin_tuzaklari/screens/game_break_ad_screen.dart';
 import 'package:zihin_tuzaklari/screens/home_screen.dart';
 import 'package:zihin_tuzaklari/services/ad_service.dart';
 import 'package:zihin_tuzaklari/services/sound_service.dart';
 import 'package:zihin_tuzaklari/widgets/banner_ad_widget.dart';
+import 'package:zihin_tuzaklari/config/ad_config.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -125,7 +128,9 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
       },
       child: Scaffold(
         backgroundColor: const Color(0xFFF8F6FF),
-        bottomNavigationBar: const BannerAdWidget(),
+        bottomNavigationBar: const BannerAdWidget(
+          placement: BannerPlacement.soloQuiz,
+        ),
         body: Stack(
           children: [
             _QuizBackground(),
@@ -190,7 +195,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                                           Icons.home_rounded,
                                           color: Colors.white,
                                         ),
-                                        label: const Text(
+                                        label: const AppText(
                                           'Ana Sayfaya Dön',
                                           style: TextStyle(
                                             color: Colors.white,
@@ -334,7 +339,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               color: Colors.white.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text(
+            child: AppText(
               'VS',
               style: TextStyle(
                 fontSize: 13,
@@ -381,7 +386,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
           ),
         ],
       ),
-      child: Text(
+      child: AppText(
         question.scenario,
         style: TextStyle(
           fontSize: 16.5,
@@ -450,7 +455,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AppText(
                     'Doğru Cevap',
                     style: TextStyle(
                       fontSize: 11,
@@ -460,7 +465,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
+                  AppText(
                     question.options[question.correctIndex],
                     style: TextStyle(
                       fontSize: 14,
@@ -522,7 +527,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Center(
-                child: Text('💡', style: TextStyle(fontSize: 18)),
+                child: AppText('💡', style: TextStyle(fontSize: 18)),
               ),
             ),
             const SizedBox(width: 12),
@@ -530,7 +535,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AppText(
                     'Açıklama',
                     style: TextStyle(
                       fontSize: 11,
@@ -540,7 +545,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
+                  AppText(
                     question.insight,
                     style: TextStyle(
                       fontSize: 13,
@@ -578,7 +583,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 4, bottom: 10),
-            child: Text(
+            child: AppText(
               'Cevabın doğru muydu?',
               style: TextStyle(
                 fontSize: 14,
@@ -613,9 +618,9 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text('✅', style: TextStyle(fontSize: 24)),
+                        const AppText('✅', style: TextStyle(fontSize: 24)),
                         const SizedBox(height: 6),
-                        Text(
+                        AppText(
                           'Doğru\nBiliyordum!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -626,7 +631,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                           ),
                         ),
                         const SizedBox(height: 2),
-                        Text(
+                        AppText(
                           '🧠 +1 İnsan',
                           style: TextStyle(
                             fontSize: 11,
@@ -664,9 +669,9 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text('❌', style: TextStyle(fontSize: 24)),
+                        const AppText('❌', style: TextStyle(fontSize: 24)),
                         const SizedBox(height: 6),
-                        Text(
+                        AppText(
                           'Yanlış\nBildim!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -677,7 +682,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                           ),
                         ),
                         const SizedBox(height: 2),
-                        Text(
+                        AppText(
                           '🐒 +1 Maymun',
                           style: TextStyle(
                             fontSize: 11,
@@ -735,7 +740,14 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                   game.endGame();
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (_) => const ResultScreen()),
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          AdService.instance.canShowInterstitialAtBreak
+                          ? GameBreakAdScreen(
+                              resultBuilder: (_) => const ResultScreen(),
+                            )
+                          : const ResultScreen(),
+                    ),
                   );
                 } else {
                   // Devam butonunda artik reklam tetiklenmiyor
@@ -758,7 +770,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                       size: 22,
                     ),
                     const SizedBox(width: 10),
-                    Text(
+                    AppText(
                       game.isLastQuestion ? 'Sonuçları Gör' : 'Sonraki Soru',
                       style: TextStyle(
                         fontSize: 16,
@@ -844,10 +856,10 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         titlePadding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
         title: const Row(
           children: [
-            Text('🎁', style: TextStyle(fontSize: 28)),
+            AppText('🎁', style: TextStyle(fontSize: 28)),
             SizedBox(width: 10),
             Flexible(
-              child: Text(
+              child: AppText(
                 'Bedava Cevap Hakkı',
                 style: TextStyle(
                   color: Colors.white,
@@ -860,7 +872,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         ),
         content: const Padding(
           padding: EdgeInsets.only(top: 12, bottom: 4),
-          child: Text(
+          child: AppText(
             'Kısa bir reklam izle, 3 sorunun cevabını ücretsiz gör! 🐒',
             style: TextStyle(color: Colors.white70, fontSize: 14, height: 1.5),
           ),
@@ -868,7 +880,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text(
+            child: const AppText(
               'Vazgeç',
               style: TextStyle(color: Colors.white38),
             ),
@@ -893,7 +905,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                   size: 18,
                 ),
                 SizedBox(width: 6),
-                Text(
+                AppText(
                   'Reklamı İzle (+3 Hak)',
                   style: TextStyle(
                     color: Color(0xFFFF9A3C),
@@ -926,7 +938,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
         setState(() => _adLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text(
+            content: const AppText(
               'Reklam henüz hazır değil, biraz bekle…',
               style: TextStyle(color: Colors.white),
             ),
@@ -1009,7 +1021,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 size: 20,
               ),
             const SizedBox(width: 8),
-            Text(
+            AppText(
               _adLoading
                   ? 'Reklam Yükleniyor…'
                   : freeAnswers > 0
@@ -1068,14 +1080,14 @@ class _ScoreSide extends StatelessWidget {
                 : 1.0;
             return Transform.scale(scale: pulse, child: child);
           },
-          child: Text(emoji, style: const TextStyle(fontSize: 28)),
+          child: AppText(emoji, style: const TextStyle(fontSize: 28)),
         ),
         const SizedBox(height: 4),
         // Score
         AnimatedBuilder(
           animation: controller,
           builder: (_, child) {
-            return Text(
+            return AppText(
               '$score',
               style: TextStyle(
                 fontSize: 32,
@@ -1087,7 +1099,7 @@ class _ScoreSide extends StatelessWidget {
           },
         ),
         const SizedBox(height: 2),
-        Text(
+        AppText(
           label,
           style: TextStyle(
             fontSize: 11,
@@ -1191,7 +1203,7 @@ class _ActionButton extends StatelessWidget {
               if (label.isNotEmpty) ...[
                 const SizedBox(width: 6),
                 Flexible(
-                  child: Text(
+                  child: AppText(
                     label,
                     style: TextStyle(
                       fontSize: 13,

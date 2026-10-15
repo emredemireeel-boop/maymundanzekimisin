@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:zihin_tuzaklari/l10n/app_text.dart';
 import 'package:provider/provider.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/data/question_bank.dart';
@@ -12,6 +13,7 @@ import 'package:zihin_tuzaklari/screens/multiplayer_setup_screen.dart';
 import 'package:zihin_tuzaklari/screens/cognitive_profile_screen.dart';
 import 'package:zihin_tuzaklari/services/ad_service.dart';
 import 'package:zihin_tuzaklari/widgets/banner_ad_widget.dart';
+import 'package:zihin_tuzaklari/config/ad_config.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -119,7 +121,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      bottomNavigationBar: const BannerAdWidget(),
+      bottomNavigationBar: const BannerAdWidget(
+        placement: BannerPlacement.home,
+      ),
       body: Stack(
         children: [
           _GradientBackground(screenWidth: screenWidth),
@@ -206,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AppText(
                       'MaymunLab 🐒',
                       style: TextStyle(
                         fontSize: 17,
@@ -218,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 2),
-                    Text(
+                    AppText(
                       'Zihin düellosuna hazırlan!',
                       style: TextStyle(
                         fontSize: 12,
@@ -301,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           color: Colors.white.withValues(alpha: 0.12),
                         ),
                       ),
-                      child: Text(
+                      child: AppText(
                         '⚔️  BÜYÜK REKABET  ⚔️',
                         style: TextStyle(
                           fontSize: 12,
@@ -327,13 +331,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   offset: Offset(0, _bounceAnim.value),
                                   child: child,
                                 ),
-                                child: const Text(
+                                child: const AppText(
                                   '🐒',
                                   style: TextStyle(fontSize: 56),
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              Text(
+                              AppText(
                                 '$monkeyWins',
                                 style: TextStyle(
                                   fontSize: 40,
@@ -343,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              Text(
+                              AppText(
                                 'Maymun',
                                 style: TextStyle(
                                   fontSize: 13,
@@ -394,7 +398,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ],
                               ),
                               child: Center(
-                                child: Text(
+                                child: AppText(
                                   'VS',
                                   style: TextStyle(
                                     fontSize: 14,
@@ -405,7 +409,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            Text(
+                            AppText(
                               '$totalGames oyun',
                               style: TextStyle(
                                 fontSize: 10,
@@ -429,13 +433,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   ), // opposite phase
                                   child: child,
                                 ),
-                                child: const Text(
+                                child: const AppText(
                                   '🧠',
                                   style: TextStyle(fontSize: 56),
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              Text(
+                              AppText(
                                 '$humanWins',
                                 style: TextStyle(
                                   fontSize: 40,
@@ -445,7 +449,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              Text(
+                              AppText(
                                 'İnsan',
                                 style: TextStyle(
                                   fontSize: 13,
@@ -479,7 +483,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            AppText(
                               '🐒 Maymun',
                               style: TextStyle(
                                 fontSize: 11,
@@ -487,7 +491,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            Text(
+                            AppText(
                               totalGames > 0
                                   ? '${((humanWins / totalGames) * 100).toStringAsFixed(0)}% İnsan'
                                   : 'İlk oyunu oyna!',
@@ -497,7 +501,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            Text(
+                            AppText(
                               'İnsan 🧠',
                               style: TextStyle(
                                 fontSize: 11,
@@ -554,7 +558,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Text(
+                        AppText(
                           totalGames == 0
                               ? 'Henüz oyun yok — başlat ve meydan oku!'
                               : humanWins > monkeyWins
@@ -662,9 +666,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (_) => const CognitiveProfileScreen(),
-            ),
+            MaterialPageRoute(builder: (_) => const CognitiveProfileScreen()),
           ),
         ),
 
@@ -715,12 +717,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final allQuestions = QuestionBank.getAllQuestions();
     final now = DateTime.now();
     final seed = now.year * 10000 + now.month * 100 + now.day;
-    final dailyQuestions = QuestionCategory.values.map((category) {
-      final candidates = allQuestions
-          .where((question) => question.category == category)
-          .toList();
-      return candidates[seed % candidates.length];
-    }).toList();
+    final dailyQuestions = QuestionCategory.values
+        .map((category) {
+          final candidates = allQuestions
+              .where((question) => question.category == category)
+              .toList();
+          if (candidates.isEmpty) return null;
+          return candidates[seed % candidates.length];
+        })
+        .whereType<Question>()
+        .toList();
+    // International packs can have fewer represented categories. Fill the
+    // six-question daily game with distinct puzzles instead of dividing by 0.
+    for (final question in allQuestions) {
+      if (dailyQuestions.length >= 6) break;
+      if (dailyQuestions.any((selected) => selected.id == question.id)) {
+        continue;
+      }
+      dailyQuestions.add(question);
+    }
 
     AdService.instance.resetForNewGame();
     game.startDailyChallenge(dailyQuestions);
@@ -738,19 +753,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         backgroundColor: const Color(0xFF1E1B4B),
         title: const Row(
           children: [
-            Text('🐒', style: TextStyle(fontSize: 28)),
+            AppText('🐒', style: TextStyle(fontSize: 28)),
             SizedBox(width: 8),
-            Text('Tebrikler!', style: TextStyle(color: Colors.white)),
+            AppText('Tebrikler!', style: TextStyle(color: Colors.white)),
           ],
         ),
-        content: const Text(
+        content: const AppText(
           'Tüm soruları bitirdiniz! Komik maymunlar daha fazla soru üretirken güncellemeyi beklemede kal :)',
           style: TextStyle(color: Colors.white70, fontSize: 16),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text(
+            child: const AppText(
               'Tamam, Bekliyorum!',
               style: TextStyle(
                 color: Color(0xFFFF9A3C),
@@ -798,7 +813,7 @@ class _WinBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
-      child: Text(
+      child: AppText(
         label,
         style: TextStyle(
           fontSize: 10,
@@ -1027,9 +1042,9 @@ class _PrimaryActionButtonState extends State<_PrimaryActionButton>
       },
       onTapUp: (_) {
         _pressCtrl.forward();
-        widget.onTap?.call();
       },
       onTapCancel: () => _pressCtrl.forward(),
+      onTap: widget.onTap,
       child: ScaleTransition(
         scale: _pressCtrl,
         child: Container(
@@ -1062,7 +1077,7 @@ class _PrimaryActionButtonState extends State<_PrimaryActionButton>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AppText(
                       widget.title,
                       style: TextStyle(
                         fontSize: 16,
@@ -1073,7 +1088,7 @@ class _PrimaryActionButtonState extends State<_PrimaryActionButton>
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 2),
-                    Text(
+                    AppText(
                       widget.subtitle,
                       style: TextStyle(
                         fontSize: 12,

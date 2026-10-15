@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zihin_tuzaklari/l10n/app_text.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/screens/home_screen.dart';
 import 'package:zihin_tuzaklari/services/ad_service.dart';
@@ -153,7 +154,7 @@ class _SplashScreenState extends State<SplashScreen>
                   opacity: _fadeIn,
                   child: Column(
                     children: [
-                      Text(
+                      AppText(
                         'MAYMUNDAN',
                         style: TextStyle(
                           fontSize: 30,
@@ -162,7 +163,7 @@ class _SplashScreenState extends State<SplashScreen>
                           letterSpacing: 3,
                         ),
                       ),
-                      Text(
+                      AppText(
                         'ZEKİ MİSİN?',
                         style: TextStyle(
                           fontSize: 30,
@@ -181,7 +182,7 @@ class _SplashScreenState extends State<SplashScreen>
                         ),
                       ),
                       const SizedBox(height: 16),
-                      Text(
+                      AppText(
                         'Zekânı Test Et!',
                         style: TextStyle(
                           fontSize: 15,

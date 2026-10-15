@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:zihin_tuzaklari/l10n/app_text.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/models/question_model.dart';
 import 'package:zihin_tuzaklari/screens/multiplayer_result_screen.dart';
+import 'package:zihin_tuzaklari/screens/game_break_ad_screen.dart';
 import 'package:zihin_tuzaklari/screens/home_screen.dart';
+import 'package:zihin_tuzaklari/services/ad_service.dart';
 import 'package:zihin_tuzaklari/services/sound_service.dart';
+import 'package:zihin_tuzaklari/widgets/banner_ad_widget.dart';
+import 'package:zihin_tuzaklari/config/ad_config.dart';
 
 class MultiplayerQuizScreen extends StatefulWidget {
   final List<String> playerNames;
@@ -123,11 +128,16 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (_) => MultiplayerResultScreen(
-            playerNames: widget.playerNames,
-            scores: List.from(_scores),
-            cumulativeScores: cumulativeScores,
-          ),
+          builder: (_) {
+            Widget buildResult(BuildContext context) => MultiplayerResultScreen(
+              playerNames: widget.playerNames,
+              scores: List.from(_scores),
+              cumulativeScores: cumulativeScores,
+            );
+            return AdService.instance.canShowInterstitialAtBreak
+                ? GameBreakAdScreen(resultBuilder: buildResult)
+                : buildResult(context);
+          },
         ),
       );
     } else {
@@ -157,6 +167,9 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
       },
       child: Scaffold(
         backgroundColor: const Color(0xFFF8F6FF),
+        bottomNavigationBar: const BannerAdWidget(
+          placement: BannerPlacement.multiplayerQuiz,
+        ),
         body: Stack(
           children: [
             // Background
@@ -311,7 +324,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
               color: const Color(0xFF10B981).withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text(
+            child: AppText(
               '🎮 ${_currentIndex + 1}/${widget.questions.length}',
               style: TextStyle(
                 fontSize: 14,
@@ -335,7 +348,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
             ),
           ),
           const SizedBox(width: 12),
-          Text(
+          AppText(
             '👥 ${widget.playerNames.length}',
             style: TextStyle(
               fontSize: 13,
@@ -373,7 +386,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
               color: const Color(0xFF6366F1).withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Text(
+            child: AppText(
               '${question.category.icon} ${question.category.title}',
               style: TextStyle(
                 fontSize: 11,
@@ -383,7 +396,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
             ),
           ),
           const SizedBox(height: 14),
-          Text(
+          AppText(
             question.scenario,
             style: TextStyle(
               fontSize: 15,
@@ -462,7 +475,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                     size: 22,
                   ),
                   const SizedBox(width: 10),
-                  Text(
+                  AppText(
                     'Cevabı Göster',
                     style: TextStyle(
                       fontSize: 16,
@@ -532,7 +545,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AppText(
                     'Doğru Cevap',
                     style: TextStyle(
                       fontSize: 11,
@@ -542,7 +555,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
+                  AppText(
                     question.options[question.correctIndex],
                     style: TextStyle(
                       fontSize: 14,
@@ -594,7 +607,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Center(
-                child: Text('💡', style: TextStyle(fontSize: 18)),
+                child: AppText('💡', style: TextStyle(fontSize: 18)),
               ),
             ),
             const SizedBox(width: 12),
@@ -602,7 +615,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AppText(
                     'Açıklama',
                     style: TextStyle(
                       fontSize: 11,
@@ -612,7 +625,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
+                  AppText(
                     question.insight,
                     style: TextStyle(
                       fontSize: 13,
@@ -645,7 +658,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          AppText(
             'Kimler bildi?',
             style: TextStyle(
               fontSize: 16,
@@ -654,7 +667,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
             ),
           ),
           const SizedBox(height: 6),
-          Text(
+          AppText(
             'Doğru bilen oyuncuları işaretleyin',
             style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
           ),
@@ -712,13 +725,13 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                   ),
                   child: Row(
                     children: [
-                      Text(
+                      AppText(
                         emojis[index % emojis.length],
                         style: const TextStyle(fontSize: 24),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: Text(
+                        child: AppText(
                           widget.playerNames[index],
                           style: TextStyle(
                             fontSize: 15,
@@ -738,7 +751,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                           color: color.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Text(
+                        child: AppText(
                           '${_scores[index]} puan',
                           style: TextStyle(
                             fontSize: 11,
@@ -807,7 +820,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
               size: 22,
             ),
             const SizedBox(width: 10),
-            Text(
+            AppText(
               'Onayla',
               style: TextStyle(
                 fontSize: 16,
@@ -858,7 +871,7 @@ class _MultiplayerQuizScreenState extends State<MultiplayerQuizScreen>
                 size: 22,
               ),
               const SizedBox(width: 10),
-              Text(
+              AppText(
                 _isLastQuestion ? 'Sonuçları Gör 🏆' : 'Sonraki Soru →',
                 style: TextStyle(
                   fontSize: 16,

@@ -23,53 +23,6 @@ final List<Map<String, dynamic>> allQuestionsData = [
         "Herkes farklı bir sayı söylediği için sadece 1 kişi doğruyu söylüyor olabilir (çünkü doğru cevap tek bir sayıdır, aynı anda 5 farklı doğru olmaz). Eğer 1 kişi dürüstse, diğer 4 kişi yalancıdır. 'Dört' diyen kişi doğruyu söylemektedir.",
   },
   {
-    'id': 'RIDDLE_012',
-    'category': 'Sıra Mantığı ve Paradoks',
-    'timeLimitSeconds': 60,
-    'scenario':
-        "50 kişi tek sıra halinde duruyor (1’den 50’ye, 1 numara en arkada, 50 numara en önde). Tek numaralar (1, 3, 5... 49) 'Önümdeki herkes yalancı' diyor. Çift numaralar (2, 4, 6... 50) 'Arkamdaki herkes yalancı' diyor. (Herkes ya hep doğru ya hep yalan söyler). Bu grupta en fazla kaç dürüst olabilir?",
-    'options': [
-      'Sadece 50. kişi dürüsttür',
-      'En fazla 2 dürüst olabilir',
-      'Sadece 1. ve 50. kişiler dürüsttür',
-      'Yarısıdürüsttür',
-      'Hiçbiri dürüst olamaz, hepsi yalancı',
-      'En fazla 3 dürüst olabilir',
-    ],
-    'correctIndex': 1,
-    'insight':
-        "Eğer 50. dürüst olsaydı, önünde kimse olmadığı için bu ifade geçersiz olurdu. 49. kişi 'Önümdeki (Sadece 50. kişi) yalancı' diyor, bu doğru olabilir. 50 yalancıysa 49 dürüsttür. Çift numaraların argümanı arkaya yöneliktir. Zincirleme çözüldüğünde en fazla dürüst kişi sayısı 2'dir: Bunlar 49. ve 2. kişilerdir.",
-  },
-  {
-    'id': 'RIDDLE_013',
-    'category': 'Zamanlı İşlem ve Yanılsama',
-    'timeLimitSeconds': 50,
-    'scenario':
-        "Ormanda bir aslan ve tekboynuz yaşıyor.\nAslan; Pazartesi, Salı, Çarşamba günleri YALAN söyler, diğer günler DOĞRU söyler.\nTekboynuz; Perşembe, Cuma, Cumartesi günleri YALAN söyler, diğer günler DOĞRU söyler.\nBugün ormanda karşılaşıyorlar.\nAslan: 'Dün yalan söylüyordum.'\nTekboynuz: 'Ben de bugün dünkü gibi yalan söylüyordum.' (Veya sadece 'Ben de dün yalan söylüyordum').\nBugün günlerden hangisidir?",
-    'options': ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Pazar'],
-    'correctIndex': 3,
-    'insight':
-        "Perşembe günü Aslan doğruyu söyler (ve Çarşamba yalan günüdür, yani 'Dün yalan söylüyordum' diyebilir). Tekboynuz ise Perşembe günü yalan söyler (Çarşamba doğru günüydü, dolayısıyla 'Dün yalan söylüyordum' cümlesi aslında bir yalandır). Bu iki ifadenin aynı anda sağlandığı tek gün Perşembe'dir.",
-  },
-  {
-    'id': 'RIDDLE_014',
-    'category': 'Doğruluk Çıkarımı',
-    'timeLimitSeconds': 60,
-    'scenario':
-        "Üç kişi: Alex, Ben, Cody. \nBiri Şövalye (her zaman doğru), biri Düzenbaz (her zaman yalan), biri Casus (istediğini söyler, bazen yalan bazen doğru).\nAlex: 'Cody düzenbazdır.'\nBen: 'Alex şövalyedir.'\nCody: 'Ben casusum.'\nHer birinin gerçek kimliği (Alex, Ben, Cody) sırasıyla nedir?",
-    'options': [
-      'Şövalye, Casus, Düzenbaz',
-      'Casus, Düzenbaz, Şövalye',
-      'Düzenbaz, Şövalye, Casus',
-      'Düzenbaz, Casus, Şövalye',
-      'Şövalye, Düzenbaz, Casus',
-      'Casus, Şövalye, Düzenbaz',
-    ],
-    'correctIndex': 0,
-    'insight':
-        "Eğer Ben doğruyu söylüyorsa Alex Şövalyedir. O zaman Ben'in kendisi Şövalye olamaz (sadece 1 şövalye var). Demek ki Ben Casus'tur. Cody hiçbir zaman Şövalye veya Düzenbazken 'Ben casusum' diyemez (Şövalye yalan söyleyemez, Düzenbaz zaten kendini casus ilan edemez... aslında edebilir, düzenbaz her zaman yalan söyler. Cody düzenbazsa yalan söyleyip casusum der). Alex Şövalye, Ben Casus, Cody Düzenbazdır.",
-  },
-  {
     'id': 'RIDDLE_016',
     'category': 'Fiziksel Yanal Düşünme',
     'timeLimitSeconds': 45,
@@ -126,35 +79,6 @@ final List<Map<String, dynamic>> allQuestionsData = [
     'correctIndex': 3,
     'insight':
         "Cevap 17'dir. Soruda 9 tanesi hastalandı deniyor, öldü veya kayboldu denmiyor. Hastalanan koyunlar da hala çiftçinin koyunları olduğu için toplam sahip olduğu koyun sayısı değişmemiştir.",
-  },
-  {
-    'id': 'RIDDLE_023',
-    'category': 'Takvim Mantığı',
-    'timeLimitSeconds': 20,
-    'scenario':
-        "Dünya çapında istatistik yapıldığında, insanlar yılın hangi ayında EN AZ süre boyunca uyumuş olurlar?",
-    'options': ['Ağustos', 'Aralık', 'Ocak', 'Şubat', 'Haziran', 'Eylül'],
-    'correctIndex': 3,
-    'insight':
-        "Şubat ayıdır. Ortalama olarak en az gün sayısına (28 veya 29 gün) sahip olduğu için, o ay boyunca edilen toplam uyku süresi diğer tüm 30 ve 31 günlük aylardan çok daha az çıkar.",
-  },
-  {
-    'id': 'FUN_056',
-    'category': 'Zaman Paradoksu',
-    'timeLimitSeconds': 30,
-    'scenario':
-        'Bir suikastçı hedefine: "Seni hafta içi bir gün öğle vakti vuracağım ama o sabah uyandığında o gün öleceğini asla tahmin edememiş olacaksın" der. Hedef "Beni asla vuramazsın" der. Neden?',
-    'options': [
-      'Cuma günü vurulamaz çünkü perşembe sağsa cuma kesinleşir; bu mantıkla tüm günler elenir',
-      'Hedef evden hiç çıkmayarak olasılığı sıfırlar',
-      'Mektup sürprizi zaten bozmuştur',
-      'Suikastçı mektubu yanlış kişiye göndermiştir',
-      'Hafta içi kavramı çok geniştir',
-      'Ölüm tahmini imkansız bir bilimdir',
-    ],
-    'correctIndex': 0,
-    'insight':
-        'Sürpriz Sınav Paradoksu! Eğer Perşembe sağsa Cuma öleceğini kesin bilir (sürpriz bozulur). Cuma elenince, Çarşamba sağsa Perşembe kesinleşir. Geriye doğru tüm günler elenir.',
   },
   {
     'id': 'RIDDLE_001',
@@ -1762,34 +1686,6 @@ final List<Map<String, dynamic>> allQuestionsData = [
         "Oda dört köşeli ve her köşede bir kedi var. Ortada başka kedi olmadığından her kedi diğer 3 köşedeki kedileri görür. Toplam 4 kedi vardır.",
   },
   {
-    'id': 'NEW_002',
-    'category': 'Klasik Bilmeceler',
-    'timeLimitSeconds': 30,
-    'scenario':
-        "Bir tavuğun ve yarım tavuğun bir buçuk günde yumurtladığı kadar yumurta, altı tavuk kaç günde yumurtlar?",
-    'options': [
-      '1 günde',
-      '1.5 günde',
-      '2 günde',
-      '3 günde',
-      '6 günde',
-      '9 günde',
-    ],
-    'correctIndex': 0,
-    'insight':
-        "Kelime oyunu ve mantık şaşırtmacası içeren klasik bir bilmecedir.",
-  },
-  {
-    'id': 'NEW_003',
-    'category': 'Klasik Bilmeceler',
-    'timeLimitSeconds': 15,
-    'scenario': "Göl kenarında 6 kuş var, biri vurulursa kaç kuş kalır?",
-    'options': ['Hiçbiri', '5', '6', '1', 'Bilinemez', '4'],
-    'correctIndex': 0,
-    'insight':
-        "Silah sesiyle diğer kuşlar korkup uçar, vurulan da düştüğü için göl kenarında hiç kuş kalmaz.",
-  },
-  {
     'id': 'NEW_004',
     'category': 'Klasik Bilmeceler',
     'timeLimitSeconds': 20,
@@ -1806,36 +1702,6 @@ final List<Map<String, dynamic>> allQuestionsData = [
     'correctIndex': 0,
     'insight':
         "Balığa çıkanlar Dede, Baba ve Oğuldur. Dede bir baba, Baba hem baba hem oğul, Oğul ise bir oğuldur. Toplam 3 kişidirler (2 baba, 2 oğul).",
-  },
-  {
-    'id': 'NEW_005',
-    'category': 'Klasik Bilmeceler',
-    'timeLimitSeconds': 20,
-    'scenario': "Ters çevrildiğinde hiçbir şey olmayan sayı hangisidir?",
-    'options': ['8', '0', '6', '9', '1', '10'],
-    'correctIndex': 0,
-    'insight':
-        "Mecazi ve görsel zekaya dayanan bir kelime oyunu bilmecesidir. Sayının görsel yansımasından hareketle cevap 8 olarak kabul edilir.",
-  },
-  {
-    'id': 'NEW_006',
-    'category': 'Klasik Bilmeceler',
-    'timeLimitSeconds': 15,
-    'scenario': "Hangi kelime her sözlükte yanlış yazılmıştır?",
-    'options': ['Yanlış', 'Doğru', 'Kelimeler', 'Sözlük', 'Hiçbiri', 'Hepsi'],
-    'correctIndex': 0,
-    'insight':
-        "Sözlükte kelimeler kendileri olarak yer alır. 'Yanlış' kelimesi de sözlükteki maddesi gereği olarak 'yanlış' şeklinde yazılmıştır.",
-  },
-  {
-    'id': 'NEW_007',
-    'category': 'Klasik Bilmeceler',
-    'timeLimitSeconds': 20,
-    'scenario': "Günde bir kez, yılda iki kez, dakikada hiç olmayan şey nedir?",
-    'options': ['Harf Y', 'Güneş', 'Ay', 'Zaman', 'Rakamlar', 'Sayı'],
-    'correctIndex': 0,
-    'insight':
-        "Kelime içi harf sayma veya tercüme yoluyla evrilmiş klasik bir harf oyunudur. Cevap 'Y' harfidir.",
   },
   {
     'id': 'NEW_008',

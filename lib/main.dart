@@ -7,9 +7,11 @@ import 'package:zihin_tuzaklari/config/app_theme.dart';
 import 'package:zihin_tuzaklari/models/game_state.dart';
 import 'package:zihin_tuzaklari/screens/splash_screen.dart';
 import 'package:zihin_tuzaklari/services/ad_service.dart';
+import 'package:zihin_tuzaklari/services/app_language.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await AppLanguage.instance.load();
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -33,19 +35,31 @@ class ZihinTuzaklariApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<GameState>(
-      create: (_) => GameState()..loadStats(),
-      child: MaterialApp(
-        title: 'MaymunLab: Zihin Düellosu',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        localizationsDelegates: const [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [Locale('tr', 'TR')],
-        home: const SplashScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<GameState>(
+          create: (_) => GameState()..loadStats(),
+        ),
+        ChangeNotifierProvider<AppLanguage>.value(value: AppLanguage.instance),
+      ],
+      child: Consumer<AppLanguage>(
+        builder: (context, language, _) => MaterialApp(
+          title: switch (language.code) {
+            'en' => 'Smarter Than a Monkey?',
+            'es' => '¿Más listo que un mono?',
+            _ => 'Maymundan Zeki Misin?',
+          },
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          locale: language.locale,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('tr'), Locale('en'), Locale('es')],
+          home: const SplashScreen(),
+        ),
       ),
     );
   }

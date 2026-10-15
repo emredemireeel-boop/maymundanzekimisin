@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/foundation.dart';
 import 'package:zihin_tuzaklari/config/ad_config.dart';
 
 /// Merkezi reklam yönetim servisi
-/// Aktif reklam tipleri: Banner + Ödüllü Geçiş (RewardedInterstitial) + Uygulama Açılış (AppOpen)
+/// Banner, ödüllü geçiş, uygulama açılışı ve oyun sonu geçiş reklamları.
 ///
 /// Ödül Mantığı:
 ///   Kullanıcı "Reklam İzle → 3 Bedava Cevap Hakkı" butonuna tıklar.
@@ -15,15 +16,17 @@ class AdService {
   AdService._();
   static final AdService instance = AdService._();
 
-  // ═══════════════════════════════════════════════════════
-  // ── AD UNIT IDs ──
-  // ═══════════════════════════════════════════════════════
-  // ═══════════════════════════════════════════════════════
   // ── STATE ──
-  // ═══════════════════════════════════════════════════════
   RewardedInterstitialAd? _rewardedInterstitialAd;
   bool _rewardedInterstitialLoading = false;
   bool _mobileAdsStarted = false;
+  bool _trackingAuthorized = false;
+
+  InterstitialAd? _interstitialAd;
+  bool _interstitialLoading = false;
+  bool _interstitialShowing = false;
+  DateTime? _lastFullScreenAdAt;
+  static const _fullScreenCooldown = Duration(minutes: 3);
 
   AppOpenAd? _appOpenAd;
   bool _appOpenAdLoading = false;
@@ -39,6 +42,10 @@ class AdService {
   bool get hasFreeAnswers => _freeAnswers > 0;
   bool get isRewardedInterstitialReady => _rewardedInterstitialAd != null;
   bool get isAppOpenAdReady => _appOpenAd != null && !_appOpenAdShowing;
+  AdRequest get adRequest => AdRequest(
+    nonPersonalizedAds:
+        defaultTargetPlatform == TargetPlatform.iOS && !_trackingAuthorized,
+  );
 
   // ═══════════════════════════════════════════════════════
   // ── BAŞLAT ──
@@ -86,10 +93,28 @@ class AdService {
     }
 
     _mobileAdsStarted = true;
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      try {
+        final status = await AppTrackingTransparency.trackingAuthorizationStatus;
+        if (status == TrackingStatus.notDetermined) {
+          // The UMP dialog has just closed; let iOS finish dismissing it.
+          await Future<void>.delayed(const Duration(milliseconds: 300));
+          _trackingAuthorized =
+              await AppTrackingTransparency.requestTrackingAuthorization() ==
+              TrackingStatus.authorized;
+        } else {
+          _trackingAuthorized = status == TrackingStatus.authorized;
+        }
+      } catch (error) {
+        debugPrint('ATT izni alınamadı: $error');
+        _trackingAuthorized = false;
+      }
+    }
     await MobileAds.instance.initialize();
     adsReady.value = true;
     _loadRewardedInterstitialAd();
     _loadAppOpenAd();
+    _loadInterstitialAd();
   }
 
   Future<void> _refreshPrivacyOptionsRequirement() async {
@@ -128,7 +153,7 @@ class AdService {
     _rewardedInterstitialLoading = true;
     RewardedInterstitialAd.load(
       adUnitId: AdConfig.rewardedInterstitialAdUnitId,
-      request: const AdRequest(),
+      request: adRequest,
       rewardedInterstitialAdLoadCallback: RewardedInterstitialAdLoadCallback(
         onAdLoaded: (ad) {
           _rewardedInterstitialAd = ad;
@@ -157,6 +182,9 @@ class AdService {
     if (_rewardedInterstitialAd != null) {
       _rewardedInterstitialAd!.fullScreenContentCallback =
           FullScreenContentCallback(
+            onAdShowedFullScreenContent: (_) {
+              _lastFullScreenAdAt = DateTime.now();
+            },
             onAdDismissedFullScreenContent: (ad) {
               ad.dispose();
               _rewardedInterstitialAd = null;
@@ -193,14 +221,80 @@ class AdService {
     return false;
   }
 
+  // ── OYUN SONU GEÇİŞ REKLAMI ──
+  void _loadInterstitialAd() {
+    final unitId = AdConfig.interstitialAdUnitId;
+    if (unitId == null ||
+        _interstitialLoading ||
+        _interstitialAd != null ||
+        !adsReady.value) {
+      return;
+    }
+    _interstitialLoading = true;
+    InterstitialAd.load(
+      adUnitId: unitId,
+      request: adRequest,
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          _interstitialAd = ad;
+          _interstitialLoading = false;
+        },
+        onAdFailedToLoad: (error) {
+          _interstitialLoading = false;
+          debugPrint('Geçiş reklamı yükleme hatası: $error');
+          Future.delayed(const Duration(seconds: 30), _loadInterstitialAd);
+        },
+      ),
+    );
+  }
+
+  bool get canShowInterstitialAtBreak {
+    final lastAd = _lastFullScreenAdAt;
+    return _interstitialAd != null &&
+        !_interstitialShowing &&
+        !_appOpenAdShowing &&
+        (lastAd == null ||
+            DateTime.now().difference(lastAd) >= _fullScreenCooldown);
+  }
+
+  /// Called only after a completed game, before the result screen opens.
+  void showInterstitialAtBreak({required VoidCallback onComplete}) {
+    if (!canShowInterstitialAtBreak) {
+      onComplete();
+      return;
+    }
+    final ad = _interstitialAd!;
+    _interstitialAd = null;
+    _interstitialShowing = true;
+    ad.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (_) {
+        _lastFullScreenAdAt = DateTime.now();
+      },
+      onAdDismissedFullScreenContent: (ad) {
+        ad.dispose();
+        _interstitialShowing = false;
+        _loadInterstitialAd();
+        onComplete();
+      },
+      onAdFailedToShowFullScreenContent: (ad, error) {
+        debugPrint('Geçiş reklamı gösterme hatası: $error');
+        ad.dispose();
+        _interstitialShowing = false;
+        _loadInterstitialAd();
+        onComplete();
+      },
+    );
+    ad.show();
+  }
+
   // ═══════════════════════════════════════════════════════
   // ── BANNER ──
   // ═══════════════════════════════════════════════════════
-  BannerAd createBannerAd() {
+  BannerAd createBannerAd(BannerPlacement placement) {
     return BannerAd(
-      adUnitId: AdConfig.bannerAdUnitId,
+      adUnitId: AdConfig.bannerAdUnitId(placement),
       size: AdSize.banner,
-      request: const AdRequest(),
+      request: adRequest,
       listener: BannerAdListener(
         onAdFailedToLoad: (ad, error) {
           debugPrint('Banner yükleme hatası: $error');
@@ -221,7 +315,7 @@ class AdService {
 
     AppOpenAd.load(
       adUnitId: AdConfig.appOpenAdUnitId,
-      request: const AdRequest(),
+      request: adRequest,
       adLoadCallback: AppOpenAdLoadCallback(
         onAdLoaded: (ad) {
           _appOpenAd = ad;
@@ -251,6 +345,7 @@ class AdService {
     _appOpenAdShowing = true;
     _appOpenAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (ad) {
+        _lastFullScreenAdAt = DateTime.now();
         debugPrint('AppOpenAd gösterildi.');
       },
       onAdDismissedFullScreenContent: (ad) {
@@ -279,6 +374,7 @@ class AdService {
   // ═══════════════════════════════════════════════════════
   void dispose() {
     _rewardedInterstitialAd?.dispose();
+    _interstitialAd?.dispose();
     _appOpenAd?.dispose();
     adsReady.dispose();
     privacyOptionsRequired.dispose();

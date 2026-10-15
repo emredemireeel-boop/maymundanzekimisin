@@ -1,3 +1,6 @@
+import 'package:zihin_tuzaklari/l10n/ui_translations.dart';
+import 'package:zihin_tuzaklari/services/app_language.dart';
+
 /// Soru kategorileri – Radar grafik için
 enum QuestionCategory {
   gameTheory,
@@ -9,7 +12,9 @@ enum QuestionCategory {
 }
 
 extension QuestionCategoryExtension on QuestionCategory {
-  String get title {
+  String get title => localizeUi(turkishTitle, AppLanguage.instance.code);
+
+  String get turkishTitle {
     switch (this) {
       case QuestionCategory.gameTheory:
         return 'Oyun Teorisi';
@@ -70,7 +75,9 @@ enum IQLevel {
 }
 
 extension IQLevelExtension on IQLevel {
-  String get title {
+  String get title => localizeUi(turkishTitle, AppLanguage.instance.code);
+
+  String get turkishTitle {
     switch (this) {
       case IQLevel.cognitiveWalker:
         return 'Bilişsel Uyurgezer';
@@ -96,7 +103,10 @@ extension IQLevelExtension on IQLevel {
     }
   }
 
-  String get description {
+  String get description =>
+      localizeUi(turkishDescription, AppLanguage.instance.code);
+
+  String get turkishDescription {
     switch (this) {
       case IQLevel.cognitiveWalker:
         return 'Zihnin henüz uyanmadı. Ama potansiyelin var, sadece biraz daha uyanman gerekiyor.';

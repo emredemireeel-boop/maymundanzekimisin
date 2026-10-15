@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:zihin_tuzaklari/l10n/app_text.dart';
 import 'package:zihin_tuzaklari/config/app_colors.dart';
 import 'package:zihin_tuzaklari/services/ad_service.dart';
 import 'package:zihin_tuzaklari/services/sound_service.dart';
 import 'package:zihin_tuzaklari/screens/privacy_policy_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:zihin_tuzaklari/services/app_language.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -25,16 +28,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (!mounted || error == null) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Gizlilik seçenekleri şu anda açılamıyor.')),
+      const SnackBar(
+        content: AppText('Gizlilik seçenekleri şu anda açılamıyor.'),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final language = context.watch<AppLanguage>();
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('Ayarlar', style: TextStyle(fontWeight: FontWeight.w700)),
+        title: AppText(
+          'Ayarlar',
+          style: TextStyle(fontWeight: FontWeight.w700),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -51,8 +60,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             const SizedBox(height: 8),
 
+            AppText(
+              'Dil',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const AppText('Uygulama ve soru dili'),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children:
+                  const [('tr', 'Türkçe'), ('en', 'English'), ('es', 'Español')]
+                      .map(
+                        (option) => ChoiceChip(
+                          label: AppText(option.$2),
+                          selected: language.code == option.$1,
+                          onSelected: (_) => language.select(option.$1),
+                          selectedColor: AppColors.primary.withValues(
+                            alpha: 0.18,
+                          ),
+                        ),
+                      )
+                      .toList(),
+            ),
+            const SizedBox(height: 32),
+
             // ── Ses Ayarları ──
-            Text(
+            AppText(
               'Ses',
               style: TextStyle(
                 fontSize: 18,
@@ -82,7 +121,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 32),
 
             // ── Oyun Bilgisi ──
-            Text(
+            AppText(
               'Oyun Bilgisi',
               style: TextStyle(
                 fontSize: 18,
@@ -119,7 +158,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 32),
 
             // ── Hakkında ──
-            Text(
+            AppText(
               'Hakkında',
               style: TextStyle(
                 fontSize: 18,
@@ -142,7 +181,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AppText(
                     '🐵 MaymunLab: Zihin Düellosu v1.0.10',
                     style: TextStyle(
                       fontSize: 16,
@@ -151,7 +190,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
+                  AppText(
                     'Oyun Teorisi, Bilişsel Yanılgılar, Etik Paradokslar ve Davranışsal Ekonomi üzerine kurulu bir strateji ve mantık yarışması.',
                     style: TextStyle(
                       fontSize: 13,
@@ -252,7 +291,7 @@ class _SettingsTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AppText(
                   title,
                   style: TextStyle(
                     fontSize: 14,
@@ -260,7 +299,7 @@ class _SettingsTile extends StatelessWidget {
                     color: AppColors.textPrimary,
                   ),
                 ),
-                Text(
+                AppText(
                   subtitle,
                   style: TextStyle(
                     fontSize: 12,

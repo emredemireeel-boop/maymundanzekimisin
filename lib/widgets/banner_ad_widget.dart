@@ -10,7 +10,9 @@ import 'package:zihin_tuzaklari/services/ad_service.dart';
 ///   yüksekliğini otomatik hesaplayarak doğru boyutu alır.
 /// • Gesture navigation bar bulunan telefonlarda içerik kesilmez.
 class BannerAdWidget extends StatefulWidget {
-  const BannerAdWidget({super.key});
+  const BannerAdWidget({super.key, required this.placement});
+
+  final BannerPlacement placement;
 
   @override
   State<BannerAdWidget> createState() => _BannerAdWidgetState();
@@ -55,9 +57,9 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
     final size = adSize ?? AdSize.banner;
 
     final ad = BannerAd(
-      adUnitId: AdConfig.bannerAdUnitId,
+      adUnitId: AdConfig.bannerAdUnitId(widget.placement),
       size: size,
-      request: const AdRequest(),
+      request: AdService.instance.adRequest,
       listener: BannerAdListener(
         onAdLoaded: (ad) {
           if (mounted) {
