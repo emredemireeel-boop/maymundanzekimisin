@@ -1,6 +1,6 @@
 workflows:
   ios_app_store:
-    name: MaymunLab iOS App Store arsivi
+    name: Maymundan Zeki Misin? iOS App Store
     max_build_duration: 120
     instance_type: mac_mini_m2
     integrations:
@@ -24,8 +24,8 @@ workflows:
       - name: App Store IPA dosyasını oluştur
         script: |
           flutter build ipa --release \
-            --build-name=1.0.14 \
-            --build-number=14 \
+            --build-name=1.0.15 \
+            --build-number=15 \
             --export-options-plist=/Users/builder/export_options.plist
     artifacts:
       - build/ios/ipa/*.ipa

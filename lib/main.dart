@@ -46,7 +46,7 @@ class ZihinTuzaklariApp extends StatelessWidget {
         builder: (context, language, _) => MaterialApp(
           title: switch (language.code) {
             'en' => 'Smarter Than a Monkey?',
-            'es' => '¿Más listo que un mono?',
+            'es' => '¿Eres más listo que un mono?',
             _ => 'Maymundan Zeki Misin?',
           },
           debugShowCheckedModeBanner: false,

@@ -211,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppText(
-                      'MaymunLab 🐒',
+                      'Maymundan Zeki Misin? 🐒',
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w800,

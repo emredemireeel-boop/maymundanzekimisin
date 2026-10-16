@@ -183,7 +183,6 @@ const Map<String, Map<String, String>> uiTranslations = {
         "Puedes ver a Matriks. Usted está en el personal de élite cognitiva, saludos.",
   },
   "Maymun": {"en": "Home", "es": "Home"},
-  "MaymunLab 🐒": {"en": "MaymunLab  ", "es": "MaymunLab"},
   "Maymunun gözlemi": {
     "en": "Observation of Maym Home",
     "es": "Observación de Maym Home",
@@ -468,10 +467,6 @@ const Map<String, Map<String, String>> uiTranslations = {
   "🐒 Maymuna Meydan Oku!": {
     "en": "! Read Maymuna Challenge!",
     "es": "¡Lee Maymuna Challenge!",
-  },
-  "🐵 MaymunLab: Zihin Düellosu v1.0.10": {
-    "en": "MaymunLab: Mind Duel v1.0.10",
-    "es": "MaymunLab: Mind Duel v1.0.10",
   },
   "💡": {"en": "", "es": ""},
   "📈 Puan Gelişimi": {

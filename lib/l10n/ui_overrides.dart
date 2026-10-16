@@ -10,7 +10,10 @@ const Map<String, Map<String, String>> uiOverrides = {
     'en': 'Put your mind to the test!',
     'es': '¡Pon a prueba tu mente!',
   },
-  'MaymunLab 🐒': {'en': 'MonkeyLab 🐒', 'es': 'Laboratorio Mono 🐒'},
+  'Maymundan Zeki Misin? 🐒': {
+    'en': 'Smarter Than a Monkey? 🐒',
+    'es': '¿Eres más listo que un mono? 🐒',
+  },
   'Maymun': {'en': 'Monkey', 'es': 'Mono'},
   'Maymunun gözlemi': {
     'en': "The monkey's observation",
@@ -78,7 +81,7 @@ const Map<String, Map<String, String>> uiOverrides = {
     'es': 'Correcta: 🧠 +1 Humano · Incorrecta: 🐒 +1 Mono',
   },
   'Hakkında': {'en': 'About', 'es': 'Acerca de'},
-  '🐵 MaymunLab: Zihin Düellosu v1.0.10': {
+  '🐵 Maymundan Zeki Misin?': {
     'en': '🐵 Smarter Than a Monkey?',
     'es': '🐵 ¿Eres más listo que un mono?',
   },

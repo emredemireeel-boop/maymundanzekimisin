@@ -21,6 +21,7 @@ abstract final class AdConfig {
   static const _iosRewardedInterstitial =
       'ca-app-pub-6387001035314883/1576936973';
   static const _iosAppOpen = 'ca-app-pub-6387001035314883/2838047753';
+  static const _iosInterstitial = 'ca-app-pub-6387001035314883/2852550075';
 
   static String bannerAdUnitId(BannerPlacement placement) {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
@@ -57,7 +58,9 @@ abstract final class AdConfig {
 
   static String? get interstitialAdUnitId {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
-      return kReleaseMode ? null : 'ca-app-pub-3940256099942544/4411468910';
+      return kReleaseMode
+          ? _iosInterstitial
+          : 'ca-app-pub-3940256099942544/4411468910';
     }
     return kReleaseMode
         ? _androidInterstitial

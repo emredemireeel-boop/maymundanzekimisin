@@ -1,7 +1,7 @@
 name: zihin_tuzaklari
-description: "MaymunLab: Zihin Düellosu – altı bilişsel alanda özgün karar oyunu"
+description: "Maymundan Zeki Misin? – Türkçe, İngilizce ve İspanyolca zihin oyunu"
 publish_to: 'none'
-version: 1.0.14+14
+version: 1.0.15+15
 
 environment:
   sdk: ^3.10.4
