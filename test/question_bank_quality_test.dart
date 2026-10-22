@@ -5,6 +5,20 @@ import 'package:zihin_tuzaklari/data/competition_questions_2026.dart';
 import 'package:zihin_tuzaklari/data/question_bank.dart';
 
 void main() {
+  test('tennis total satisfies both the number of wins and net profit', () {
+    final question = QuestionBank.getAllQuestions(
+      languageCode: 'tr',
+    ).singleWhere((q) => q.id == 'RIDDLE_017');
+    const lisaWins = 5;
+    const susanProfit = 3;
+    const susanWins = lisaWins + susanProfit;
+    expect(
+      question.options[question.correctIndex],
+      '${susanWins + lisaWins} Oyun',
+    );
+    expect(question.insight, contains('8 + 5 = 13'));
+  });
+
   test('50 new questions have unique IDs, six choices and a valid answer', () {
     final additions = [...advancedQuestionsData, ...competitionQuestions2026];
     expect(advancedQuestionsData, hasLength(25));
@@ -24,15 +38,27 @@ void main() {
       expect((question['scenario'] as String).trim(), isNotEmpty, reason: id);
       expect((question['insight'] as String).trim(), isNotEmpty, reason: id);
     }
-    expect(QuestionBank.getAllQuestions(languageCode: 'tr'), hasLength(ids.length));
+    expect(
+      QuestionBank.getAllQuestions(languageCode: 'tr'),
+      hasLength(ids.length),
+    );
   });
 
   test('ten weak questions are removed', () {
-    final ids = QuestionBank.getAllQuestions(languageCode: 'tr').map((q) => q.id).toSet();
+    final ids = QuestionBank.getAllQuestions(
+      languageCode: 'tr',
+    ).map((q) => q.id).toSet();
     for (final id in [
-      'RIDDLE_012', 'RIDDLE_013', 'RIDDLE_014', 'RIDDLE_023',
-      'FUN_056', 'NEW_002', 'NEW_003', 'NEW_005',
-      'NEW_006', 'NEW_007',
+      'RIDDLE_012',
+      'RIDDLE_013',
+      'RIDDLE_014',
+      'RIDDLE_023',
+      'FUN_056',
+      'NEW_002',
+      'NEW_003',
+      'NEW_005',
+      'NEW_006',
+      'NEW_007',
     ]) {
       expect(ids, isNot(contains(id)));
     }

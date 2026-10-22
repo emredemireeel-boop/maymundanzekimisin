@@ -1,0 +1,19 @@
+Thank you. We are answering all nine questions for the rejected 1.0.15 submission and request reconsideration based on the actual game, without re-uploading the same binary.
+
+1. Function: This is a timed reasoning game about resisting an intuitive first answer. Each scenario has six choices. After answering, the player sees an explanation of the reasoning trap. Sessions track human-versus-monkey scores and category results. Saved sessions can resume; completed questions, local game history, XP and a daily-challenge streak persist. The score is entertainment, not a clinically validated IQ measurement.
+
+2. Audience: People who enjoy short logic challenges and explanations of tempting wrong answers. The updated source also serves English and Spanish readers with separate language-appropriate question banks.
+
+3. Distinction: The product combines the monkey/human visual rivalry, time pressure, six-option reasoning scenarios, post-answer explanations and a category breakdown of performance. The feedback loop is attempt -> explanation -> category results -> next attempt/daily challenge. We do not claim to have invented classic logic riddles or to own exclusive rights to standard mathematical ideas. Its identity is the assembled game mechanics, presentation and implementation. It is not a subject reskin of another account quiz.
+
+4. Testing: We cannot substantiate an external beta cohort, tester count or named beta testimonials; we do not represent developer testing as external beta evidence. Actual development requests included stronger explanations, fewer weak/repetitive questions and language-appropriate content. Ten weak questions were removed and 50 additions have structural checks. On 22 October, all nine automated tests passed, including tablet daily-challenge navigation, ad-break interaction, language persistence and answer identity for the 50-question English and Spanish banks. A new source regression test also catches a tennis arithmetic mistake (8+5=13). This latest correction is not claimed to be in the rejected binary. These tests do not replace iPhone or full content testing.
+
+5. Standalone: It is a reasoning game, not an exam preparation guide or productivity tool. YKS/DGS/KPSS/AGS track exam study; NoteCat edits documents; HemApp handles work schedules; Rota concerns travel. Tabu/crossword/meme titles use different word, clue or recognition mechanics. This game uses a timed multiple-choice reasoning/explanation loop and its own state/history model.
+
+6. Consolidation: Some generic UI or statistics could be reused. The complete game is not merely an extra question category in a study tracker or word game: scoring, timed rounds, explanations, daily challenge, progression and saved sessions define its primary workflow. Combining these products would change their purpose.
+
+7. Internal sharing: Standard Flutter, ads, preferences, audio and UI packages overlap with other apps. A bounded SHA-256 audit of 34 tracked non-generated lib/assets files against other local Git projects found no exact file matches. Different hashes do not prove independent authorship or no semantic reuse. GameState, the question model/banks and gameplay screens are project-specific implementations.
+
+8. External components: Flutter, Provider, shared_preferences, Google Mobile Ads and audio libraries are normal third-party dependencies. We do not claim these frameworks as original work. Classic reasoning puzzles may also occur elsewhere. Our added work is the game state, timing/scoring, explanation presentation, category results, resume/history and localized content. No commercial template dependency was identified in the inspected project.
+
+9. Provider: This is our own game concept/brand submitted under our account, not a client-branded content catalog submitted by a template vendor. No outside publisher provides a branded catalog. Please identify any particular duplicated behavior for targeted correction.

@@ -1,0 +1,5 @@
+{
+  "method": "SHA256 equality of tracked lib/assets files >=100 bytes; generated Dart localization/build files excluded; local Git projects only. Different hashes do not prove independent authorship; external source provenance and semantic similarity not assessed.",
+  "files_checked": 34,
+  "exact_matches": []
+}

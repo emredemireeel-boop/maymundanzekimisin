@@ -47,9 +47,9 @@ final List<Map<String, dynamic>> allQuestionsData = [
     'scenario':
         "Susan ve Lisa tenis oynuyorlar. Her oyunda kaybeden, kazanana 1 TL verecek. Günün sonunda Susan maçlardan toplam 3 TL kâr ederek ayrılıyor. Lisa ise gün içinde tam 5 oyun kazanmayı başarıyor. İkisi toplamda kaç oyun oynamıştır?",
     'options': ['8 Oyun', '15 Oyun', '5 Oyun', '11 Oyun', '13 Oyun', '9 Oyun'],
-    'correctIndex': 3,
+    'correctIndex': 4,
     'insight':
-        "Lisa 5 oyun kazandı, demek ki Susan'dan 5 TL aldı. Susan'ın günün sonunda net 3 TL kazançta olabilmesi için, kaybettiği o 5 TL'yi geri alması VE üzerine 3 TL daha kazanması gerekir (Yani Susan 5 + 3 = 8 oyun kazanmıştır). Susan 8, Lisa 5 galibiyet aldı. Toplam oyun sayısı: 8 + 5 = 11 oyundur.",
+        "Lisa 5 oyun kazandı, demek ki Susan'dan 5 TL aldı. Susan'ın günün sonunda net 3 TL kazançta olabilmesi için, kaybettiği o 5 TL'yi geri alması VE üzerine 3 TL daha kazanması gerekir (Yani Susan 5 + 3 = 8 oyun kazanmıştır). Susan 8, Lisa 5 galibiyet aldı. Toplam oyun sayısı: 8 + 5 = 13 oyundur.",
   },
   {
     'id': 'RIDDLE_020',
