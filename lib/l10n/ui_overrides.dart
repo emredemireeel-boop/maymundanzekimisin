@@ -184,7 +184,7 @@ const Map<String, Map<String, String>> uiOverrides = {
     'en': 'You spot the hidden patterns. Outstanding work!',
     'es': 'Detectas los patrones ocultos. ¡Excelente trabajo!',
   },
-  'Cevabı Göster': {'en': 'Show Answer', 'es': 'Mostrar respuesta'},
+  'Cevabı Göster': {'en': 'Show Answer', 'es': 'Ver respuesta'},
   'Cevabın doğru muydu?': {'en': 'Did you get it right?', 'es': '¿Acertaste?'},
   'Doğru Cevap': {'en': 'Correct Answer', 'es': 'Respuesta correcta'},
   'Açıklama': {'en': 'Explanation', 'es': 'Explicación'},

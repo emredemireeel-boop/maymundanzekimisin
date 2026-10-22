@@ -498,21 +498,19 @@ String localizeUi(String text, String languageCode) {
   final reviewed = uiOverrides[text]?[languageCode];
   if (reviewed != null) return reviewed;
   final generated = uiTranslations[text]?[languageCode];
-  if (generated != null) return generated;
+  // Machine translation must not erase visible symbols or icon-only labels.
+  if (generated != null) return generated.trim().isEmpty ? text : generated;
   final games = RegExp(r'^(\d+) oyun$').firstMatch(text);
   if (games != null) {
-    return languageCode == 'es'
-        ? '${games[1]} partidas'
-        : '${games[1]} games';
+    return languageCode == 'es' ? '${games[1]} partidas' : '${games[1]} games';
   }
   final points = RegExp(r'^(\d+) puan$').firstMatch(text);
   if (points != null) {
-    return languageCode == 'es'
-        ? '${points[1]} puntos'
-        : '${points[1]} points';
+    return languageCode == 'es' ? '${points[1]} puntos' : '${points[1]} points';
   }
-  final streak = RegExp(r'^6 bilişsel alan • günlük seri: (\d+)$')
-      .firstMatch(text);
+  final streak = RegExp(
+    r'^6 bilişsel alan • günlük seri: (\d+)$',
+  ).firstMatch(text);
   if (streak != null) {
     return languageCode == 'es'
         ? 'Desafío diario • racha: ${streak[1]}'
@@ -530,8 +528,9 @@ String localizeUi(String text, String languageCode) {
         ? '${dailyStreak[1]} días seguidos'
         : '${dailyStreak[1]}-day streak';
   }
-  final decisions = RegExp(r'^(\d+) karar üzerinden hesaplandı\.$')
-      .firstMatch(text);
+  final decisions = RegExp(
+    r'^(\d+) karar üzerinden hesaplandı\.$',
+  ).firstMatch(text);
   if (decisions != null) {
     return languageCode == 'es'
         ? 'Basado en ${decisions[1]} respuestas.'
@@ -539,9 +538,7 @@ String localizeUi(String text, String languageCode) {
   }
   final winner = RegExp(r'^(.+) kazandı!$').firstMatch(text);
   if (winner != null) {
-    return languageCode == 'es'
-        ? '¡Ganó ${winner[1]}!'
-        : '${winner[1]} wins!';
+    return languageCode == 'es' ? '¡Ganó ${winner[1]}!' : '${winner[1]} wins!';
   }
   final humanShare = RegExp(r'^(\d+)% İnsan$').firstMatch(text);
   if (humanShare != null) {
@@ -549,17 +546,18 @@ String localizeUi(String text, String languageCode) {
         ? '${humanShare[1]} % humano'
         : '${humanShare[1]}% human';
   }
-  final freeAnswers =
-      RegExp(r'^(\d+) Bedava Cevap Hakkın Var 🎁$').firstMatch(text);
+  final freeAnswers = RegExp(
+    r'^(\d+) Bedava Cevap Hakkın Var 🎁$',
+  ).firstMatch(text);
   if (freeAnswers != null) {
     return languageCode == 'es'
         ? '${freeAnswers[1]} pistas disponibles 🎁'
         : '${freeAnswers[1]} hints available 🎁';
   }
-  final categoryResult = RegExp(r'^(\d+)/(\d+) doğru • (.+)$')
-      .firstMatch(text);
+  final categoryResult = RegExp(r'^(\d+)/(\d+) doğru • (.+)$').firstMatch(text);
   if (categoryResult != null) {
-    final comment = uiOverrides[categoryResult[3]]?[languageCode] ?? categoryResult[3]!;
+    final comment =
+        uiOverrides[categoryResult[3]]?[languageCode] ?? categoryResult[3]!;
     return languageCode == 'es'
         ? '${categoryResult[1]}/${categoryResult[2]} correctas • $comment'
         : '${categoryResult[1]}/${categoryResult[2]} correct • $comment';
