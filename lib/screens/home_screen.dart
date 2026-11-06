@@ -11,6 +11,7 @@ import 'package:zihin_tuzaklari/screens/quiz_screen.dart';
 import 'package:zihin_tuzaklari/screens/settings_screen.dart';
 import 'package:zihin_tuzaklari/screens/multiplayer_setup_screen.dart';
 import 'package:zihin_tuzaklari/screens/cognitive_profile_screen.dart';
+import 'package:zihin_tuzaklari/screens/forest_route_screen.dart';
 import 'package:zihin_tuzaklari/services/ad_service.dart';
 import 'package:zihin_tuzaklari/widgets/banner_ad_widget.dart';
 import 'package:zihin_tuzaklari/config/ad_config.dart';
@@ -141,6 +142,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     child: FadeTransition(
                       opacity: _headerFade,
                       child: _buildHeroHeader(game),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Card(
+                    margin: EdgeInsets.zero,
+                    color: Theme.of(context).colorScheme.primaryContainer,
+                    child: ListTile(
+                      leading: const Icon(Icons.route_rounded),
+                      title: const AppText('Orman Rotası'),
+                      subtitle: const AppText(
+                        'Günün bulmacasında maymundan kısa bir yol bul.',
+                      ),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ForestRouteScreen(),
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),
