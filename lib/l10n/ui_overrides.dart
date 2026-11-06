@@ -1,43 +1,5 @@
 /// Reviewed translations for visible game controls and labels.
 const Map<String, Map<String, String>> uiOverrides = {
-  "Orman Rotası": {'en': "Forest Route", 'es': "Ruta del bosque"},
-  "Günün bulmacasında maymundan kısa bir yol bul.": {
-    'en': "Find a shorter route than the monkey in today's puzzle.",
-    'es': "Encuentra una ruta más corta que la del mono en el reto de hoy.",
-  },
-  "Yanındaki kareye dokun. Meyveleri 1, 2, 3 sırasıyla topla ve bayrağa ulaş. Kayalar yolu kapatır.": {
-    'en':
-        "Tap a neighboring square. Collect fruits 1, 2 and 3 in order, then reach the flag. Rocks block the path.",
-    'es':
-        "Toca una casilla vecina. Recoge las frutas 1, 2 y 3 en orden y llega a la bandera. Las rocas bloquean el paso.",
-  },
-  "Hamle": {'en': "Moves", 'es': "Movimientos"},
-  "Maymunun hedefi": {'en': "Monkey's target", 'es': "Meta del mono"},
-  "Günün rekoru": {'en': "Today's best", 'es': "Récord de hoy"},
-  "Maymunu geçtin!": {
-    'en': "You beat the monkey!",
-    'es': "¡Superaste al mono!",
-  },
-  "Maymunla berabere!": {
-    'en': "You tied the monkey!",
-    'es': "¡Empataste con el mono!",
-  },
-  "Rotayı tamamladın!": {
-    'en': "You completed the route!",
-    'es': "¡Completaste la ruta!",
-  },
-  "En kısa rota": {'en': "Shortest route", 'es': "Ruta más corta"},
-  "Bütün meyveler toplandı. Bayrağa git!": {
-    'en': "All fruit collected. Go to the flag!",
-    'es': "Ya tienes todas las frutas. ¡Ve a la bandera!",
-  },
-  "Sıradaki meyve": {'en': "Next fruit", 'es': "Siguiente fruta"},
-  "Rotayı baştan oyna": {'en': "Restart route", 'es': "Reiniciar ruta"},
-  "Konumun": {'en': "Your position", 'es': "Tu posición"},
-  "Kaya": {'en': "Rock", 'es': "Roca"},
-  "Meyve": {'en': "Fruit", 'es': "Fruta"},
-  "Bitiş": {'en': "Finish", 'es': "Meta"},
-  "Boş kare": {'en': "Empty square", 'es': "Casilla vacía"},
   'Zihin düellosuna hazırlan!': {
     'en': 'Get ready for a battle of wits!',
     'es': '¡Prepárate para un duelo mental!',
